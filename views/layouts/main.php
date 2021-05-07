@@ -295,6 +295,8 @@
         </nav>
         <section class="form_input_main_php center">
             <li><a href="?c=user&a=all">Пользователи</a></li>
+            <li><a href="?c=good&a=all">Товары</a></li>
+            <br>
 
             <?= $content ?>
 
