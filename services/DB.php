@@ -1,4 +1,5 @@
 <?php
+
 namespace app\services;
 
 use app\traits\SingletonTrait;
@@ -8,22 +9,21 @@ class DB
     use SingletonTrait;
 
     private $config = [
-      'driver' => 'mysql',
-      'host' => 'localhost',
-      'db' => 'gbphp',
-      'charset' => 'UTF8',
-      'login' => 'root',
-      'password' => 'root'
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'db' => 'gbphp',
+        'charset' => 'UTF8',
+        'login' => 'root',
+        'password' => 'root'
     ];
 
     private $connection;
 
     private function getConnection()
     {
-        if(empty($this->connection))
-        {
+        if (empty($this->connection)) {
             $this->connection = new \PDO(
-              $this->getSdn(),
+                $this->getSdn(),
                 $this->config['login'],
                 $this->config['password']
             );

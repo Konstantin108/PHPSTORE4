@@ -1,4 +1,5 @@
 <?php
+
 namespace app\traits;
 
 trait SingletonTrait
@@ -7,16 +8,21 @@ trait SingletonTrait
 
     public static function getInstance()
     {
-        if(empty(static::$item))
-        {
+        if (empty(static::$item)) {
             static::$item = new static();
         }
         return static::$item;
     }
 
-    protected function __construct(){}
+    protected function __construct()
+    {
+    }
 
-    protected function __clone(){}
+    protected function __clone()
+    {
+    }
 
-    protected function __wakeup(){}
+    protected function __wakeup()
+    {
+    }
 }

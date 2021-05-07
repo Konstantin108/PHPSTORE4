@@ -1,5 +1,7 @@
 <?php
+
 namespace app\models;
+
 use app\services\DB;
 
 /**
@@ -12,7 +14,7 @@ abstract class Model
     /**
      * @return mixed
      */
-    abstract protected static function getTableName():string;
+    abstract protected static function getTableName(): string;
 
     /**
      * @return DB
@@ -27,7 +29,7 @@ abstract class Model
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} where id = :id";
         $params = [
-            ':id'=> $id
+            ':id' => $id
         ];
         return static::getDB()->getObject($sql, static::class, $params);
     }
@@ -43,8 +45,8 @@ abstract class Model
     {
         $fields = [];
         $params = [];
-        foreach ($this as $fieldName => $value){      //<-- Получение всех столбцов из таблицы
-            if($fieldName == 'id'){
+        foreach ($this as $fieldName => $value) {      //<-- Получение всех столбцов из таблицы
+            if ($fieldName == 'id') {
                 continue;
             }
             $fields[] = $fieldName;
@@ -65,12 +67,12 @@ abstract class Model
     {
         $fields = [];
         $params = [];
-        foreach ($this as $fieldName => $value){
+        foreach ($this as $fieldName => $value) {
             $fields[] = $fieldName;
             $params[":{$fieldName}"] = $value;
         }
 
-        foreach($fields as $value){
+        foreach ($fields as $value) {
             $fixFields[] = $value = $value . ' = :' . $value;
         }
         $shiftFields = array_shift($fixFields);
@@ -88,7 +90,7 @@ abstract class Model
 
     public function save()
     {
-        if(empty($this->id)){
+        if (empty($this->id)) {
             $this->insert();
             return;
         }
