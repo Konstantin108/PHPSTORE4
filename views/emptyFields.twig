@@ -1,0 +1,16 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}ошибка ввода{% endblock %}
+{% block content %}
+
+    <h3 style="color: red">Необходимо заполнить все поля</h3>
+    <br>
+
+    {% if user.id %}
+        <a href="/user/edit?id={{ user.id }}">назад</a>
+    {% elseif good.id %}
+        <a href="/good/edit?id={{ good.id }}">назад</a>
+    {% else %}
+        <a href="javascript:history.back();">назад</a>
+    {% endif %}
+
+{% endblock %}

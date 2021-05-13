@@ -4,36 +4,41 @@ namespace app\controllers;
 
 use app\models\Good;
 
-class GoodController
+class GoodController extends Controller
 {
-    public function run($action)
-    {
-        $action .= "Action";
-
-        if (!method_exists($this, $action)) {
-            return '404';
-        }
-        return $this->$action();
-    }
 
     public function allAction()
     {
         $goods = Good::getAll();
-        return $this->render('goodAll', ['goods' => $goods]);
+        return $this->renderer->render(
+            'goodAll',
+            [
+                'goods' => $goods
+            ]);
     }
 
     public function oneAction()
     {
         $id = $this->getId();
         $good = Good::getOne($id);
-        return $this->render('goodOne', ['good' => $good]);
+        return $this->renderer->render(
+            'goodOne',
+            [
+                'good' => $good
+            ]);
     }
 
     public function editAction()
     {
         $id = $this->getId();
         $good = Good::getOne($id);
-        return $this->render('goodEdit', ['good' => $good]);
+        if ($_SERVER['REQUEST_METHOD'] = 'POST') {
+            return $this->renderer->render(
+                'goodEdit',
+                [
+                    'good' => $good
+                ]);
+        }
     }
 
     public function updateAction()
@@ -52,15 +57,19 @@ class GoodController
         $good->info = $info;
         $good->counter = $counter;
 
-        if(!empty($name) &&
+        if (!empty($name) &&
             !empty($price) &&
             !empty($info)
-        ){
+        ) {
             $good->save();
-            header('Location: /?c=good&a=all');
+            header('Location: /good/all');
             return '';
-        }else{
-            return $this->render('emptyFields', ['good' => $good]);
+        } else {
+            return $this->renderer->render(
+                'emptyFields',
+                [
+                    'good' => $good
+                ]);
         }
     }
 
@@ -68,7 +77,13 @@ class GoodController
     {
         $id = $this->getId();
         $good = Good::getOne($id);
-        return $this->render('goodDel', ['good' => $good]);
+        if ($_SERVER['REQUEST_METHOD'] = 'POST') {
+            return $this->renderer->render(
+                'goodDel',
+                [
+                    'good' => $good
+                ]);
+        }
     }
 
     public function getDelAction()
@@ -76,34 +91,7 @@ class GoodController
         $id = $this->getId();
         $good = Good::getOne($id);
         $good->delete();
-        header('Location: /?c=good&a=all');
+        header('Location: /good/all');
         return '';
-    }
-
-    public function render($template, $params = [])
-    {
-        $content = $this->renderTmpl($template, $params);
-        return $this->renderTmpl(
-            'layouts/main',
-            [
-                'content' => $content
-            ]
-        );
-    }
-
-    public function renderTmpl($template, $params = [])
-    {
-        extract($params);
-        ob_start();
-        include dirname(__DIR__) . '/views/' . $template . '.php';
-        return ob_get_clean();
-    }
-
-    protected function getId()
-    {
-        if(empty($_GET['id'])){
-            return 0;
-        }
-        return (int)$_GET['id'];
     }
 }

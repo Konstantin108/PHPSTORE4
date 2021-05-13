@@ -2,25 +2,26 @@
 
 use app\models\Good;
 use app\models\User;
-use app\services\Autoload;
+use app\services\TwigRenderServices;
 
-include dirname(__DIR__) . "/services/Autoload.php";
-spl_autoload_register([(new Autoload()), 'load']);
+include dirname(__DIR__) . "/vendor/autoload.php";     //<-- использование стороннего автолоадера
+
+//include dirname(__DIR__) . "/services/Autoload.php";
+//spl_autoload_register([(new Autoload()), 'load']);
+
+$request = new \app\services\Request();
 
 $controllerName = 'user';     //<-- получение контроллера
-if (!empty(trim($_GET['c']))) {
-    $controllerName = trim($_GET['c']);
-}
-
-$actionName = '';     //<-- получение экшена
-if (!empty(trim($_GET['a']))) {
-    $actionName = trim($_GET['a']);
+if (!empty($request->getActionName())) {
+    $controllerName = $request->getControllerName();
 }
 
 $controllerClass = 'app\\controllers\\' . ucfirst($controllerName) . 'Controller';     //<-- создаём название класса контроллера
+
 if (class_exists($controllerClass)) {
-    $controller = new $controllerClass();
-    echo $controller->run($actionName);
+    $renderer = new TwigRenderServices();
+    $controller = new $controllerClass($renderer, $request);
+    echo $controller->run($request->getActionName());
 } else {
     echo '404';
 }

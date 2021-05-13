@@ -1,0 +1,29 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}{{ user.login }}{% endblock %}
+{% block content %}
+
+    <h2>Логин: {{ user.login }}</h2>
+    <h2>Имя: {{ user.name }}</h2>
+    <h2>Должность: {{ user.position }}</h2>
+
+    {% if user.is_admin == 1 %}
+
+        <br>
+        <h3 style="color: red">данный пользователь является администратором</h3>
+        <br>
+    {% elseif user.is_admin == 2 %}
+        <br>
+        <h3 style="color: red">данный пользователь имеет расширенные права</h3>
+        <br>
+        <a href="/user/edit?id={{ user.id }}">редактировать</a>
+        <a href="/user/del?id={{ user.id }}">удалить</a>
+    {% else %}
+        <br>
+        <a href="/user/edit?id={{ user.id }}">редактировать</a>
+        <a href="/user/del?id={{ user.id }}">удалить</a>
+    {% endif %}
+
+    <a href="/user/all">назад</a>
+    <hr>
+
+{% endblock %}

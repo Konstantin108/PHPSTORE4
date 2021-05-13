@@ -68,12 +68,15 @@ abstract class Model
         $fields = [];
         $params = [];
         foreach ($this as $fieldName => $value) {
+            if ($fieldName == 'password') {
+                continue;
+            }
             $fields[] = $fieldName;
             $params[":{$fieldName}"] = $value;
         }
 
         foreach ($fields as $value) {
-            $fixFields[] = $value = $value . ' = :' . $value;
+            $fixFields[] = $value . ' = :' . $value;
         }
         $shiftFields = array_shift($fixFields);
         $string = implode(', ', $fixFields);

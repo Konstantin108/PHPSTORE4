@@ -1,0 +1,10 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}удаление пользователя {{ user.login }}{% endblock %}
+{% block content %}
+
+    <h2>удалить пользователя {{ user.login }}?</h2>
+    <br>
+    <a href="/user/getDel?id={{ user.id }}">да</a>
+    <a href="/user/one?id={{ user.id }}">нет</a>
+
+{% endblock %}

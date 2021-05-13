@@ -1,0 +1,50 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if user.id %}
+        редактирование пользователя {{ user.login }}
+    {% else %}
+        добавление пользователя
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if user.id %}
+        <h2>редактирование пользователя {{ user.login }}</h2>
+    {% else %}
+        <h2>добавление пользователя</h2>
+    {% endif %}
+
+    <br>
+    <form method="post" action="/user/update">
+        <input type="hidden" id="id" name="id" value="{{ user.id }}">
+        <p>логин</p>
+        <input type="text" id="login" name="login" value="{{ user.login }}" placeholder="введите логин">
+        {% if not user.id %}
+            <p>пароль</p>
+            <input type="text" id="password" name="password" value="" placeholder="введите пароль">
+        {% endif %}
+        <p>имя</p>
+        <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="введите имя">
+        <p>должность</p>
+        <input type="text" id="position" name="position" value="{{ user.position }}" placeholder="введите должность">
+        <p>расширенные права</p>
+        <select name="is_admin" id="is_admin">
+            <option value="nothing">Значение не выбрано</option>
+            <option value="yes">Да</option>
+            <option value="no">Нет</option>
+        </select>
+        <br>
+        <br>
+        <input type="submit" value="сохранить">
+    </form>
+    <br>
+
+    {% if user.id %}
+        <a href="/user/one?id={{ user.id }}">назад</a>
+    {% else %}
+        <a href="/">назад</a>
+    {% endif %}
+
+    <hr>
+
+{% endblock %}

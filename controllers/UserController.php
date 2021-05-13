@@ -4,42 +4,41 @@ namespace app\controllers;
 
 use app\models\User;
 
-class UserController
+class UserController extends Controller
 {
-    protected $actionDefault = 'all';
-
-    public function run($action)
-    {
-        if (empty($action)) {
-            $action = $this->actionDefault;
-        }
-
-        $action .= "Action";
-
-        if (!method_exists($this, $action)) {
-            return '404';
-        }
-        return $this->$action();
-    }
 
     public function allAction()
     {
         $users = User::getAll();
-        return $this->render('userAll', ['users' => $users]);
+        return $this->renderer->render(
+            'userAll',
+            [
+                'users' => $users
+            ]);
     }
 
     public function oneAction()
     {
         $id = $this->getId();
         $user = User::getOne($id);
-        return $this->render('userOne', ['user' => $user]);
+        return $this->renderer->render(
+            'userOne',
+            [
+                'user' => $user
+            ]);
     }
 
     public function editAction()
     {
         $id = $this->getId();
         $user = User::getOne($id);
-        return $this->render('userEdit', ['user' => $user]);
+        if ($_SERVER['REQUEST_METHOD'] = 'POST') {
+            return $this->renderer->render(
+                'userEdit',
+                [
+                    'user' => $user
+                ]);
+        }
     }
 
     public function updateAction()
@@ -47,7 +46,7 @@ class UserController
         /** @var User $user */
         $id = $_POST['id'];
         $login = $_POST['login'];
-        $password = $_POST['password'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $name = $_POST['name'];
         $is_admin = $_POST['is_admin'];
         $position = $_POST['position'];
@@ -59,7 +58,7 @@ class UserController
         $user->name = $name;
         $user->position = $position;
 
-        switch($is_admin){
+        switch ($is_admin) {
             case 'yes':
                 $is_admin = 2;
                 break;
@@ -72,16 +71,20 @@ class UserController
         }
         $user->is_admin = $is_admin;
 
-        if(!empty($login) &&
+        if (!empty($login) &&
             !empty($name) &&
             !empty($password) &&
             !empty($position)
-            ){
+        ) {
             $user->save();
             header('Location: /');
             return '';
-        }else{
-            return $this->render('emptyFields', ['user' => $user]);
+        } else {
+            return $this->renderer->render(
+                'emptyFields',
+                [
+                    'user' => $user
+                ]);
         }
     }
 
@@ -89,7 +92,13 @@ class UserController
     {
         $id = $this->getId();
         $user = User::getOne($id);
-        return $this->render('userDel', ['user' => $user]);
+        if ($_SERVER['REQUEST_METHOD'] = 'POST') {
+            return $this->renderer->render(
+                'userDel',
+                [
+                    'user' => $user
+                ]);
+        }
     }
 
     public function getDelAction()
@@ -99,32 +108,5 @@ class UserController
         $user->delete();
         header('Location: /');
         return '';
-    }
-
-    public function render($template, $params = [])
-    {
-        $content = $this->renderTmpl($template, $params);
-        return $this->renderTmpl(
-            'layouts/main',
-            [
-                'content' => $content
-            ]
-        );
-    }
-
-    public function renderTmpl($template, $params = [])
-    {
-        extract($params);
-        ob_start();
-        include dirname(__DIR__) . '/views/' . $template . '.php';
-        return ob_get_clean();
-    }
-
-    protected function getId()
-    {
-        if(empty($_GET['id'])){
-            return 0;
-        }
-        return (int)$_GET['id'];
     }
 }

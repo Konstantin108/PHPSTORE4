@@ -1,11 +1,10 @@
-<?php /** @var string $content */ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %}магазин одежды{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,400i,700,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://kit.fontawesome.com/4bd251a57a.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -13,7 +12,7 @@
     <div class="top">
         <header class="header center">
             <div class="header__left">
-                <a class="logo" href="index.html"><img src="img/logo.png" alt="logo" class="logo__img"><span
+                <a class="logo" href="index.html"><img src="../img/logo.png" alt="logo" class="logo__img"><span
                             class="bran_weight">BRAN</span><span class="special__color_logo">D</span></a>
                 <form class="header__form" action="#">
                     <details class="browse details_browse">
@@ -55,13 +54,13 @@
                         </div>
                     </details>
                     <input type="text" class="text_search" placeholder="Search for item...">
-                    <button class="search_button"><img src="img/search_image.png" alt="search_image"></button>
+                    <button class="search_button"><img src="../img/search_image.png" alt="search_image"></button>
                 </form>
             </div>
             <div class="header__right">
 
                 <ul>
-                    <li class="cart_summary"><a href="shopping_cart.html"><img class="header__cart" src="img/cart.svg"
+                    <li class="cart_summary"><a href="shopping_cart.html"><img class="header__cart" src="../img/cart.svg"
                                                                                alt="cart"></a>
                         <div class="drop__cart">
                             <div class="drop__flex">
@@ -71,7 +70,7 @@
                                             <a href="single_page.html" class="drop__link cart__product">
                                                 <div class="cart__image__content content__1"></div>
                                                 <div class="cart__text_content">
-                                                    <p class="cart__text_1">Rebox Zane</p> <img src="img/stars.png"
+                                                    <p class="cart__text_1">Rebox Zane</p> <img src="../img/stars.png"
                                                                                                 alt="stars"
                                                                                                 class="stars">
                                                     <p class="cart__price_2">1 x $250</p>
@@ -85,7 +84,7 @@
                                             <a href="single_page.html" class="drop__link cart__product">
                                                 <div class="cart__image__content content__2"></div>
                                                 <div class="cart__text_content">
-                                                    <p class="cart__text_1">Rebox Zane</p> <img src="img/stars.png"
+                                                    <p class="cart__text_1">Rebox Zane</p> <img src="../img/stars.png"
                                                                                                 alt="stars"
                                                                                                 class="stars">
                                                     <p class="cart__price_2">1 x $250</p>
@@ -107,7 +106,7 @@
                     </li>
                 </ul>
 
-                <a href="#" class="button">My accaunt<img src="img/white_arrow.png" alt="white_arrow"
+                <a href="#" class="button">My accaunt<img src="../img/white_arrow.png" alt="white_arrow"
                                                           class="white_arrow"></a>
             </div>
         </header>
@@ -294,20 +293,19 @@
             <h2 class="arrivals_title">Главная страница</h2>
         </nav>
         <section class="form_input_main_php center">
-            <li><a href="?c=user&a=all">Пользователи</a></li>
-            <li><a href="?c=good&a=all">Товары</a></li>
+            <li><a href="/user/all">Пользователи</a></li>
+            <li><a href="/good/all">Товары</a></li>
             <br>
 
-            <?= $content ?>
+            {% block content %}{% endblock %}
 
         </section>
-
     </div>
     <footer class="footer">
         <div class="beach_color">
             <div class="block_beach">
                 <figure class="left__block_beach">
-                    <div class="photo_block"><img src="img/women_face.png" alt="women__face" class="women__face"></div>
+                    <div class="photo_block"><img src="../img/women_face.png" alt="women__face" class="women__face"></div>
                     <div class="only__text_beach">
                         <p class="all__text">&laquo;Vestibulum quis porttitor dui! Quisque viverra nunc&nbsp;mi, a&nbsp;pulvinar
                             purus condimentum&nbsp;a. Aliquam condimentum mattis neque sed pretium&raquo;</p>
@@ -331,7 +329,7 @@
         </div>
         <div class="contacts_info center">
             <div class="big__block">
-                <a class="logo1" href="index.html"><img src="img/logo.png" alt="logo" class="logo__img1"><span
+                <a class="logo1" href="index.html"><img src="../img/logo.png" alt="logo" class="logo__img1"><span
                             class="bran_weight">BRAN</span><span class="special_color1">D</span></a>
                 <div class="info__text">Objectively transition extensive data rather than cross functional solutions.
                     Monotonectally syndicate multidisciplinary materials before go&nbsp;forward benefits. Intrinsicly
@@ -390,8 +388,6 @@
         </div>
     </footer>
 </div>
-
-
 </body>
 </html>
 

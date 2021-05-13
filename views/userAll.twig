@@ -1,0 +1,29 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}список пользователей{% endblock %}
+{% block content %}
+
+    <h1>Пользователи</h1>
+    <br>
+
+    {% for user in users %}
+        <h2>{{ user.login }}</h2>
+        <h3 class="arrivals_title">{{ user.name }}</h3>
+        <h3>{{ user.position }}</h3>
+        <br>
+        {% if user.is_admin == 1 %}
+            <p style="color: red">данный пользователь является администратором</p>
+        {% elseif user.is_admin == 2 %}
+            <p style="color: blue">данный пользователь имеет расширенные права</p>
+        {% endif %}
+        <a href="/user/one?id={{ user.id }}">подробнее</a>
+        <hr>
+    {% else %}
+        <h3 style="color: red">Пользователи отсутствуют</h3>
+    {% endfor %}
+
+    <br>
+    <a href="/user/edit">добавить пользователя</a>
+{% endblock %}
+
+
+{# var_dump(password_hash('123', PASSWORD_DEFAULT)); #}

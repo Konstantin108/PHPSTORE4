@@ -1,0 +1,21 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}список товаров{% endblock %}
+{% block content %}
+
+    <h1>Товары</h1>
+    <br>
+
+    {% for good in goods %}
+        <h2 class="arrivals_title">{{ good.name }}</h2>
+        <h3>цена: {{ good.price }}&#8381;</h3>
+        <br>
+        <a href="/good/one?id={{ good.id }}">подробнее</a>
+        <hr>
+    {% else %}
+        <h3 style="color: red">Товары отсутствуют</h3>
+    {% endfor %}
+
+    <br>
+    <a href="/good/edit">добавить товар</a>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}удаление товара {{ good.name }}{% endblock %}
+{% block content %}
+
+    <h2>удалить товар {{ good.name }}?</h2>
+    <br>
+    <a href="/good/getDel?id={{ good.id }}">да</a>
+    <a href="/good/one?id={{ good.id }}">нет</a>
+
+{% endblock %}
