@@ -1,7 +1,7 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}{{ good.name }}{% endblock %}
 {% block content %}
-
+    <img class="new_img_style" src="/img/{{ good.img }}" alt="img">
     <h2>Наименование товара: {{ good.name }}</h2>
     <h2>Цена товара: {{ good.price }}&#8381;</h2>
     <h2>Описание: {{ good.info }}</h2>
