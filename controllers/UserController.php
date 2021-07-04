@@ -2,14 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\User;
+use app\entities\User;
+use app\repositories\UserRepository;
 
 class UserController extends Controller
 {
 
     public function allAction()
     {
-        $users = User::getAll();
+        $users = (new UserRepository())->getAll();
+
         return $this->renderer->render(
             'userAll',
             [
@@ -20,7 +22,7 @@ class UserController extends Controller
     public function oneAction()
     {
         $id = $this->getId();
-        $user = User::getOne($id);
+        $user = (new UserRepository())->getOne($id);
         return $this->renderer->render(
             'userOne',
             [
@@ -31,7 +33,7 @@ class UserController extends Controller
     public function editAction()
     {
         $id = $this->getId();
-        $user = User::getOne($id);
+        $user = (new UserRepository())->getOne($id);
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userEdit',
@@ -43,7 +45,6 @@ class UserController extends Controller
 
     public function updateAction()
     {
-        /** @var User $user */
         $id = $_POST['id'];
         $login = $_POST['login'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -76,7 +77,7 @@ class UserController extends Controller
             !empty($password) &&
             !empty($position)
         ) {
-            $user->save();
+            (new UserRepository())->save($user);
             header('Location: /');
             return '';
         } else {
@@ -91,7 +92,7 @@ class UserController extends Controller
     public function delAction()
     {
         $id = $this->getId();
-        $user = User::getOne($id);
+        $user = (new UserRepository())->getOne($id);
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userDel',
@@ -101,12 +102,44 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @return string
+     */
     public function getDelAction()
     {
         $id = $this->getId();
-        $user = User::getOne($id);
-        $user->delete();
+        $user = new User();
+        $user->id = $id;
+        (new UserRepository())->delete($user);
         header('Location: /');
         return '';
+    }
+
+    public function addImgAction()
+    {
+        return $this->renderer->render('addImg');
+    }
+
+    public function uploadAction()
+    {
+        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/upload/'){
+            var_dump('кнопка нажата');
+        }
+        if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+            var_dump('загружено успешно');
+            $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
+            $fileName = $_FILES['uploadedFile']['name'];
+            $fileSize = $_FILES['uploadedFile']['size'];
+            $fileType = $_FILES['uploadedFile']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+            $uploadFileDir = '../public/img/';
+            $dest_path = $uploadFileDir . $newFileName;
+            if(move_uploaded_file($fileTmpPath, $dest_path))
+            {
+                var_dump('файл перемещен');
+            }
+        }
     }
 }

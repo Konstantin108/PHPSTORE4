@@ -1,20 +1,18 @@
 <?php
 
-namespace app\models;
+namespace app\repositories;
 
+use app\entities\Entity;
 use app\services\DB;
 
 /**
- * Class Model
- * @package app\models
- * @property int id
+ * Class Repository
+ * @package app\repositories
  */
-abstract class Model
+abstract class Repository
 {
-    /**
-     * @return mixed
-     */
-    abstract protected static function getTableName(): string;
+    abstract protected function getTableName(): string;
+    abstract protected function getEntityName(): string;
 
     /**
      * @return DB
@@ -24,28 +22,32 @@ abstract class Model
         return DB::getInstance();
     }
 
-    public static function getOne($id)
+    public function getOne($id)
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} where id = :id";
         $params = [
             ':id' => $id
         ];
-        return static::getDB()->getObject($sql, static::class, $params);
+        return static::getDB()->getObject($sql, $this->getEntityName(), $params);
     }
 
-    public static function getAll()
+    public function getAll()
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return static::getDB()->getAllObjects($sql, static::class);
+        return static::getDB()->getAllObjects($sql, $this->getEntityName());
     }
 
-    protected function insert()
+    /**
+     * @param Entity $entity
+     * @return Entity
+     */
+    protected function insert(Entity $entity)
     {
         $fields = [];
         $params = [];
-        foreach ($this as $fieldName => $value) {      //<-- Получение всех столбцов из таблицы
+        foreach ($entity as $fieldName => $value) {      //<-- Получение всех столбцов из таблицы
             if ($fieldName == 'id') {
                 continue;
             }
@@ -60,14 +62,18 @@ abstract class Model
             implode(',', array_keys($params))
         );
         static::getDB()->execute($sql, $params);
-        $this->id = static::getDB()->getLastId();
+        $entity->id = static::getDB()->getLastId();
+        return $entity;
     }
 
-    protected function update()
+    /**
+     * @param Entity $entity
+     */
+    protected function update(Entity $entity)
     {
         $fields = [];
         $params = [];
-        foreach ($this as $fieldName => $value) {
+        foreach ($entity as $fieldName => $value) {
             if ($fieldName == 'password') {
                 continue;
             }
@@ -88,24 +94,29 @@ abstract class Model
             $shiftFields
         );
         static::getDB()->execute($sql, $params);
-
+        return $entity;
     }
 
-    public function save()
+    /**
+     * @param Entity $entity
+     */
+    public function save(Entity $entity)
     {
-        if (empty($this->id)) {
-            $this->insert();
-            return;
+        if (empty($entity->id)) {
+            return $this->insert($entity);
         }
-        $this->update();
+        return $this->update($entity);
     }
 
-    public function delete()
+    /**
+     * @param Entity $entity
+     */
+    public function delete(Entity $entity)
     {
         $sql = sprintf(
             "DELETE FROM %s WHERE id = %s",
             $this->getTableName(),
-            $this->id
+            $entity->id
         );
         static::getDB()->execute($sql);
     }

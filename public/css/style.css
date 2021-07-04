@@ -1311,7 +1311,7 @@ button {
 
 .drop__browse {
   display: flex;
-  z-index: 1;
+  z-index: 3;
   text-align: left;
   left: -1px;
   top: 38px;

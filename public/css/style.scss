@@ -5,7 +5,7 @@
 }
 
 html,
-body{
+body {
   height: 100%;
 }
 
@@ -36,7 +36,6 @@ a {
 .top {
   flex-grow: 1;
 }
-
 
 
 .header {
@@ -355,9 +354,6 @@ a {
   width: 16px;
   color: #838383;
 }
-
-
-
 
 
 .arrow {
@@ -726,7 +722,7 @@ button {
 
 }
 
-.right__subblock_offer{
+.right__subblock_offer {
   display: flex;
   width: 373px;
   justify-content: space-between;
@@ -734,7 +730,7 @@ button {
   padding-left: 36px;
 }
 
-.forma_sale{
+.forma_sale {
   height: 40px;
   width: 40px;
 }
@@ -795,7 +791,7 @@ button {
   width: 81px;
 }
 
-.forma_king{
+.forma_king {
   height: 35px;
   width: 47px;
 }
@@ -806,13 +802,11 @@ button {
 }
 
 
-
 .offer_text_right {
   width: 219px;
   min-height: 140px;
   padding-left: 5px;
 }
-
 
 
 .block_color {
@@ -1306,8 +1300,6 @@ button {
 }
 
 
-
-
 .drop__last {
   right: -200px;
 }
@@ -1338,7 +1330,7 @@ button {
 
 .drop__browse {
   display: flex;
-  z-index: 1;
+  z-index: 3;
   text-align: left;
   left: -1px;
   top: 38px;
@@ -1358,9 +1350,7 @@ button {
   border: 1px solid #e8e8e8;
   //z-index: -1;
   //transition: .4s;
-
 }
-
 
 
 .drop__fleximg {
@@ -2338,9 +2328,11 @@ input[type=checkbox]:checked + .label8::before {
   color: #b3b2b2;
   transition: .4s;
 }
-.subscribe__form{
+
+.subscribe__form {
   display: flex;
 }
+
 .shipping__button {
   width: 180px;
   height: 50px;

@@ -2,14 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Good;
+use app\entities\Good;
+use app\repositories\GoodRepository;
 
 class GoodController extends Controller
 {
 
     public function allAction()
     {
-        $goods = Good::getAll();
+        $goods = (new GoodRepository())->getAll();
+
         return $this->renderer->render(
             'goodAll',
             [
@@ -20,7 +22,7 @@ class GoodController extends Controller
     public function oneAction()
     {
         $id = $this->getId();
-        $good = Good::getOne($id);
+        $good = (new GoodRepository())->getOne($id);
         return $this->renderer->render(
             'goodOne',
             [
@@ -31,7 +33,7 @@ class GoodController extends Controller
     public function editAction()
     {
         $id = $this->getId();
-        $good = Good::getOne($id);
+        $good = (new GoodRepository())->getOne($id);
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodEdit',
@@ -43,7 +45,6 @@ class GoodController extends Controller
 
     public function updateAction()
     {
-        /** @var Good $good */
         $id = $_POST['id'];
         $name = $_POST['name'];
         $price = $_POST['price'];
@@ -61,7 +62,7 @@ class GoodController extends Controller
             !empty($price) &&
             !empty($info)
         ) {
-            $good->save();
+            (new GoodRepository())->save($good);
             header('Location: /good/all');
             return '';
         } else {
@@ -76,7 +77,7 @@ class GoodController extends Controller
     public function delAction()
     {
         $id = $this->getId();
-        $good = Good::getOne($id);
+        $good = (new GoodRepository())->getOne($id);
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodDel',
@@ -89,8 +90,9 @@ class GoodController extends Controller
     public function getDelAction()
     {
         $id = $this->getId();
-        $good = Good::getOne($id);
-        $good->delete();
+        $good = new Good();
+        $good->id = $id;
+        (new GoodRepository())->delete($good);
         header('Location: /good/all');
         return '';
     }
