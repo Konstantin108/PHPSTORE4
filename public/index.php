@@ -4,6 +4,8 @@ use app\models\Good;
 use app\models\User;
 use app\services\TwigRenderServices;
 
+session_start();
+
 include dirname(__DIR__) . "/vendor/autoload.php";     //<-- использование стороннего автолоадера
 
 //include dirname(__DIR__) . "/services/Autoload.php";

@@ -1,0 +1,39 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if is_auth %}
+        {{ user_name }}
+    {% else %}
+        вход
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if is_auth == false %}
+        <h2>Введите логин и пароль</h2>
+        <br>
+        <form method="post" action="/user/getAuth">
+            <p>логин</p>
+            <input type="text" name="login" id="login" placeholder="login">
+            <p>пароль</p>
+            <input type="text" name="password" id="password" placeholder="password">
+            <br>
+            <br>
+            <input type="submit">
+        </form>
+    {% else %}
+        <img src="/img/{{ user_avatar }}" alt="avatar" style="width: 300px;">
+        <h2>Добро пожаловать, {{ user_name }}!</h2>
+        <h2>Вы авторизованы под логином: {{ user_login }}</h2>
+        <h2>Занимаемая должность: {{ user_position }}</h2>
+        {% if user_is_admin == 1 %}
+            <h2>Пользователь является администратором</h2>
+        {% elseif user_is_admin == 2 %}
+            <h2>Пользователь имеет расширенные права</h2>
+        {% endif %}
+        <br>
+        <a href="/user/out">выход</a>
+    {% endif %}
+    <br>
+    <a href="/">на главную</a>
+    <hr>
+
+{% endblock %}
