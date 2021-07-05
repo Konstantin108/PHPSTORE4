@@ -6,6 +6,11 @@
     <br>
 
     {% for good in goods %}
+        {% if good.img %}
+            <img class="new_img_all_style" src="/img/{{ good.img }}" alt="img">
+        {% else %}
+            <img class="new_img_all_style" src="/img/no_img.jpg" alt="img">
+        {% endif %}
         <h2 class="arrivals_title">{{ good.name }}</h2>
         <h3>цена: {{ good.price }}&#8381;</h3>
         <br>

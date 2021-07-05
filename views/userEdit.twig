@@ -15,14 +15,28 @@
     {% endif %}
 
     <br>
-    <form method="post" action="/user/update">
+    <form method="post" action="/user/update" enctype="multipart/form-data">
         <input type="hidden" id="id" name="id" value="{{ user.id }}">
+        {% if user.avatar %}
+            <img class="new_img_style" src="/img/{{ user.avatar }}" alt="avatar">
+        {% else %}
+            <img class="new_img_all_style" src="/img/no_avatar.png" alt="avatar">
+        {% endif %}
+        <div>
+            <br>
+            <input type="file" name="avatar" id="avatar"/>
+        </div>
+        {% if user.id == false %}
+            <input type="hidden" name="avatar" id="avatar" value="no_avatar.png"/>
+        {% endif %}
+        <br>
         <p>логин</p>
         <input type="text" id="login" name="login" value="{{ user.login }}" placeholder="введите логин">
         {% if not user.id %}
             <p>пароль</p>
             <input type="text" id="password" name="password" value="" placeholder="введите пароль">
         {% endif %}
+        <input type="hidden" id="avatar" name="avatar" value="{{ user.avatar }}">
         <p>имя</p>
         <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="введите имя">
         <p>должность</p>
@@ -35,7 +49,7 @@
         </select>
         <br>
         <br>
-        <input type="submit" value="сохранить">
+        <input type="submit" name="uploadBtn" value="сохранить">
     </form>
     <br>
 

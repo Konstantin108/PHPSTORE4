@@ -1339,6 +1339,10 @@ button {
   width: 300px;
 }
 
+.new_img_all_style {
+  width: 200px;
+}
+
 .man_submenu {
   position: absolute;
   left: -15px;

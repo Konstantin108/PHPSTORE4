@@ -50,6 +50,32 @@ class GoodController extends Controller
         $price = $_POST['price'];
         $info = $_POST['info'];
         $counter = 1;
+        $newFileName = $_POST['img'];
+
+        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/good/update') {
+        }
+        if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['img']['tmp_name'];
+            $fileName = $_FILES['img']['name'];
+            $fileSize = $_FILES['img']['size'];
+            $fileType = $_FILES['img']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+            $uploadFileDir = '../public/img/';
+            $dest_path = $uploadFileDir . $newFileName;
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+
+            };
+        } else {
+            $thisId = $this->getId();
+            $good = (new GoodRepository())->getOne($thisId);
+            if ($good->avatar) {
+                $newFileName = $good->img;
+                $uploadFileDir = '../public/img/';
+                $dest_path = $uploadFileDir . $newFileName;
+            }
+        }
 
         $good = new Good();
         $good->id = $id;
@@ -57,6 +83,7 @@ class GoodController extends Controller
         $good->price = $price;
         $good->info = $info;
         $good->counter = $counter;
+        $good->img = $newFileName;
 
         if (!empty($name) &&
             !empty($price) &&

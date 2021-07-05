@@ -13,4 +13,5 @@ class Good extends Entity
     public $price = '';
     public $info = '';
     public $counter = '';
+    public $img = '';
 }

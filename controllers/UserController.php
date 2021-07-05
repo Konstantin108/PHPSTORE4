@@ -51,6 +51,32 @@ class UserController extends Controller
         $name = $_POST['name'];
         $is_admin = $_POST['is_admin'];
         $position = $_POST['position'];
+        $newFileName = $_POST['avatar'];
+
+        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/update') {
+        }
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['avatar']['tmp_name'];
+            $fileName = $_FILES['avatar']['name'];
+            $fileSize = $_FILES['avatar']['size'];
+            $fileType = $_FILES['avatar']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+            $uploadFileDir = '../public/img/';
+            $dest_path = $uploadFileDir . $newFileName;
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+
+            };
+        } else {
+            $thisId = $this->getId();
+            $user = (new UserRepository())->getOne($thisId);
+            if ($user->avatar) {
+                $newFileName = $user->avatar;
+                $uploadFileDir = '../public/img/';
+                $dest_path = $uploadFileDir . $newFileName;
+            }
+        }
 
         $user = new User();
         $user->id = $id;
@@ -58,6 +84,7 @@ class UserController extends Controller
         $user->password = $password;
         $user->name = $name;
         $user->position = $position;
+        $user->avatar = $newFileName;
 
         switch ($is_admin) {
             case 'yes':
@@ -122,7 +149,7 @@ class UserController extends Controller
 
     public function uploadAction()
     {
-        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/upload/'){
+        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/upload/') {
             var_dump('кнопка нажата');
         }
         if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
@@ -136,8 +163,7 @@ class UserController extends Controller
             $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
             $uploadFileDir = '../public/img/';
             $dest_path = $uploadFileDir . $newFileName;
-            if(move_uploaded_file($fileTmpPath, $dest_path))
-            {
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
                 var_dump('файл перемещен');
             }
         }

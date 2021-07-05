@@ -14,4 +14,5 @@ class User extends Entity
     public $name = '';
     public $is_admin = '';
     public $position = '';
+    public $avatar = '';
 }
