@@ -1,6 +1,11 @@
 {
     "require": {
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "cartalyst/sentinel": "2.0.*",
+        "illuminate/contracts": "^7.30",
+        "illuminate/database": "^7.30",
+        "illuminate/events": "^7.30",
+        "symfony/http-foundation": "^5.3"
     },
     "autoload": {
         "psr-4": {
