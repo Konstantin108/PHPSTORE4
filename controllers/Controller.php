@@ -51,4 +51,20 @@ abstract class Controller
     {
         return $this->request->getId();
     }
+
+    protected function redirect($path = '', $msg = '')
+    {
+        if (!empty($msg)) {
+            $_SESSION['msg'] = $msg;
+        }
+        if (empty($path)) {
+            if (empty($_SERVER['HTTP_REFERER'])) {
+                $path = '/';
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+            }
+        }
+        header('Location: ' . $path);
+        return '';
+    }
 }
