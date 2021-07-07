@@ -20,7 +20,9 @@
         <h3 style="color: red">Товары отсутствуют</h3>
     {% endfor %}
 
-    <br>
-    <a href="/good/edit">добавить товар</a>
+    {% if user_is_admin == 1 %}
+        <br>
+        <a href="/good/edit">добавить товар</a>
+    {% endif %}
 
 {% endblock %}

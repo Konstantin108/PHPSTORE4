@@ -11,11 +11,19 @@ class UserController extends Controller
     public function allAction()
     {
         $users = (new UserRepository())->getAll();
-
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         return $this->renderer->render(
             'userAll',
             [
-                'users' => $users
+                'users' => $users,
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
             ]);
     }
 
@@ -23,10 +31,19 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         return $this->renderer->render(
             'userOne',
             [
-                'user' => $user
+                'user' => $user,
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
             ]);
     }
 
@@ -34,11 +51,20 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userEdit',
                 [
-                    'user' => $user
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }
@@ -52,6 +78,11 @@ class UserController extends Controller
         $is_admin = $_POST['is_admin'];
         $position = $_POST['position'];
         $newFileName = $_POST['avatar'];
+
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
 
         if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/update') {
         }
@@ -105,7 +136,11 @@ class UserController extends Controller
             !empty($position)
         ) {
             (new UserRepository())->save($user);
-            header('Location: /');
+            if ($is_auth == true) {
+                header('Location: /');
+            } else {
+                header('Location: /user/auth');
+            }
             return '';
         } else {
             return $this->renderer->render(
@@ -120,11 +155,20 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userDel',
                 [
-                    'user' => $user
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }

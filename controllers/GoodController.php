@@ -11,11 +11,19 @@ class GoodController extends Controller
     public function allAction()
     {
         $goods = (new GoodRepository())->getAll();
-
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         return $this->renderer->render(
             'goodAll',
             [
-                'goods' => $goods
+                'goods' => $goods,
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
             ]);
     }
 
@@ -23,10 +31,19 @@ class GoodController extends Controller
     {
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         return $this->renderer->render(
             'goodOne',
             [
-                'good' => $good
+                'good' => $good,
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
             ]);
     }
 
@@ -34,11 +51,20 @@ class GoodController extends Controller
     {
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodEdit',
                 [
-                    'good' => $good
+                    'good' => $good,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }
@@ -105,11 +131,20 @@ class GoodController extends Controller
     {
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
+        $is_auth = false;
+        if ($_SESSION['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['name'];
+        $userIsAdmin = $_SESSION['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodDel',
                 [
-                    'good' => $good
+                    'good' => $good,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }

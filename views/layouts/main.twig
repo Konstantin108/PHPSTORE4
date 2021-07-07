@@ -294,10 +294,25 @@
             <h2 class="arrivals_title">Главная страница</h2>
         </nav>
         <section class="form_input_main_php center">
-            <li><a href="/user/all">Пользователи</a></li>
+            {% if is_auth == true %}
+                <div style="display: flex">
+                    <p>{{ user_name }}</p>
+                    {% if user_is_admin == 1 %}
+                        <span style="margin-left: 4px;">- admin</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if is_auth == true %}
+                <li><a href="/user/auth">Мой профиль</a></li>
+            {% else %}
+                <li><a href="/user/auth">Вход</a></li>
+                <li><a href="/user/edit">Регистрация</a></li>
+            {% endif %}
+            {% if user_is_admin == 1 %}
+                <li><a href="/user/all">Пользователи</a></li>
+            {% endif %}
             <li><a href="/good/all">Товары</a></li>
             {# <li><a href="/user/addImg">тест вставки изображения</a></li> #}
-            <li><a href="/user/auth">Авторизация</a></li>
             <br>
 
             {% block content %}{% endblock %}

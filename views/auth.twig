@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
     {% if is_auth == false %}
-        <h2>Введите логин и пароль</h2>
+        <h2>Для входа на сайт введите логин и пароль</h2>
         <br>
         <form method="post" action="/user/getAuth">
             <p>логин</p>
@@ -20,7 +20,11 @@
             <input type="submit">
         </form>
     {% else %}
-        <img src="/img/{{ user_avatar }}" alt="avatar" class="new_img_style">
+        {% if user_avatar %}
+            <img src="/img/{{ user_avatar }}" alt="avatar" class="new_img_style">
+        {% else %}
+            <img src="/img/no_avatar.png" alt="avatar" class="new_img_style">
+        {% endif %}
         <h2>Добро пожаловать, {{ user_name }}!</h2>
         <h2>Вы авторизованы под логином: {{ user_login }}</h2>
         <h2>Занимаемая должность: {{ user_position }}</h2>
