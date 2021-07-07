@@ -6,6 +6,11 @@
     <br>
 
     {% for user in users %}
+        {% if user.avatar %}
+            <img class="new_img_all_style" src="/img/{{ user.avatar }}" alt="avatar">
+        {% else %}
+            <img class="new_img_all_style" src="/img/no_avatar.png" alt="avatar">
+        {% endif %}
         <h2>{{ user.login }}</h2>
         <h3 class="arrivals_title">{{ user.name }}</h3>
         <h3>{{ user.position }}</h3>
@@ -15,7 +20,7 @@
         {% elseif user.is_admin == 2 %}
             <p style="color: blue">данный пользователь имеет расширенные права</p>
         {% endif %}
-        <a href="/user/one?id={{ user.id }}">подробнее</a>
+        <a href="/user/one?id={{ user.id }}">подробно</a>
         <hr>
     {% else %}
         <h3 style="color: red">Пользователи отсутствуют</h3>
