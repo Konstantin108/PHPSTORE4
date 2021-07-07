@@ -23,13 +23,18 @@ class BasketServices
         }
         if (empty($_SESSION[self::BASKET_NAME][$userId][$id])) {
             $_SESSION[self::BASKET_NAME][$userId][$id] = [
+                'img' => $good->img,
                 'name' => $good->name,
                 'counter' => $good->counter,
                 'price' => $good->price
             ];
             return 'товар добавлен';
         }
-        $_SESSION[self::BASKET_NAME][$userId][$id]['counter']++;
+        $count = $_SESSION[self::BASKET_NAME][$userId][$id]['counter'];
+        $count++;
+        $price = $good->price * $count;
+        $_SESSION[self::BASKET_NAME][$userId][$id]['counter'] = $count;
+        $_SESSION[self::BASKET_NAME][$userId][$id]['price'] = $price;
         return 'количество увеличено';
     }
 }

@@ -34,7 +34,13 @@
         <p>наименование товара</p>
         <input type="text" id="name" name="name" value="{{ good.name }}" placeholder="введите наименование">
         <p>стоимость товара</p>
-        <input type="text" id="price" name="price" value="{{ good.price }}" placeholder="введите стоимость">
+        <input type="number"
+               id="price"
+               name="price"
+               class="number_input"
+               value="{{ good.price }}"
+               placeholder="введите стоимость"
+        >
         <p>информация о товаре</p>
         <input type="text" id="info" name="info" value="{{ good.info }}" placeholder="введите информацию">
         <input type="hidden" id="counter" name="counter" value="{{ good.counter }}">

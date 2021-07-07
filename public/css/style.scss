@@ -1361,6 +1361,10 @@ button {
   width: 300px;
 }
 
+.number_input::-webkit-inner-spin-button {
+  display: none;
+}
+
 .new_img_all_style {
   width: 200px;
 }

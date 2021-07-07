@@ -84,6 +84,17 @@ class GoodController extends Controller
         $counter = 1;
         $newFileName = $_POST['img'];
 
+        $goods = $_SESSION['goods'];
+        $arr = [];
+        if (is_array($goods)) {
+            foreach ($goods as $key => $item) {
+                $arr[] = $key;
+            }
+            foreach ($arr as $item) {
+                unset($_SESSION['goods'][$item][$id]);
+            }
+        }
+
         if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/good/update') {
         }
         if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
@@ -164,11 +175,13 @@ class GoodController extends Controller
 
         $goods = $_SESSION['goods'];
         $arr = [];
-        foreach ($goods as $key => $item) {
-            $arr[] = $key;
-        }
-        foreach ($arr as $item) {
-            unset($_SESSION['goods'][$item][$id]);
+        if (is_array($goods)) {
+            foreach ($goods as $key => $item) {
+                $arr[] = $key;
+            }
+            foreach ($arr as $item) {
+                unset($_SESSION['goods'][$item][$id]);
+            }
         }
 
         (new GoodRepository())->delete($good);
