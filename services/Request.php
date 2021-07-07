@@ -92,4 +92,25 @@ class Request
     {
         $_SESSION[$key] = $value;
     }
+
+    public function outSession()
+    {
+        unset($_SESSION['user_true']);
+    }
+
+    public function clearMsg()
+    {
+        unset($_SESSION['msg']);
+    }
+
+    public function showSession()
+    {
+        echo '<pre>';
+        var_dump($_SESSION);
+    }
+
+    public function clearSession()
+    {
+        session_destroy();
+    }
 }

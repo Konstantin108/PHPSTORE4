@@ -9,7 +9,7 @@ class BasketServices
 {
     const BASKET_NAME = 'goods';
 
-    public function add($id, GoodRepository $goodRepository, Request $request)
+    public function add($userId, $id, GoodRepository $goodRepository)
     {
         if (empty($id)) {
             return 'нет id';
@@ -21,20 +21,15 @@ class BasketServices
         if (empty($id)) {
             return 'нет товара';
         }
-
-        $goods = $request->getSession(self::BASKET_NAME);
-
-        if (empty($goods[$id])) {
-            $goods[$id] = [
+        if (empty($_SESSION[self::BASKET_NAME][$userId][$id])) {
+            $_SESSION[self::BASKET_NAME][$userId][$id] = [
                 'name' => $good->name,
                 'counter' => $good->counter,
                 'price' => $good->price
             ];
-            $request->setSession(self::BASKET_NAME, $goods);
             return 'товар добавлен';
         }
-        $goods[$id]['counter']++;
-        $request->setSession(self::BASKET_NAME, $goods);
+        $_SESSION[self::BASKET_NAME][$userId][$id]['counter']++;
         return 'количество увеличено';
     }
 }

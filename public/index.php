@@ -11,7 +11,7 @@ include dirname(__DIR__) . "/vendor/autoload.php";     //<-- использов�
 
 $request = new \app\services\Request();
 
-$controllerName = 'user';     //<-- получение контроллера
+$controllerName = 'good';     //<-- получение контроллера
 if (!empty($request->getActionName())) {
     $controllerName = $request->getControllerName();
 }

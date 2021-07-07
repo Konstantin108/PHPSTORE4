@@ -11,6 +11,7 @@ class GoodController extends Controller
     public function allAction()
     {
         $goods = (new GoodRepository())->getAll();
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -32,18 +33,22 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
         $is_auth = false;
+        $msg = $_SESSION['msg'];
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+        $userId = $_SESSION['user_true']['id'];
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         return $this->renderer->render(
             'goodOne',
             [
                 'good' => $good,
+                'user_id' => $userId,
                 'is_auth' => $is_auth,
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
+                'msg' => $msg
             ]);
     }
 
@@ -51,6 +56,7 @@ class GoodController extends Controller
     {
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -116,7 +122,7 @@ class GoodController extends Controller
             !empty($info)
         ) {
             (new GoodRepository())->save($good);
-            header('Location: /good/all');
+            header('Location: /');
             return '';
         } else {
             return $this->renderer->render(
@@ -131,6 +137,7 @@ class GoodController extends Controller
     {
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -154,8 +161,18 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = new Good();
         $good->id = $id;
+
+        $goods = $_SESSION['goods'];
+        $arr = [];
+        foreach ($goods as $key => $item) {
+            $arr[] = $key;
+        }
+        foreach ($arr as $item) {
+            unset($_SESSION['goods'][$item][$id]);
+        }
+
         (new GoodRepository())->delete($good);
-        header('Location: /good/all');
+        header('Location: /');
         return '';
     }
 }

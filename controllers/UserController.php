@@ -11,6 +11,7 @@ class UserController extends Controller
     public function allAction()
     {
         $users = (new UserRepository())->getAll();
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -31,6 +32,7 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -51,6 +53,7 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -137,7 +140,7 @@ class UserController extends Controller
         ) {
             (new UserRepository())->save($user);
             if ($is_auth == true) {
-                header('Location: /');
+                header('Location: /user/all');
             } else {
                 header('Location: /user/auth');
             }
@@ -155,6 +158,7 @@ class UserController extends Controller
     {
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -182,7 +186,7 @@ class UserController extends Controller
         $user = new User();
         $user->id = $id;
         (new UserRepository())->delete($user);
-        header('Location: /');
+        header('Location: /user/all');
         return '';
     }
 
@@ -224,6 +228,7 @@ class UserController extends Controller
 
     public function authAction()
     {
+        $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -319,12 +324,18 @@ class UserController extends Controller
 
     public function outAction()
     {
-        unset($_SESSION['user_true']);
+        $this->request->outSession();
+        $this->request->clearMsg();
         header('Location: /user/auth');
     }
 
     public function showSessionAction()
     {
-        var_dump($_SESSION);
+        $this->request->showSession();
+    }
+
+    public function clearSessionAction()
+    {
+        $this->request->clearSession();
     }
 }

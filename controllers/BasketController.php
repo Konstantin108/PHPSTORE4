@@ -11,15 +11,17 @@ class BasketController extends Controller
 
     public function indexAction()
     {
+        $userId = $_SESSION['user_true']['id'];
         echo '<pre>';
-        var_dump($_SESSION);
+        var_dump($_SESSION['goods'][$userId]);
     }
 
     public function addAction()
     {
+        $userId = $_SESSION['user_true']['id'];
         $id = $this->getId();
         $goodRepository = new GoodRepository();
-        $msg = (new BasketServices())->add($id, $goodRepository, $this->request);
+        $msg = (new BasketServices())->add($userId, $id, $goodRepository);
         return $this->redirect('', $msg);
     }
 }
