@@ -12,11 +12,11 @@ class UserController extends Controller
     {
         $users = (new UserRepository())->getAll();
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         return $this->renderer->render(
             'userAll',
             [
@@ -32,11 +32,11 @@ class UserController extends Controller
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         return $this->renderer->render(
             'userOne',
             [
@@ -52,11 +52,11 @@ class UserController extends Controller
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userEdit',
@@ -80,7 +80,7 @@ class UserController extends Controller
         $newFileName = $_POST['avatar'];
 
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
 
@@ -156,11 +156,11 @@ class UserController extends Controller
         $id = $this->getId();
         $user = (new UserRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'userDel',
@@ -225,15 +225,15 @@ class UserController extends Controller
     public function authAction()
     {
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userLogin = $_SESSION['user'];
-        $userId = $_SESSION['id'];
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
-        $userPosition = $_SESSION['position'];
-        $userAvatar = $_SESSION['avatar'];
+        $userLogin = $_SESSION['user_true']['user'];
+        $userId = $_SESSION['user_true']['id'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $userPosition = $_SESSION['user_true']['position'];
+        $userAvatar = $_SESSION['user_true']['avatar'];
         return $this->renderer->render(
             'auth',
             [
@@ -300,12 +300,12 @@ class UserController extends Controller
                 }
 
                 if (!empty($userData) && password_verify($password, $userData['password'])) {    //<--верификация хэша пароля
-                    $_SESSION['user'] = $login;
-                    $_SESSION['id'] = $dataId;
-                    $_SESSION['name'] = $dataName;
-                    $_SESSION['is_admin'] = $dataIsAdmin;
-                    $_SESSION['position'] = $dataPosition;
-                    $_SESSION['avatar'] = $dataAvatar;
+                    $_SESSION['user_true']['user'] = $login;
+                    $_SESSION['user_true']['id'] = $dataId;
+                    $_SESSION['user_true']['name'] = $dataName;
+                    $_SESSION['user_true']['is_admin'] = $dataIsAdmin;
+                    $_SESSION['user_true']['position'] = $dataPosition;
+                    $_SESSION['user_true']['avatar'] = $dataAvatar;
                 }
 
                 header('Location: /user/auth');
@@ -319,7 +319,7 @@ class UserController extends Controller
 
     public function outAction()
     {
-        session_destroy();
+        unset($_SESSION['user_true']);
         header('Location: /user/auth');
     }
 

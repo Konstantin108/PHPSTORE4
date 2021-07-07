@@ -12,11 +12,11 @@ class GoodController extends Controller
     {
         $goods = (new GoodRepository())->getAll();
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         return $this->renderer->render(
             'goodAll',
             [
@@ -32,11 +32,11 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         return $this->renderer->render(
             'goodOne',
             [
@@ -52,11 +52,11 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodEdit',
@@ -132,11 +132,11 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = (new GoodRepository())->getOne($id);
         $is_auth = false;
-        if ($_SESSION['user']) {
+        if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
-        $userName = $_SESSION['name'];
-        $userIsAdmin = $_SESSION['is_admin'];
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->renderer->render(
                 'goodDel',
