@@ -84,6 +84,13 @@ class GoodController extends Controller
         $counter = 1;
         $newFileName = $_POST['img'];
 
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
         $goods = $_SESSION['goods'];
         $arr = [];
         if (is_array($goods)) {
@@ -139,7 +146,10 @@ class GoodController extends Controller
             return $this->renderer->render(
                 'emptyFields',
                 [
-                    'good' => $good
+                    'good' => $good,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }

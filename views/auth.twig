@@ -6,7 +6,15 @@
         вход
     {% endif %}
 {% endblock %}
+{% block header %}
+    {% if is_auth %}
+        {{ user_name }}
+    {% else %}
+        вход
+    {% endif %}
+{% endblock %}
 {% block content %}
+
     {% if is_auth == false %}
         <h2>Для входа на сайт введите логин и пароль</h2>
         <br>
@@ -17,7 +25,7 @@
             <input type="text" name="password" id="password" placeholder="password">
             <br>
             <br>
-            <input type="submit">
+            <input type="submit" class="pointer">
         </form>
     {% else %}
         {% if user_avatar %}

@@ -1,5 +1,10 @@
 {% extends 'layouts/main.twig' %}
-{% block title %}удаление товара {{ good.name }}{% endblock %}
+{% block title %}
+    удаление товара {{ good.name }}
+{% endblock %}
+{% block header %}
+    удаление товара {{ good.name }}
+{% endblock %}
 {% block content %}
 
     <h2>удалить товар {{ good.name }}?</h2>

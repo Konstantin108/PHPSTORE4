@@ -6,6 +6,13 @@
         добавление товара
     {% endif %}
 {% endblock %}
+{% block header %}
+    {% if good.id %}
+        редактирование товара {{ good.name }}
+    {% else %}
+        добавление товара
+    {% endif %}
+{% endblock %}
 {% block content %}
 
     {% if good.id %}
@@ -47,7 +54,7 @@
         {# <input type="text" id="img" name="img" value="{{ good.img }}"> #}
         <br>
         <br>
-        <input type="submit" name="uploadBtn" value="сохранить">
+        <input type="submit" name="uploadBtn" value="сохранить" class="pointer">
     </form>
     <br>
 

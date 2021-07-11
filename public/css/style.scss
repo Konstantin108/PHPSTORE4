@@ -1352,6 +1352,9 @@ button {
   //transition: .4s;
 }
 
+.pointer:hover {
+  cursor: pointer;
+}
 
 .drop__fleximg {
   position: relative;

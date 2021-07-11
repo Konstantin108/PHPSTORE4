@@ -41,6 +41,32 @@ class BasketController extends Controller
         return $this->redirect('', $msg);
     }
 
+    public function plusAction()
+    {
+        $userId = $_SESSION['user_true']['id'];
+        $id = $this->getId();
+        $goodRepository = new GoodRepository();
+        $msg = (new BasketServices())->plus($userId, $id, $goodRepository);
+        return $this->redirect('', $msg);
+    }
+
+    public function minusAction()
+    {
+        $userId = $_SESSION['user_true']['id'];
+        $id = $this->getId();
+        $goodRepository = new GoodRepository();
+        $msg = (new BasketServices())->minus($userId, $id, $goodRepository);
+        return $this->redirect('', $msg);
+    }
+
+    public function delFromBasketAction()
+    {
+        $userId = $_SESSION['user_true']['id'];
+        $id = $this->getId();
+        $msg = (new BasketServices())->del($userId, $id);
+        return $this->redirect('', $msg);
+    }
+
     public function totalAction()
     {
         $userId = $_SESSION['user_true']['id'];

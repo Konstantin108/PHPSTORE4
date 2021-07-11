@@ -1,6 +1,12 @@
 {% extends 'layouts/main.twig' %}
-{% block title %}{{ good.name }}{% endblock %}
+{% block title %}
+    {{ good.name }}
+{% endblock %}
+{% block header %}
+    {{ good.name }}
+{% endblock %}
 {% block content %}
+
     {% if good.img %}
         <img class="new_img_style" src="/img/{{ good.img }}" alt="img">
     {% else %}

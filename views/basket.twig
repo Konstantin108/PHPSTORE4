@@ -2,7 +2,11 @@
 {% block title %}
     корзина
 {% endblock %}
+{% block header %}
+    корзина
+{% endblock %}
 {% block content %}
+
     <div style="display: flex; flex-wrap: wrap; width: 900px;">
         {% for item in goods_in_basket %}
             <div style="display: flex;
@@ -17,39 +21,29 @@
                         border-radius: 12px;
                         border: 2px solid palegoldenrod;
             ">
-                {% for key, custom in item %}
-                    {% if key == 'img' %}
-                        {% if custom %}
-                            <img src="/img/{{ custom }}" alt="img" style="width: 200px; margin-bottom: 20px;">
-                        {% else %}
-                            <img src="/img/no_img.jpg" alt="img" style="width: 200px; margin-bottom: 20px;">
-                        {% endif %}
-                    {% endif %}
-                    {% if key == 'name' %}
-                        {{ custom }}
-                    {% endif %}
-                    {% if key == 'counter' %}
-                        <div>
-                            <p>количество</p>
-                            <div style="display: flex; width: 70px; justify-content: space-between">
-                                <a href="#">
-                                    <i class="fas fa-minus"></i>
-                                </a>
-                                <p>{{ custom }}</p>
-                                <a href="#">
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if key == 'price' %}
-                        <div style="display: flex">
-                            <p style="margin-right: 6px;">стоимость:</p>
-                            <p>{{ custom }}&#8381;</p>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <a href="#">убрать из корзины</a>
+                {% if item.img %}
+                    <img src="/img/{{ item.img }}" alt="img" style="width: 200px; margin-bottom: 20px;">
+                {% else %}
+                    <img src="/img/no_img.jpg" alt="img" style="width: 200px; margin-bottom: 20px;">
+                {% endif %}
+                {{ item.name }}
+                <div>
+                    <p>количество</p>
+                    <div style="display: flex; width: 70px; justify-content: space-between">
+                        <a href="/basket/minus?id={{ item.id }}">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                        <p>{{ item.counter }}</p>
+                        <a href="/basket/plus?id={{ item.id }}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div style="display: flex">
+                    <p style="margin-right: 6px;">стоимость:</p>
+                    <p>{{ item.price }}&#8381;</p>
+                </div>
+                <a href="/basket/delFromBasket?id={{ item.id }}">убрать из корзины</a>
             </div>
         {% else %}
             <h3 style="color: red">Корзина пуста</h3>
@@ -58,4 +52,5 @@
     {% if goods_in_basket %}
         <h1 style="color: purple">Общая сумма заказа: {{ total }}&#8381;</h1>
     {% endif %}
+
 {% endblock %}

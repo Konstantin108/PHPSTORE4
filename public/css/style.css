@@ -1331,6 +1331,10 @@ button {
   border: 1px solid #e8e8e8;
 }
 
+.pointer:hover {
+  cursor: pointer;
+}
+
 .drop__fleximg {
   position: relative;
 }

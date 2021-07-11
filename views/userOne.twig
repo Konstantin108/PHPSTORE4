@@ -1,5 +1,10 @@
 {% extends 'layouts/main.twig' %}
-{% block title %}{{ user.login }}{% endblock %}
+{% block title %}
+    {{ user.login }}
+{% endblock %}
+{% block header %}
+    {{ user.login }}
+{% endblock %}
 {% block content %}
 
     {% if user.avatar %}

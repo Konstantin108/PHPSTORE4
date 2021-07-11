@@ -86,6 +86,13 @@ class UserController extends Controller
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
 
         if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/update') {
         }
@@ -149,7 +156,10 @@ class UserController extends Controller
             return $this->renderer->render(
                 'emptyFields',
                 [
-                    'user' => $user
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
                 ]);
         }
     }

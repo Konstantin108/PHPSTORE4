@@ -1,5 +1,10 @@
 {% extends 'layouts/main.twig' %}
-{% block title %}удаление пользователя {{ user.login }}{% endblock %}
+{% block title %}
+    удаление пользователя {{ user.login }}
+{% endblock %}
+{% block header %}
+    удаление пользователя {{ user.login }}
+{% endblock %}
 {% block content %}
 
     <h2>удалить пользователя {{ user.login }}?</h2>

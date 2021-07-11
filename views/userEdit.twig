@@ -8,6 +8,15 @@
         регистрация
     {% endif %}
 {% endblock %}
+{% block header %}
+    {% if user.id and user_is_admin == 1 %}
+        редактирование пользователя {{ user.login }}
+    {% elseif user_is_admin == 1 %}
+        добавление пользователя
+    {% else %}
+        регистрация
+    {% endif %}
+{% endblock %}
 {% block content %}
 
     {% if user.id and user_is_admin == 1 %}
@@ -57,7 +66,7 @@
         {% endif %}
         <br>
         <br>
-        <input type="submit" name="uploadBtn" value="сохранить">
+        <input type="submit" name="uploadBtn" value="сохранить" class="pointer">
     </form>
     <br>
 
