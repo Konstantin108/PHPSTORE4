@@ -8,9 +8,14 @@ use app\repositories\GoodRepository;
 class GoodController extends Controller
 {
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function allAction()
     {
-        $goods = (new GoodRepository())->getAll();
+        $goods = $this->container->goodRepository->getAll();
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -18,7 +23,7 @@ class GoodController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        return $this->renderer->render(
+        return $this->render(
             'goodAll',
             [
                 'goods' => $goods,
@@ -28,10 +33,15 @@ class GoodController extends Controller
             ]);
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function oneAction()
     {
         $id = $this->getId();
-        $good = (new GoodRepository())->getOne($id);
+        $good = $this->container->goodRepository->getOne($id);
         $is_auth = false;
         $msg = $_SESSION['msg'];
         if ($_SESSION['user_true']['user']) {
@@ -40,7 +50,7 @@ class GoodController extends Controller
         $userId = $_SESSION['user_true']['id'];
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        return $this->renderer->render(
+        return $this->render(
             'goodOne',
             [
                 'good' => $good,
@@ -52,10 +62,15 @@ class GoodController extends Controller
             ]);
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function editAction()
     {
         $id = $this->getId();
-        $good = (new GoodRepository())->getOne($id);
+        $good = $this->container->goodRepository->getOne($id);
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -64,7 +79,7 @@ class GoodController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
-            return $this->renderer->render(
+            return $this->render(
                 'goodEdit',
                 [
                     'good' => $good,
@@ -75,6 +90,11 @@ class GoodController extends Controller
         }
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function updateAction()
     {
         $id = $_POST['id'];
@@ -119,7 +139,7 @@ class GoodController extends Controller
             };
         } else {
             $thisId = $this->getId();
-            $good = (new GoodRepository())->getOne($thisId);
+            $good = $this->container->goodRepository->getOne($thisId);
             if ($good->avatar) {
                 $newFileName = $good->img;
                 $uploadFileDir = '../public/img/';
@@ -139,11 +159,11 @@ class GoodController extends Controller
             !empty($price) &&
             !empty($info)
         ) {
-            (new GoodRepository())->save($good);
+            $this->container->goodRepository->save($good);
             header('Location: /');
             return '';
         } else {
-            return $this->renderer->render(
+            return $this->render(
                 'emptyFields',
                 [
                     'good' => $good,
@@ -154,10 +174,15 @@ class GoodController extends Controller
         }
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function delAction()
     {
         $id = $this->getId();
-        $good = (new GoodRepository())->getOne($id);
+        $good = $this->container->goodRepository->getOne($id);
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -166,7 +191,7 @@ class GoodController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
-            return $this->renderer->render(
+            return $this->render(
                 'goodDel',
                 [
                     'good' => $good,
@@ -194,7 +219,7 @@ class GoodController extends Controller
             }
         }
 
-        (new GoodRepository())->delete($good);
+        $this->container->goodRepository->delete($good);
         header('Location: /');
         return '';
     }

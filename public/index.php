@@ -1,30 +1,13 @@
 <?php
 
-use app\models\Good;
-use app\models\User;
-use app\services\TwigRenderServices;
-
-include dirname(__DIR__) . "/vendor/autoload.php";     //<-- использование стороннего автолоадера
-
+//use app\models\Good;
+//use app\models\User;
 //include dirname(__DIR__) . "/services/Autoload.php";
 //spl_autoload_register([(new Autoload()), 'load']);
 
-$request = new \app\services\Request();
-
-$controllerName = 'good';     //<-- получение контроллера
-if (!empty($request->getActionName())) {
-    $controllerName = $request->getControllerName();
-}
-
-$controllerClass = 'app\\controllers\\' . ucfirst($controllerName) . 'Controller';     //<-- создаём название класса контроллера
-
-if (class_exists($controllerClass)) {
-    $renderer = new TwigRenderServices();
-    $controller = new $controllerClass($renderer, $request);
-    echo $controller->run($request->getActionName());
-} else {
-    echo '404';
-}
+include dirname(__DIR__) . "/vendor/autoload.php";     //<-- использование стороннего автолоадера
+$config = include dirname(__DIR__) . '/main/config.php';
+\app\main\App::call()->run($config);
 
 //_________________________________________________________________________________________________________
 

@@ -2,13 +2,15 @@
 
 namespace app\controllers;
 
-use app\repositories\GoodRepository;
-use app\services\BasketServices;
-
 class BasketController extends Controller
 {
     protected $actionDefault = 'index';
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function indexAction()
     {
         $is_auth = false;
@@ -20,7 +22,7 @@ class BasketController extends Controller
         $userId = $_SESSION['user_true']['id'];
         $goodsInBasket = $_SESSION['goods'][$userId];
         $total = $this->totalAction();
-        return $this->renderer->render(
+        return $this->render(
             'basket',
             [
                 'is_auth' => $is_auth,
@@ -36,8 +38,8 @@ class BasketController extends Controller
     {
         $userId = $_SESSION['user_true']['id'];
         $id = $this->getId();
-        $goodRepository = new GoodRepository();
-        $msg = (new BasketServices())->add($userId, $id, $goodRepository);
+        $goodRepository = $this->container->goodRepository;
+        $msg = $this->container->basketServices->add($userId, $id, $goodRepository);
         return $this->redirect('', $msg);
     }
 
@@ -45,8 +47,8 @@ class BasketController extends Controller
     {
         $userId = $_SESSION['user_true']['id'];
         $id = $this->getId();
-        $goodRepository = new GoodRepository();
-        $msg = (new BasketServices())->plus($userId, $id, $goodRepository);
+        $goodRepository = $this->container->goodRepository;
+        $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
         return $this->redirect('', $msg);
     }
 
@@ -54,8 +56,8 @@ class BasketController extends Controller
     {
         $userId = $_SESSION['user_true']['id'];
         $id = $this->getId();
-        $goodRepository = new GoodRepository();
-        $msg = (new BasketServices())->minus($userId, $id, $goodRepository);
+        $goodRepository = $this->container->goodRepository;
+        $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
         return $this->redirect('', $msg);
     }
 
@@ -63,7 +65,7 @@ class BasketController extends Controller
     {
         $userId = $_SESSION['user_true']['id'];
         $id = $this->getId();
-        $msg = (new BasketServices())->del($userId, $id);
+        $msg = $this->container->basketServices->del($userId, $id);
         return $this->redirect('', $msg);
     }
 

@@ -2,22 +2,20 @@
 
 namespace app\services;
 
-use app\traits\SingletonTrait;
-
 class DB
 {
-    use SingletonTrait;
-
-    private $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost',
-        'db' => 'gbphp',
-        'charset' => 'UTF8',
-        'login' => 'root',
-        'password' => 'root'
-    ];
+    private $config;
 
     private $connection;
+
+    /**
+     * DB constructor.
+     * @param $config
+     */
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
     private function getConnection()
     {

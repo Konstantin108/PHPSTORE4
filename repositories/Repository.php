@@ -3,6 +3,7 @@
 namespace app\repositories;
 
 use app\entities\Entity;
+use app\main\Container;
 use app\services\DB;
 
 /**
@@ -11,15 +12,26 @@ use app\services\DB;
  */
 abstract class Repository
 {
+    /**
+     * @var Container
+     */
+    protected $container;
+
     abstract protected function getTableName(): string;
+
     abstract protected function getEntityName(): string;
+
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @return DB
      */
-    protected static function getDB()
+    protected function getDB()
     {
-        return DB::getInstance();
+        return $this->container->db;
     }
 
     public function getOne($id)
@@ -29,14 +41,17 @@ abstract class Repository
         $params = [
             ':id' => $id
         ];
-        return static::getDB()->getObject($sql, $this->getEntityName(), $params);
+        return $this->getDB()->getObject($sql, $this->getEntityName(), $params);
     }
 
+    /**
+     * @return array
+     */
     public function getAll()
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return static::getDB()->getAllObjects($sql, $this->getEntityName());
+        return $this->getDB()->getAllObjects($sql, $this->getEntityName());
     }
 
     /**
@@ -61,8 +76,8 @@ abstract class Repository
             implode(',', $fields),
             implode(',', array_keys($params))
         );
-        static::getDB()->execute($sql, $params);
-        $entity->id = static::getDB()->getLastId();
+        $this->getDB()->execute($sql, $params);
+        $entity->id = $this->getDB()->getLastId();
         return $entity;
     }
 
@@ -93,7 +108,7 @@ abstract class Repository
             $string,
             $shiftFields
         );
-        static::getDB()->execute($sql, $params);
+        $this->getDB()->execute($sql, $params);
         return $entity;
     }
 
@@ -118,6 +133,6 @@ abstract class Repository
             $this->getTableName(),
             $entity->id
         );
-        static::getDB()->execute($sql);
+        $this->getDB()->execute($sql);
     }
 }

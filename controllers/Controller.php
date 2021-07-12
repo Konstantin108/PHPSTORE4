@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\main\Container;
 use app\services\RenderI;
 use app\services\Request;
 
@@ -20,13 +21,19 @@ abstract class Controller
     protected $request;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Controller constructor.
      * @param RenderI $renderer
      * @param Request $request
+     * @param Container $container
      */
-    public function __construct(RenderI $renderer, Request $request)
+    public function __construct(Request $request, Container $container)
     {
-        $this->renderer = $renderer;
+        $this->container = $container;
         $this->request = $request;
     }
 
@@ -66,5 +73,16 @@ abstract class Controller
         }
         header('Location: ' . $path);
         return '';
+    }
+
+    /**
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    protected function render($template, $params = [])
+    {
+        return $this->container->renderer->render($template, $params);
     }
 }

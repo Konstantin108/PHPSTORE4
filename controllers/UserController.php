@@ -3,14 +3,18 @@
 namespace app\controllers;
 
 use app\entities\User;
-use app\repositories\UserRepository;
 
 class UserController extends Controller
 {
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function allAction()
     {
-        $users = (new UserRepository())->getAll();
+        $users = $this->container->userRepository->getAll();
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -18,7 +22,7 @@ class UserController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        return $this->renderer->render(
+        return $this->render(
             'userAll',
             [
                 'users' => $users,
@@ -28,10 +32,15 @@ class UserController extends Controller
             ]);
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function oneAction()
     {
         $id = $this->getId();
-        $user = (new UserRepository())->getOne($id);
+        $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -39,7 +48,7 @@ class UserController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        return $this->renderer->render(
+        return $this->render(
             'userOne',
             [
                 'user' => $user,
@@ -49,10 +58,15 @@ class UserController extends Controller
             ]);
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function editAction()
     {
         $id = $this->getId();
-        $user = (new UserRepository())->getOne($id);
+        $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -61,7 +75,7 @@ class UserController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
-            return $this->renderer->render(
+            return $this->render(
                 'userEdit',
                 [
                     'user' => $user,
@@ -72,6 +86,11 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function updateAction()
     {
         $id = $_POST['id'];
@@ -111,7 +130,7 @@ class UserController extends Controller
             };
         } else {
             $thisId = $this->getId();
-            $user = (new UserRepository())->getOne($thisId);
+            $user = $this->container->userRepository->getOne($thisId);
             if ($user->avatar) {
                 $newFileName = $user->avatar;
                 $uploadFileDir = '../public/img/';
@@ -145,7 +164,7 @@ class UserController extends Controller
             !empty($password) &&
             !empty($position)
         ) {
-            (new UserRepository())->save($user);
+            $this->container->userRepository->save($user);
             if ($is_auth == true) {
                 header('Location: /user/all');
             } else {
@@ -153,7 +172,7 @@ class UserController extends Controller
             }
             return '';
         } else {
-            return $this->renderer->render(
+            return $this->render(
                 'emptyFields',
                 [
                     'user' => $user,
@@ -164,10 +183,15 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function delAction()
     {
         $id = $this->getId();
-        $user = (new UserRepository())->getOne($id);
+        $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
@@ -176,7 +200,7 @@ class UserController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
-            return $this->renderer->render(
+            return $this->render(
                 'userDel',
                 [
                     'user' => $user,
@@ -195,36 +219,9 @@ class UserController extends Controller
         $id = $this->getId();
         $user = new User();
         $user->id = $id;
-        (new UserRepository())->delete($user);
+        $this->container->userRepository->delete($user);
         header('Location: /user/all');
         return '';
-    }
-
-    public function addImgAction()
-    {
-        return $this->renderer->render('addImg');
-    }
-
-    public function uploadAction()
-    {
-        if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/upload/') {
-            var_dump('кнопка нажата');
-        }
-        if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
-            var_dump('загружено успешно');
-            $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
-            $fileName = $_FILES['uploadedFile']['name'];
-            $fileSize = $_FILES['uploadedFile']['size'];
-            $fileType = $_FILES['uploadedFile']['type'];
-            $fileNameCmps = explode(".", $fileName);
-            $fileExtension = strtolower(end($fileNameCmps));
-            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-            $uploadFileDir = '../public/img/';
-            $dest_path = $uploadFileDir . $newFileName;
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                var_dump('файл перемещен');
-            }
-        }
     }
 
     public function getLink()
@@ -236,6 +233,11 @@ class UserController extends Controller
         return $link;
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function authAction()
     {
         $this->request->clearMsg();
@@ -249,7 +251,7 @@ class UserController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $userPosition = $_SESSION['user_true']['position'];
         $userAvatar = $_SESSION['user_true']['avatar'];
-        return $this->renderer->render(
+        return $this->render(
             'auth',
             [
                 'is_auth' => $is_auth,
@@ -339,12 +341,12 @@ class UserController extends Controller
         header('Location: /user/auth');
     }
 
-    public function showSessionAction()
+    public function showSessionAction()     //<-- показать сессию
     {
         $this->request->showSession();
     }
 
-    public function clearSessionAction()
+    public function clearSessionAction()     //<-- очистить сессию
     {
         $this->request->clearSession();
     }

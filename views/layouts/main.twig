@@ -315,7 +315,9 @@
             {% if is_auth == true %}
                 <li><a href="/basket/index">Корзина</a></li>
             {% endif %}
-            {# <li><a href="/user/addImg">тест вставки изображения</a></li> #}
+            {% if user_is_admin == 1 %}
+                <li><a href="#">Заказы пользователей</a></li>
+            {% endif %}
             <br>
 
             {% block content %}{% endblock %}
