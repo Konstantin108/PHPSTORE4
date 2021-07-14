@@ -3,10 +3,13 @@
     корзина
 {% endblock %}
 {% block header %}
-    корзина
+    {% if user %}
+        заказ пользователя {{ user.name }}
+    {% else %}
+        корзина
+    {% endif %}
 {% endblock %}
 {% block content %}
-
     <div style="display: flex; flex-wrap: wrap; width: 900px;">
         {% for item in goods_in_basket %}
             <div style="display: flex;
@@ -30,20 +33,40 @@
                 <div>
                     <p>количество</p>
                     <div style="display: flex; width: 70px; justify-content: space-between">
-                        <a href="/basket/minus?id={{ item.id }}">
-                            <i class="fas fa-minus"></i>
-                        </a>
+                        {% if user %}
+                            <a href="/basket/minusFromOrder?order={{ user.id }}&id={{ item.id }}">
+                                <i class="fas fa-minus"></i>
+                            </a>
+                        {% else %}
+                            <a href="/basket/minus?id={{ item.id }}">
+                                <i class="fas fa-minus"></i>
+                            </a>
+                        {% endif %}
                         <p>{{ item.counter }}</p>
-                        <a href="/basket/plus?id={{ item.id }}">
-                            <i class="fas fa-plus"></i>
-                        </a>
+                        {% if user %}
+                            <a href="/basket/plusFromOrder?order={{ user.id }}&id={{ item.id }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        {% else %}
+                            <a href="/basket/plus?id={{ item.id }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <div style="display: flex">
                     <p style="margin-right: 6px;">стоимость:</p>
                     <p>{{ item.price }}&#8381;</p>
                 </div>
-                <a href="/basket/delFromBasket?id={{ item.id }}">убрать из корзины</a>
+                {% if user %}
+                    <a href="/basket/delFromOrder?order={{ user.id }}&id={{ item.id }}">
+                        убрать из корзины
+                    </a>
+                {% else %}
+                    <a href="/basket/delFromBasket?id={{ item.id }}">
+                        убрать из корзины
+                    </a>
+                {% endif %}
             </div>
         {% else %}
             <h3 style="color: red">Корзина пуста</h3>

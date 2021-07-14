@@ -17,6 +17,7 @@ class GoodController extends Controller
     {
         $goods = $this->container->goodRepository->getAll();
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -40,6 +41,7 @@ class GoodController extends Controller
      */
     public function oneAction()
     {
+        $this->request->clearUsersOrderId();
         $id = $this->getId();
         $good = $this->container->goodRepository->getOne($id);
         $is_auth = false;
@@ -72,6 +74,7 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = $this->container->goodRepository->getOne($id);
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -184,6 +187,7 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = $this->container->goodRepository->getOne($id);
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -207,7 +211,7 @@ class GoodController extends Controller
         $id = $this->getId();
         $good = new Good();
         $good->id = $id;
-
+        $this->request->clearUsersOrderId();
         $goods = $_SESSION['goods'];
         $arr = [];
         if (is_array($goods)) {

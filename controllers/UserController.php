@@ -16,6 +16,7 @@ class UserController extends Controller
     {
         $users = $this->container->userRepository->getAll();
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -42,6 +43,7 @@ class UserController extends Controller
         $id = $this->getId();
         $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -65,6 +67,7 @@ class UserController extends Controller
      */
     public function editAction()
     {
+        $this->request->clearUsersOrderId();
         $id = $this->getId();
         $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
@@ -193,6 +196,7 @@ class UserController extends Controller
         $id = $this->getId();
         $user = $this->container->userRepository->getOne($id);
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -216,6 +220,7 @@ class UserController extends Controller
      */
     public function getDelAction()
     {
+        $this->request->clearUsersOrderId();
         $id = $this->getId();
         $user = new User();
         $user->id = $id;
@@ -241,6 +246,7 @@ class UserController extends Controller
     public function authAction()
     {
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -338,6 +344,7 @@ class UserController extends Controller
     {
         $this->request->outSession();
         $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
         header('Location: /user/auth');
     }
 

@@ -59,6 +59,14 @@ abstract class Controller
         return $this->request->getId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getOrderId()
+    {
+        return $this->request->getOrderId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {

@@ -77,6 +77,14 @@ class Request
         return (int)$this->params['get']['id'];
     }
 
+    public function getOrderId()
+    {
+        if (empty($this->params['get']['order']['id'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['order']['id'];
+    }
+
     public function getSession($key = null)
     {
         if (empty($key)) {
@@ -101,6 +109,11 @@ class Request
     public function clearMsg()
     {
         unset($_SESSION['msg']);
+    }
+
+    public function clearUsersOrderId()
+    {
+        unset($_SESSION['usersOrderId']);
     }
 
     public function showSession()

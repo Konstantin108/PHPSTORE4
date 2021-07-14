@@ -1,0 +1,21 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    заказы пользователей
+{% endblock %}
+{% block header %}
+    управление заказами пользователей
+{% endblock %}
+{% block content %}
+
+    <h1>Заказы пользователей</h1>
+    <br>
+
+    {% for user in users %}
+        <h2>заказ пользователя {{ user.login }}</h2>
+        <h3 class="arrivals_title">{{ user.name }}</h3>
+        <br>
+        <a href="/basket/usersOrder?id={{ user.id }}">перейти</a>
+        <hr>
+    {% endfor %}
+
+{% endblock %}
