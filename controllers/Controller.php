@@ -93,25 +93,4 @@ abstract class Controller
     {
         return $this->container->renderer->render($template, $params);
     }
-
-    public function totalAction()
-    {
-        if ($_SESSION['usersOrderId']) {
-            $userId = $_SESSION['usersOrderId'];
-        } else {
-            $userId = $_SESSION['user_true']['id'];
-        }
-        $arr = $_SESSION['goods'][$userId];
-        $total = null;
-        if (is_array($arr)) {
-            foreach ($arr as $item) {
-                foreach ($item as $key => $price) {
-                    if ($key == 'price') {
-                        $total += $price;
-                    }
-                }
-            }
-        }
-        return $_SESSION['total'][$userId] = $total;
-    }
 }

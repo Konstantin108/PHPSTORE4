@@ -78,4 +78,25 @@ class BasketServices
         unset($_SESSION['goods'][$userId][$id]);
         return '';
     }
+
+    public function total()
+    {
+        if ($_SESSION['usersOrderId']) {
+            $userId = $_SESSION['usersOrderId'];
+        } else {
+            $userId = $_SESSION['user_true']['id'];
+        }
+        $arr = $_SESSION['goods'][$userId];
+        $total = null;
+        if (is_array($arr)) {
+            foreach ($arr as $item) {
+                foreach ($item as $key => $price) {
+                    if ($key == 'price') {
+                        $total += $price;
+                    }
+                }
+            }
+        }
+        return $_SESSION['total'][$userId] = $total;
+    }
 }
