@@ -22,6 +22,18 @@ class BasketController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $userId = $_SESSION['user_true']['id'];
         $goodsInBasket = $_SESSION['goods'][$userId];
+        $idOfUsersOrder = '';
+        if (is_array($goodsInBasket)) {
+            foreach ($goodsInBasket as $item) {
+                if (is_array($item)) {
+                    foreach ($item as $key => $elem) {
+                        if ($key == 'user_id')
+                            $idOfUsersOrder = $elem;
+                    }
+                }
+
+            }
+        }
         $total = $this->totalAction();
         return $this->render(
             'basket',
@@ -30,7 +42,9 @@ class BasketController extends Controller
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
                 'goods_in_basket' => $goodsInBasket,
-                'total' => $total
+                'total' => $total,
+                'user_id' => $userId,
+                'id_of_users_order' => $idOfUsersOrder
             ]
         );
     }
@@ -48,18 +62,12 @@ class BasketController extends Controller
 
     public function plusAction()
     {
-        $userId = $_SESSION['user_true']['id'];
+        if ($_SESSION['usersOrderId']) {
+            $userId = $this->getOrderId();
+        } else {
+            $userId = $_SESSION['user_true']['id'];
+        }
         $id = $this->getId();
-        $goodRepository = $this->container->goodRepository;
-        $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
-    }
-
-    public function plusFromOrderAction()
-    {
-        $id = $_GET['id'];
-        $userId = $_GET['order'];
         $goodRepository = $this->container->goodRepository;
         $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
         $this->request->clearUsersOrderId();
@@ -68,18 +76,12 @@ class BasketController extends Controller
 
     public function minusAction()
     {
-        $userId = $_SESSION['user_true']['id'];
+        if ($_SESSION['usersOrderId']) {
+            $userId = $this->getOrderId();
+        } else {
+            $userId = $_SESSION['user_true']['id'];
+        }
         $id = $this->getId();
-        $goodRepository = $this->container->goodRepository;
-        $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
-    }
-
-    public function minusFromOrderAction()
-    {
-        $id = $_GET['id'];
-        $userId = $_GET['order'];
         $goodRepository = $this->container->goodRepository;
         $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
         $this->request->clearUsersOrderId();
@@ -88,17 +90,12 @@ class BasketController extends Controller
 
     public function delFromBasketAction()
     {
-        $userId = $_SESSION['user_true']['id'];
+        if ($_SESSION['usersOrderId']) {
+            $userId = $this->getOrderId();
+        } else {
+            $userId = $_SESSION['user_true']['id'];
+        }
         $id = $this->getId();
-        $msg = $this->container->basketServices->del($userId, $id);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
-    }
-
-    public function delFromOrderAction()
-    {
-        $id = $_GET['id'];
-        $userId = $_GET['order'];
         $msg = $this->container->basketServices->del($userId, $id);
         $this->request->clearUsersOrderId();
         return $this->redirect('', $msg);
@@ -139,11 +136,19 @@ class BasketController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        $users = [];
+        $usersData = [];
         $arr = $_SESSION['goods'];
         $userRepository = $this->container->userRepository;
-        foreach ($arr as $key => $value) {
-            $users[] = $userRepository->getOne($key);
+        if (is_array($arr)) {
+            foreach ($arr as $key => $value) {
+                $usersData[] = $userRepository->getOne($key);
+            }
+        }
+        $users = [];
+        foreach ($usersData as $value) {
+            if ($_SESSION['goods'][$value->id]) {
+                $users[] = $value;
+            }
         }
         return $this->render(
             'orders',
@@ -175,6 +180,19 @@ class BasketController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $goodsInBasket = $_SESSION['goods'][$usersOrderId];
         $total = $this->totalAction();
+        $userId = $_SESSION['user_true']['id'];
+        $idOfUsersOrder = '';
+        if (is_array($goodsInBasket)) {
+            foreach ($goodsInBasket as $item) {
+                if (is_array($item)) {
+                    foreach ($item as $key => $elem) {
+                        if ($key == 'user_id')
+                            $idOfUsersOrder = $elem;
+                    }
+                }
+
+            }
+        }
         return $this->render(
             'basket',
             [
@@ -183,8 +201,28 @@ class BasketController extends Controller
                 'user_is_admin' => $userIsAdmin,
                 'goods_in_basket' => $goodsInBasket,
                 'total' => $total,
-                'user' => $user
+                'user' => $user,
+                'user_id' => $userId,
+                'id_of_users_order' => $idOfUsersOrder
             ]
         );
+    }
+
+    public function delOrderAction()
+    {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $id = $this->request->getId();
+        unset($_SESSION['goods'][$id]);
+        unset($_SESSION['total'][$id]);
+        return $this->redirect('', '', [
+            'is_auth' => $is_auth,
+            'user_name' => $userName,
+            'user_is_admin' => $userIsAdmin,
+        ]);
     }
 }

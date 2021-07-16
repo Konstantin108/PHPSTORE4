@@ -224,9 +224,16 @@ class UserController extends Controller
         $id = $this->getId();
         $user = new User();
         $user->id = $id;
-        $this->container->userRepository->delete($user);
-        header('Location: /user/all');
-        return '';
+        unset($_SESSION['goods'][$id]);
+        unset($_SESSION['total'][$id]);
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        if ($userIsAdmin) {
+            $this->container->userRepository->delete($user);
+            header('Location: /user/all');
+            return '';
+        } else {
+            return $this->render('fail');
+        }
     }
 
     public function getLink()

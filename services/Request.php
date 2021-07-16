@@ -79,10 +79,10 @@ class Request
 
     public function getOrderId()
     {
-        if (empty($this->params['get']['order']['id'])) {
+        if (empty($this->params['get']['order'])) {
             return 0;
         }
-        return (int)$this->params['get']['order']['id'];
+        return (int)$this->params['get']['order'];
     }
 
     public function getSession($key = null)

@@ -28,6 +28,8 @@
             <input type="submit" class="pointer">
         </form>
     {% else %}
+        <h2>Данные пользователя</h2>
+        <br>
         {% if user_avatar %}
             <img src="/img/{{ user_avatar }}" alt="avatar" class="new_img_style">
         {% else %}

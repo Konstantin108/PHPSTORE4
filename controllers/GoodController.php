@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\entities\Good;
-use app\repositories\GoodRepository;
 
 class GoodController extends Controller
 {
@@ -52,6 +51,8 @@ class GoodController extends Controller
         $userId = $_SESSION['user_true']['id'];
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $col = $_SESSION['goods'][$userId][$id]['counter'];
+        $price = $_SESSION['goods'][$userId][$id]['price'];
         return $this->render(
             'goodOne',
             [
@@ -60,7 +61,9 @@ class GoodController extends Controller
                 'is_auth' => $is_auth,
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
-                'msg' => $msg
+                'msg' => $msg,
+                'col' => $col,
+                'price' => $price
             ]);
     }
 
@@ -158,22 +161,26 @@ class GoodController extends Controller
         $good->counter = $counter;
         $good->img = $newFileName;
 
-        if (!empty($name) &&
-            !empty($price) &&
-            !empty($info)
-        ) {
-            $this->container->goodRepository->save($good);
-            header('Location: /');
-            return '';
+        if ($userIsAdmin) {
+            if (!empty($name) &&
+                !empty($price) &&
+                !empty($info)
+            ) {
+                $this->container->goodRepository->save($good);
+                header('Location: /');
+                return '';
+            } else {
+                return $this->render(
+                    'emptyFields',
+                    [
+                        'good' => $good,
+                        'is_auth' => $is_auth,
+                        'user_name' => $userName,
+                        'user_is_admin' => $userIsAdmin,
+                    ]);
+            }
         } else {
-            return $this->render(
-                'emptyFields',
-                [
-                    'good' => $good,
-                    'is_auth' => $is_auth,
-                    'user_name' => $userName,
-                    'user_is_admin' => $userIsAdmin,
-                ]);
+            return $this->render('fail');
         }
     }
 
@@ -206,12 +213,18 @@ class GoodController extends Controller
         }
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function getDelAction()
     {
         $id = $this->getId();
         $good = new Good();
         $good->id = $id;
         $this->request->clearUsersOrderId();
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $goods = $_SESSION['goods'];
         $arr = [];
         if (is_array($goods)) {
@@ -222,9 +235,12 @@ class GoodController extends Controller
                 unset($_SESSION['goods'][$item][$id]);
             }
         }
-
-        $this->container->goodRepository->delete($good);
-        header('Location: /');
-        return '';
+        if ($userIsAdmin) {
+            $this->container->goodRepository->delete($good);
+            header('Location: /');
+            return '';
+        } else {
+            return $this->render('fail');
+        }
     }
 }

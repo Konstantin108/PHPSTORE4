@@ -21,6 +21,9 @@
             <a href="/basket/add?id={{ good.id }}">добавить в корзину</a>
             <p style="margin-left: 20px; color: green">{{ msg }}</p>
         </div>
+        {% if col %}
+            <div>в корзине {{ col }}шт. на сумму {{ price }}&#8381;</div>
+        {% endif %}
     {% else %}
         <p>Выполните вход для покупки товара</p>
     {% endif %}

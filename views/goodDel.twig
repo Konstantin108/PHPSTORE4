@@ -7,9 +7,13 @@
 {% endblock %}
 {% block content %}
 
-    <h2>удалить товар {{ good.name }}?</h2>
-    <br>
-    <a href="/good/getDel?id={{ good.id }}">да</a>
-    <a href="/good/one?id={{ good.id }}">нет</a>
+    {% if user_is_admin %}
+        <h2>удалить товар {{ good.name }}?</h2>
+        <br>
+        <a href="/good/getDel?id={{ good.id }}">да</a>
+        <a href="/good/one?id={{ good.id }}">нет</a>
+    {% else %}
+        <h3 style="color: red">Необходимо обладать правами администратора</h3>
+    {% endif %}
 
 {% endblock %}

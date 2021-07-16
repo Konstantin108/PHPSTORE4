@@ -27,7 +27,8 @@ class BasketServices
                 'name' => $good->name,
                 'counter' => $good->counter,
                 'price' => $good->price,
-                'id' => $good->id
+                'id' => $good->id,
+                'user_id' => $userId
             ];
             return 'товар добавлен';
         }

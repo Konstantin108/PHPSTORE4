@@ -7,34 +7,38 @@
 {% endblock %}
 {% block content %}
 
-    {% if user.avatar %}
-        <img class="new_img_style" src="/img/{{ user.avatar }}" alt="avatar">
+    {% if user_is_admin %}
+        {% if user.avatar %}
+            <img class="new_img_style" src="/img/{{ user.avatar }}" alt="avatar">
+        {% else %}
+            <img class="new_img_style" src="/img/no_avatar.png" alt="avatar">
+        {% endif %}
+
+        <h2>Логин: {{ user.login }}</h2>
+        <h2>Имя: {{ user.name }}</h2>
+        <h2>Должность: {{ user.position }}</h2>
+
+        {% if user.is_admin == 1 %}
+
+            <br>
+            <h3 style="color: red">данный пользователь является администратором</h3>
+            <br>
+        {% elseif user.is_admin == 2 %}
+            <br>
+            <h3 style="color: red">данный пользователь имеет расширенные права</h3>
+            <br>
+            <a href="/user/edit?id={{ user.id }}">редактировать</a>
+            <a href="/user/del?id={{ user.id }}">удалить</a>
+        {% else %}
+            <br>
+            <a href="/user/edit?id={{ user.id }}">редактировать</a>
+            <a href="/user/del?id={{ user.id }}">удалить</a>
+        {% endif %}
+
+        <a href="/user/all">назад</a>
+        <hr>
     {% else %}
-        <img class="new_img_style" src="/img/no_avatar.png" alt="avatar">
+        <h3 style="color: red">Необходимо обладать правами администратора</h3>
     {% endif %}
-
-    <h2>Логин: {{ user.login }}</h2>
-    <h2>Имя: {{ user.name }}</h2>
-    <h2>Должность: {{ user.position }}</h2>
-
-    {% if user.is_admin == 1 %}
-
-        <br>
-        <h3 style="color: red">данный пользователь является администратором</h3>
-        <br>
-    {% elseif user.is_admin == 2 %}
-        <br>
-        <h3 style="color: red">данный пользователь имеет расширенные права</h3>
-        <br>
-        <a href="/user/edit?id={{ user.id }}">редактировать</a>
-        <a href="/user/del?id={{ user.id }}">удалить</a>
-    {% else %}
-        <br>
-        <a href="/user/edit?id={{ user.id }}">редактировать</a>
-        <a href="/user/del?id={{ user.id }}">удалить</a>
-    {% endif %}
-
-    <a href="/user/all">назад</a>
-    <hr>
 
 {% endblock %}

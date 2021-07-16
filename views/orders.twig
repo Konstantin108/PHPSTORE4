@@ -10,12 +10,19 @@
     <h1>Заказы пользователей</h1>
     <br>
 
-    {% for user in users %}
-        <h2>заказ пользователя {{ user.login }}</h2>
-        <h3 class="arrivals_title">{{ user.name }}</h3>
-        <br>
-        <a href="/basket/usersOrder?id={{ user.id }}">перейти</a>
-        <hr>
-    {% endfor %}
+    {% if user_is_admin %}
+        {% for user in users %}
+            <h2>заказ пользователя {{ user.login }}</h2>
+            <h3 class="arrivals_title">{{ user.name }}</h3>
+            <br>
+            <a href="/basket/usersOrder?id={{ user.id }}">перейти</a>
+            <a href="/basket/delOrder?id={{ user.id }}">удалить весь заказ</a>
+            <hr>
+        {% else %}
+            <h3 style="color: red">Не создано ни одного заказа</h3>
+        {% endfor %}
+    {% else %}
+        <h3 style="color: red">Необходимо обладать правами администратора</h3>
+    {% endif %}
 
 {% endblock %}
