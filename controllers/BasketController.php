@@ -57,6 +57,7 @@ class BasketController extends Controller
         $goodRepository = $this->container->goodRepository;
         $msg = $this->container->basketServices->add($userId, $id, $goodRepository);
         $this->request->clearUsersOrderId();
+        $total = $this->totalAction();
         return $this->redirect('', $msg);
     }
 
@@ -67,6 +68,7 @@ class BasketController extends Controller
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
+        $total = $this->totalAction();
         $id = $this->getId();
         $goodRepository = $this->container->goodRepository;
         $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
@@ -81,6 +83,7 @@ class BasketController extends Controller
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
+        $total = $this->totalAction();
         $id = $this->getId();
         $goodRepository = $this->container->goodRepository;
         $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
@@ -95,31 +98,11 @@ class BasketController extends Controller
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
+        $total = $this->totalAction();
         $id = $this->getId();
         $msg = $this->container->basketServices->del($userId, $id);
         $this->request->clearUsersOrderId();
         return $this->redirect('', $msg);
-    }
-
-    public function totalAction()
-    {
-        if ($_SESSION['usersOrderId']) {
-            $userId = $_SESSION['usersOrderId'];
-        } else {
-            $userId = $_SESSION['user_true']['id'];
-        }
-        $arr = $_SESSION['goods'][$userId];
-        $total = null;
-        if (is_array($arr)) {
-            foreach ($arr as $item) {
-                foreach ($item as $key => $price) {
-                    if ($key == 'price') {
-                        $total += $price;
-                    }
-                }
-            }
-        }
-        return $_SESSION['total'][$userId] = $total;
     }
 
     /**
@@ -136,6 +119,7 @@ class BasketController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
         $usersData = [];
         $arr = $_SESSION['goods'];
         $userRepository = $this->container->userRepository;
@@ -144,19 +128,52 @@ class BasketController extends Controller
                 $usersData[] = $userRepository->getOne($key);
             }
         }
+
         $users = [];
         foreach ($usersData as $value) {
             if ($_SESSION['goods'][$value->id]) {
                 $users[] = $value;
             }
         }
+
+        $total = $_SESSION['total'];
+        $userTotal = [];
+        foreach ($total as $key => $value) {
+            $userTotal[$key] = $value;
+        }
+
+
+        $countData = [];
+        foreach ($usersData as $value) {
+            $countData[$value->id] = $_SESSION['goods'][$value->id];
+
+        }
+
+        $counterOfUsers = [];
+        foreach ($countData as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $int => $elem) {
+                    if (is_array($elem)) {
+                        foreach ($elem as $name => $data) {
+                            if ($name == 'counter') {
+                                $counterOfUsers[$key] += $data;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $total = $this->totalAction();
         return $this->render(
             'orders',
             [
                 'is_auth' => $is_auth,
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
-                'users' => $users
+                'users' => $users,
+                'user_total' => $userTotal,
+                'counter_of_users' => $counterOfUsers,
+                'total' => $total
             ]
         );
     }

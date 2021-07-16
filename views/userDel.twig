@@ -10,6 +10,8 @@
     {% if user_is_admin %}
         <h2>удалить пользователя {{ user.login }}?</h2>
         <br>
+        <h3 style="color: #F38191">Заказ пользователя так же будет удалён</h3>
+        <br>
         <a href="/user/getDel?id={{ user.id }}">да</a>
         <a href="/user/one?id={{ user.id }}">нет</a>
     {% else %}

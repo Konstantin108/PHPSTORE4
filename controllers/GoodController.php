@@ -23,6 +23,7 @@ class GoodController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $total = $this->totalAction();
         return $this->render(
             'goodAll',
             [
@@ -30,6 +31,7 @@ class GoodController extends Controller
                 'is_auth' => $is_auth,
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
+                'total' => $total
             ]);
     }
 
@@ -199,6 +201,7 @@ class GoodController extends Controller
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+        $total = $this->totalAction();
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
@@ -209,6 +212,7 @@ class GoodController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
+                    'total' => $total
                 ]);
         }
     }
@@ -227,6 +231,7 @@ class GoodController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $goods = $_SESSION['goods'];
         $arr = [];
+        $total = $this->totalAction();
         if (is_array($goods)) {
             foreach ($goods as $key => $item) {
                 $arr[] = $key;

@@ -15,6 +15,29 @@
             <h2>заказ пользователя {{ user.login }}</h2>
             <h3 class="arrivals_title">{{ user.name }}</h3>
             <br>
+            <div style="display: flex;
+                        justify-content: space-around;
+                        padding: 10px;
+                        border-radius: 12px;
+                        background-color: #F8F3F4;
+                        width: 430px;
+                ">
+                <h3>
+                    {% for key, count_of_user in counter_of_users %}
+                        {% if key == user.id %}
+                            Количество товаров: {{ count_of_user }}
+                        {% endif %}
+                    {% endfor %}
+                </h3>
+                <h3>
+                    {% for key, total in user_total %}
+                        {% if key == user.id %}
+                            на сумма: {{ total }}&#8381;
+                        {% endif %}
+                    {% endfor %}
+                </h3>
+            </div>
+            <br>
             <a href="/basket/usersOrder?id={{ user.id }}">перейти</a>
             <a href="/basket/delOrder?id={{ user.id }}">удалить весь заказ</a>
             <hr>

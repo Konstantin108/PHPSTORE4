@@ -10,6 +10,8 @@
     {% if user_is_admin %}
         <h2>удалить товар {{ good.name }}?</h2>
         <br>
+        <h3 style="color: #F38191">Товар будет так же удалён из заказов пользователей</h3>
+        <br>
         <a href="/good/getDel?id={{ good.id }}">да</a>
         <a href="/good/one?id={{ good.id }}">нет</a>
     {% else %}
