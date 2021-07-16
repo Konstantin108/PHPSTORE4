@@ -96,6 +96,13 @@ class UserController extends Controller
      */
     public function updateAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
         $id = $_POST['id'];
         $login = $_POST['login'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -104,16 +111,21 @@ class UserController extends Controller
         $position = $_POST['position'];
         $newFileName = $_POST['avatar'];
 
-        $is_auth = false;
-        if ($_SESSION['user_true']['user']) {
-            $is_auth = true;
+        $link = $this->container->db->getLink();
+        if ($id) {
+            $sqlAllUsers = "SELECT login FROM users WHERE id !=" . $id;
+        } else {
+            $sqlAllUsers = "SELECT login FROM users";
         }
-        $userName = $_SESSION['user_true']['name'];
-        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $resultAllUsers = mysqli_query($link, $sqlAllUsers);
+        $allUsersData = mysqli_fetch_all($resultAllUsers);
 
-        $is_auth = false;
-        if ($_SESSION['user_true']['user']) {
-            $is_auth = true;
+        $arr = [];
+
+        foreach ($allUsersData as $item) {
+            foreach ($item as $data) {
+                $arr[] = $data;
+            }
         }
 
         if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/update') {
@@ -161,6 +173,17 @@ class UserController extends Controller
                 break;
         }
         $user->is_admin = $is_admin;
+
+        if (in_array($login, $arr)) {
+            return $this->render(
+                'authFail',
+                [
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                ]);
+        }
 
         if (!empty($login) &&
             !empty($name) &&
@@ -236,15 +259,6 @@ class UserController extends Controller
         }
     }
 
-    public function getLink()
-    {
-        static $link;
-        if (empty($link)) {
-            $link = mysqli_connect('127.0.0.1', 'root', 'root', 'gbphp');
-        }
-        return $link;
-    }
-
     /**
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -286,9 +300,10 @@ class UserController extends Controller
 
             $login = $_POST['login'];
             $password = $_POST['password'];
+            $link = $this->container->db->getLink();
 
             $sqlAllUsers = "SELECT login FROM users";
-            $resultAllUsers = mysqli_query($this->getLink(), $sqlAllUsers);
+            $resultAllUsers = mysqli_query($link, $sqlAllUsers);
             $allUsersData = mysqli_fetch_all($resultAllUsers);
 
             $arr = [];
@@ -302,11 +317,11 @@ class UserController extends Controller
             if (in_array($login, $arr)) {
 
                 $sql = "SELECT login, password FROM users WHERE login = '{$login}'";   //<--создание запроса к БД
-                $result = mysqli_query($this->getLink(), $sql);    //<--отправка запроса к БД и запись результата запроса в переменную
+                $result = mysqli_query($link, $sql);    //<--отправка запроса к БД и запись результата запроса в переменную
                 $userData = mysqli_fetch_assoc($result);    //<--обработка результата запроса
 
                 $sqlAllData = "SELECT id, name, is_admin, position, avatar FROM users WHERE login = '{$login}'";   //<--создание запроса к БД(поиск имени)
-                $resultAllData = mysqli_query($this->getLink(), $sqlAllData);
+                $resultAllData = mysqli_query($link, $sqlAllData);
                 $allData = mysqli_fetch_assoc($resultAllData);
 
                 $dataId = '';

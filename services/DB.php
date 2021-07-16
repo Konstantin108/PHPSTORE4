@@ -85,4 +85,13 @@ class DB
     {
         return $this->getConnection()->LastInsertId();
     }
+
+    public function getLink()
+    {
+        static $link;
+        if (empty($link)) {
+            $link = mysqli_connect('127.0.0.1', 'root', 'root', 'gbphp');
+        }
+        return $link;
+    }
 }
