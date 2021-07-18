@@ -1356,6 +1356,27 @@ button {
   cursor: pointer;
 }
 
+.black_link_404 {
+  cursor: pointer;
+  text-decoration-line: none;
+  color: white;
+  font-size: 60px;
+  background-color: #F16D7E;
+  border-radius: 30px;
+  margin-top: 5px;
+  padding-top: 6px;
+  padding-bottom: 13px;
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  transition: 0.4s;
+}
+
+.black_link_404:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 .drop__fleximg {
   position: relative;
 }

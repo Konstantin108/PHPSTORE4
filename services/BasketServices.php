@@ -46,11 +46,14 @@ class BasketServices
          * @var Good $good
          */
         $good = $goodRepository->getOne($id);
-        $_SESSION['goods'][$userId][$id]['counter']++;
-        $count = $_SESSION['goods'][$userId][$id]['counter'];
-        $price = $good->price;
-        $newPrice = $count * $price;
-        $_SESSION['goods'][$userId][$id]['price'] = $newPrice;
+        if ($_SESSION['goods'][$userId][$id]['user_id'] == $userId) {
+            $_SESSION['goods'][$userId][$id]['counter']++;
+            $count = $_SESSION['goods'][$userId][$id]['counter'];
+            $price = $good->price;
+            $newPrice = $count * $price;
+            $_SESSION['goods'][$userId][$id]['price'] = $newPrice;
+            return '';
+        }
         return '';
     }
 
@@ -61,21 +64,27 @@ class BasketServices
          */
         $good = $goodRepository->getOne($id);
         $count = $_SESSION['goods'][$userId][$id]['counter'];
-        if ($count > 1) {
-            $_SESSION['goods'][$userId][$id]['counter']--;
-            $newCount = $_SESSION['goods'][$userId][$id]['counter'];
-            $price = $good->price;
-            $newPrice = $newCount * $price;
-            $_SESSION['goods'][$userId][$id]['price'] = $newPrice;
-        } else {
-            unset($_SESSION['goods'][$userId][$id]);
+        if ($_SESSION['goods'][$userId][$id]['user_id'] == $userId) {
+            if ($count > 1) {
+                $_SESSION['goods'][$userId][$id]['counter']--;
+                $newCount = $_SESSION['goods'][$userId][$id]['counter'];
+                $price = $good->price;
+                $newPrice = $newCount * $price;
+                $_SESSION['goods'][$userId][$id]['price'] = $newPrice;
+            } else {
+                unset($_SESSION['goods'][$userId][$id]);
+            }
+            return '';
         }
         return '';
     }
 
     public function del($userId, $id)
     {
-        unset($_SESSION['goods'][$userId][$id]);
+        if ($_SESSION['goods'][$userId][$id]['user_id'] == $userId) {
+            unset($_SESSION['goods'][$userId][$id]);
+            return '';
+        }
         return '';
     }
 

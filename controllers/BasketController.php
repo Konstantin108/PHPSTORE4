@@ -34,6 +34,9 @@ class BasketController extends Controller
 
             }
         }
+        if (!$idOfUsersOrder) {
+            $idOfUsersOrder = $userId = $_SESSION['user_true']['id'];
+        }
         $total = $this->container->basketServices->total();
         return $this->render(
             'basket',
@@ -49,60 +52,126 @@ class BasketController extends Controller
         );
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     public function addAction()
     {
         $this->request->clearUsersOrderId();
         $userId = $_SESSION['user_true']['id'];
-        $id = $this->getId();
-        $goodRepository = $this->container->goodRepository;
-        $msg = $this->container->basketServices->add($userId, $id, $goodRepository);
-        $this->request->clearUsersOrderId();
-        $total = $this->container->basketServices->total();
-        return $this->redirect('', $msg);
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        if ($userId) {
+            $id = $this->getId();
+            $goodRepository = $this->container->goodRepository;
+            $msg = $this->container->basketServices->add($userId, $id, $goodRepository);
+            $this->request->clearUsersOrderId();
+            $total = $this->container->basketServices->total();
+            return $this->redirect('', $msg);
+        } else {
+            return $this->render('basket', [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'user_id' => $userId,
+            ]);
+        }
     }
 
     public function plusAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SESSION['usersOrderId']) {
             $userId = $this->getOrderId();
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
-        $total = $this->container->basketServices->total();
-        $id = $this->getId();
-        $goodRepository = $this->container->goodRepository;
-        $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
+        if ($userId) {
+            $total = $this->container->basketServices->total();
+            $id = $this->getId();
+            $goodRepository = $this->container->goodRepository;
+            $msg = $this->container->basketServices->plus($userId, $id, $goodRepository);
+            $this->request->clearUsersOrderId();
+            return $this->redirect('', $msg);
+        } else {
+            return $this->render('basket', [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'user_id' => $userId,
+            ]);
+        }
     }
 
     public function minusAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SESSION['usersOrderId']) {
             $userId = $this->getOrderId();
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
-        $total = $this->container->basketServices->total();
-        $id = $this->getId();
-        $goodRepository = $this->container->goodRepository;
-        $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
+        if ($userId) {
+            $total = $this->container->basketServices->total();
+            $id = $this->getId();
+            $goodRepository = $this->container->goodRepository;
+            $msg = $this->container->basketServices->minus($userId, $id, $goodRepository);
+            $this->request->clearUsersOrderId();
+            return $this->redirect('', $msg);
+        } else {
+            return $this->render('basket', [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'user_id' => $userId,
+            ]);
+        }
     }
 
     public function delFromBasketAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SESSION['usersOrderId']) {
             $userId = $this->getOrderId();
         } else {
             $userId = $_SESSION['user_true']['id'];
         }
-        $total = $this->container->basketServices->total();
         $id = $this->getId();
-        $msg = $this->container->basketServices->del($userId, $id);
-        $this->request->clearUsersOrderId();
-        return $this->redirect('', $msg);
+        $goodId = $_SESSION['goods'][$userId][$id]['user_id'] == $userId;
+        if ($userId && $goodId == $userId) {
+            $total = $this->container->basketServices->total();
+            $msg = $this->container->basketServices->del($userId, $id);
+            $this->request->clearUsersOrderId();
+            return $this->redirect('', $msg);
+        } else {
+            return $this->render('basket', [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'user_id' => $userId,
+            ]);
+        }
     }
 
     /**

@@ -1,6 +1,10 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
-    корзина
+    {% if user %}
+        {{ user.name }} работа с заказом
+    {% else %}
+        корзина
+    {% endif %}
 {% endblock %}
 {% block header %}
     {% if user %}

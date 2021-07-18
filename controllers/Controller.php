@@ -37,6 +37,11 @@ abstract class Controller
         $this->request = $request;
     }
 
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
     public function run($action)
     {
         if (empty($action)) {
@@ -44,9 +49,22 @@ abstract class Controller
         }
 
         $action .= "Action";
+        $path = '';
+
+        if (empty($path)) {
+            if (empty($_SERVER['HTTP_REFERER'])) {
+                $path = '/';
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+            }
+        }
 
         if (!method_exists($this, $action)) {
-            return '404';
+            return $this->render(
+                'badRequest',
+                [
+                    'path' => $path
+                ]);
         }
         return $this->$action();
     }
