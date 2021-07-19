@@ -19,7 +19,6 @@
         <h2>Должность: {{ user.position }}</h2>
 
         {% if user.is_admin == 1 %}
-
             <br>
             <h3 style="color: red">данный пользователь является администратором</h3>
             <br>
@@ -27,15 +26,42 @@
             <br>
             <h3 style="color: red">данный пользователь имеет расширенные права</h3>
             <br>
-            <a href="/user/edit?id={{ user.id }}">редактировать</a>
-            <a href="/user/del?id={{ user.id }}">удалить</a>
+            <div style="display: flex">
+                <a class="php-other-link php-link"
+                   style="width: 123px;
+                  margin-right: 4px;"
+                   href="/user/edit?id={{ user.id }}">
+                    редактировать
+                </a>
+                <a class="php-other-link php-red-link"
+                   style="width: 123px;"
+                   href="/user/del?id={{ user.id }}">
+                    удалить
+                </a>
+            </div>
         {% else %}
             <br>
-            <a href="/user/edit?id={{ user.id }}">редактировать</a>
-            <a href="/user/del?id={{ user.id }}">удалить</a>
+            <div style="display: flex">
+                <a class="php-other-link php-link"
+                   style="width: 123px;
+                  margin-right: 4px;"
+                   href="/user/edit?id={{ user.id }}">
+                    редактировать
+                </a>
+                <a class="php-other-link php-red-link"
+                   style="width: 123px;"
+                   href="/user/del?id={{ user.id }}">
+                    удалить
+                </a>
+            </div>
         {% endif %}
 
-        <a href="/user/all">назад</a>
+        <br>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/user/all">
+            назад
+        </a>
         <hr>
     {% else %}
         <h3 style="color: red">Необходимо обладать правами администратора</h3>

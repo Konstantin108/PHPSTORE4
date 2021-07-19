@@ -75,12 +75,14 @@ class BasketController extends Controller
             $total = $this->container->basketServices->total();
             return $this->redirect('', $msg);
         } else {
-            return $this->render('basket', [
-                'is_auth' => $is_auth,
-                'user_name' => $userName,
-                'user_is_admin' => $userIsAdmin,
-                'user_id' => $userId,
-            ]);
+            return $this->render(
+                'basket',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'user_id' => $userId,
+                ]);
         }
     }
 
@@ -105,12 +107,14 @@ class BasketController extends Controller
             $this->request->clearUsersOrderId();
             return $this->redirect('', $msg);
         } else {
-            return $this->render('basket', [
-                'is_auth' => $is_auth,
-                'user_name' => $userName,
-                'user_is_admin' => $userIsAdmin,
-                'user_id' => $userId,
-            ]);
+            return $this->render(
+                'basket',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'user_id' => $userId,
+                ]);
         }
     }
 
@@ -135,12 +139,14 @@ class BasketController extends Controller
             $this->request->clearUsersOrderId();
             return $this->redirect('', $msg);
         } else {
-            return $this->render('basket', [
-                'is_auth' => $is_auth,
-                'user_name' => $userName,
-                'user_is_admin' => $userIsAdmin,
-                'user_id' => $userId,
-            ]);
+            return $this->render(
+                'basket',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'user_id' => $userId,
+                ]);
         }
     }
 
@@ -165,12 +171,14 @@ class BasketController extends Controller
             $this->request->clearUsersOrderId();
             return $this->redirect('', $msg);
         } else {
-            return $this->render('basket', [
-                'is_auth' => $is_auth,
-                'user_name' => $userName,
-                'user_is_admin' => $userIsAdmin,
-                'user_id' => $userId,
-            ]);
+            return $this->render(
+                'basket',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'user_id' => $userId,
+                ]);
         }
     }
 
@@ -207,10 +215,11 @@ class BasketController extends Controller
 
         $totalKey = $_SESSION['total'];
         $userTotal = [];
-        foreach ($totalKey as $key => $value) {
-            $userTotal[$key] = $value;
+        if (is_array($userTotal)) {
+            foreach ($totalKey as $key => $value) {
+                $userTotal[$key] = $value;
+            }
         }
-
 
         $countData = [];
         foreach ($usersData as $value) {
@@ -302,12 +311,23 @@ class BasketController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $id = $this->request->getId();
-        unset($_SESSION['goods'][$id]);
-        unset($_SESSION['total'][$id]);
-        return $this->redirect('', '', [
-            'is_auth' => $is_auth,
-            'user_name' => $userName,
-            'user_is_admin' => $userIsAdmin,
-        ]);
+        if ($userIsAdmin) {
+
+            unset($_SESSION['goods'][$id]);
+            unset($_SESSION['total'][$id]);
+            return $this->redirect('', '', [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+            ]);
+        } else {
+            return $this->render(
+                'fail',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                ]);
+        }
     }
 }

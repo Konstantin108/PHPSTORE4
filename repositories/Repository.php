@@ -89,9 +89,9 @@ abstract class Repository
         $fields = [];
         $params = [];
         foreach ($entity as $fieldName => $value) {
-            if ($fieldName == 'password') {
-                continue;
-            }
+//            if ($fieldName == 'password') {
+//                continue;
+//            }
             $fields[] = $fieldName;
             $params[":{$fieldName}"] = $value;
         }

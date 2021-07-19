@@ -296,27 +296,27 @@
         <section class="form_input_main_php center">
             {% if is_auth == true %}
                 <div style="display: flex">
-                    <p>{{ user_name }}</p>
+                    <p style="margin-bottom: 4px;">{{ user_name }}</p>
                     {% if user_is_admin == 1 %}
                         <span style="margin-left: 4px;">- admin</span>
                     {% endif %}
                 </div>
             {% endif %}
             {% if is_auth == true %}
-                <li><a href="/user/auth">Мой профиль</a></li>
+                <li class="php-li"><a class="php-link" href="/user/auth">Мой профиль</a></li>
             {% else %}
-                <li><a href="/user/auth">Вход</a></li>
-                <li><a href="/user/edit">Регистрация</a></li>
+                <li class="php-li"><a class="php-link" href="/user/auth">Вход</a></li>
+                <li class="php-li"><a class="php-link" href="/user/edit">Регистрация</a></li>
             {% endif %}
             {% if user_is_admin == 1 %}
-                <li><a href="/user/all">Пользователи</a></li>
+                <li class="php-li"><a class="php-link" href="/user/all">Пользователи</a></li>
             {% endif %}
-            <li><a href="/good/all">Товары</a></li>
+            <li class="php-li"><a class="php-link" href="/good/all">Товары</a></li>
             {% if is_auth == true %}
-                <li><a href="/basket/index">Корзина</a></li>
+                <li class="php-li"><a class="php-link" href="/basket/index">Корзина</a></li>
             {% endif %}
             {% if user_is_admin == 1 %}
-                <li><a href="/basket/orders">Заказы пользователей</a></li>
+                <li class="php-li"><a class="php-link" href="/basket/orders">Заказы пользователей</a></li>
             {% endif %}
             <br>
 

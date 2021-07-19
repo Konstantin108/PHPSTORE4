@@ -11,9 +11,17 @@
     <br>
 
     {% if user.id %}
-        <a href="/user/edit?id={{ user.id }}">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/user/edit?id={{ user.id }}">
+            назад
+        </a>
     {% else %}
-        <a href="javascript:history.back();">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="javascript:history.back();">
+            назад
+        </a>
     {% endif %}
 
 {% endblock %}

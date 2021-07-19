@@ -11,29 +11,56 @@
     <br>
 
     {% if user_is_admin %}
-        {% for user in users %}
-            {% if user.avatar %}
-                <img class="new_img_all_style" src="/img/{{ user.avatar }}" alt="avatar">
+        <div style="display: flex; flex-wrap: wrap; width: 900px;">
+            {% for user in users %}
+                <div style="display: block;
+                            height: 450px;
+                            width: 260px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                            border: 2px solid palegoldenrod;
+                            margin-right: 20px;
+                            margin-bottom: 20px;
+                            border-radius: 12px">
+                    {% if user.avatar %}
+                        <img class="new_img_all_style" src="/img/{{ user.avatar }}" alt="avatar">
+                    {% else %}
+                        <img class="new_img_all_style" src="/img/no_avatar.png" alt="avatar">
+                    {% endif %}
+                    <div style="display: flex;
+                                flex-direction: column;
+                                justify-content: space-around;
+                                align-items: center">
+                        {% if user.is_admin == 1 %}
+                            <p style="color: red">администратор</p>
+                        {% elseif user.is_admin == 2 %}
+                            <p style="color: blue">помощник администратора</p>
+                        {% endif %}
+                        <h2>{{ user.login }}</h2>
+                        <h3 class="arrivals_title" style="text-align: center">{{ user.name }}</h3>
+                        <h3>{{ user.position }}</h3>
+                        <br>
+                        <a class="php-link php-other-link"
+                           style="width: 80px;"
+                           href="/user/one?id={{ user.id }}">
+                            подробно
+                        </a>
+                    </div>
+                </div>
+                {# <hr> #}
             {% else %}
-                <img class="new_img_all_style" src="/img/no_avatar.png" alt="avatar">
-            {% endif %}
-            <h2>{{ user.login }}</h2>
-            <h3 class="arrivals_title">{{ user.name }}</h3>
-            <h3>{{ user.position }}</h3>
-            <br>
-            {% if user.is_admin == 1 %}
-                <p style="color: red">данный пользователь является администратором</p>
-            {% elseif user.is_admin == 2 %}
-                <p style="color: blue">данный пользователь имеет расширенные права</p>
-            {% endif %}
-            <a href="/user/one?id={{ user.id }}">подробно</a>
-            <hr>
-        {% else %}
-            <h3 style="color: red">Пользователи отсутствуют</h3>
-        {% endfor %}
+                <h3 style="color: red">Пользователи отсутствуют</h3>
+            {% endfor %}
+        </div>
 
         <br>
-        <a href="/user/edit">добавить пользователя</a>
+        <a class="php-green-link php-other-link"
+           style="width: 190px"
+           href="/user/edit">добавить пользователя</a>
     {% else %}
         <h3 style="color: red">Необходимо обладать правами администратора</h3>
     {% endif %}

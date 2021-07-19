@@ -69,7 +69,11 @@
             {% endif %}
             {% if user %}
                 <br>
-                <a href="/basket/orders">назад к списку заказов</a>
+                <a class="php-other-link php-link"
+                   href="/basket/orders"
+                   style="width: 179px;">
+                    назад к списку заказов
+                </a>
             {% endif %}
         {% else %}
             <h3 style="color: red">Отказано в доступе</h3>

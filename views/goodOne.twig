@@ -18,7 +18,10 @@
     <br>
     {% if is_auth == true %}
         <div style="display: flex">
-            <a href="/basket/add?id={{ good.id }}">добавить в корзину</a>
+            <a class="php-other-link php-green-link"
+               href="/basket/add?id={{ good.id }}">
+                добавить в корзину
+            </a>
             <p style="margin-left: 20px; color: green">{{ msg }}</p>
         </div>
         {% if col %}
@@ -28,12 +31,30 @@
         <p>Выполните вход для покупки товара</p>
     {% endif %}
     {% if user_is_admin == 1 %}
+
         <br>
-        <a href="/good/edit?id={{ good.id }}">редактировать</a>
-        <a href="/good/del?id={{ good.id }}">удалить</a>
+        <div style="display: flex">
+            <a class="php-other-link php-link"
+               style="width: 123px;
+                  margin-right: 4px;"
+               href="/good/edit?id={{ good.id }}">
+                редактировать
+            </a>
+            <a class="php-other-link php-red-link"
+               style="width: 123px;"
+               href="/good/del?id={{ good.id }}">
+                удалить
+            </a>
+        </div>
+
     {% endif %}
+
     <br>
-    <a href="/good/all">назад</a>
+    <a class="php-link php-other-link"
+       style="width: 55px;"
+       href="/good/all">
+        назад
+    </a>
     <hr>
 
 {% endblock %}

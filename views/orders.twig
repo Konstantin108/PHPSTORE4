@@ -38,8 +38,19 @@
                 </h3>
             </div>
             <br>
-            <a href="/basket/usersOrder?id={{ user.id }}">перейти</a>
-            <a href="/basket/delOrder?id={{ user.id }}">удалить весь заказ</a>
+            <div style="display: flex">
+                <a class="php-other-link php-link"
+                   style="width: 154px;
+                      margin-right: 10px;"
+                   href="/basket/usersOrder?id={{ user.id }}">
+                    перейти
+                </a>
+                <a class="php-other-link php-red-link"
+                   style="width: 154px;"
+                   href="/basket/delOrder?id={{ user.id }}">
+                    удалить весь заказ
+                </a>
+            </div>
             <hr>
         {% else %}
             <h3 style="color: red">Не создано ни одного заказа</h3>

@@ -45,10 +45,8 @@
         <br>
         <p>логин</p>
         <input type="text" id="login" name="login" value="{{ user.login }}" placeholder="введите логин">
-        {% if not user.id %}
-            <p>пароль</p>
-            <input type="text" id="password" name="password" value="" placeholder="введите пароль">
-        {% endif %}
+        <p>пароль</p>
+        <input type="text" id="password" name="password" value="" placeholder="введите пароль">
         <input type="hidden" id="avatar" name="avatar" value="{{ user.avatar }}">
         <p>имя</p>
         <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="введите имя">
@@ -71,9 +69,13 @@
     <br>
 
     {% if user.id %}
-        <a href="/user/one?id={{ user.id }}">назад</a>
+        <a class="php-other-link php-link"
+           style="width: 55px;"
+           href="/user/one?id={{ user.id }}">назад</a>
     {% else %}
-        <a href="/user/all">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px"
+           href="/user/all">назад</a>
     {% endif %}
 
     <hr>

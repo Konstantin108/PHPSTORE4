@@ -65,9 +65,15 @@
         <br>
 
         {% if good.id %}
-            <a href="/good/one?id={{ good.id }}">назад</a>
+            <a class="php-link php-other-link"
+               style="width: 55px;"
+               href="/good/one?id={{ good.id }}">назад</a>
         {% else %}
-            <a href="/good/all">назад</a>
+            <a class="php-link php-other-link"
+               style="width: 55px;"
+               href="/good/all">
+                назад
+            </a>
         {% endif %}
 
         <hr>

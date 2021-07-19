@@ -105,7 +105,11 @@ class UserController extends Controller
 
         $id = $_POST['id'];
         $login = $_POST['login'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if (!empty($_POST['password'])) {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        } else {
+            $password = '';
+        }
         $name = $_POST['name'];
         $is_admin = $_POST['is_admin'];
         $position = $_POST['position'];
@@ -243,19 +247,35 @@ class UserController extends Controller
      */
     public function getDelAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+
         $this->request->clearUsersOrderId();
         $id = $this->getId();
         $user = new User();
         $user->id = $id;
-        unset($_SESSION['goods'][$id]);
-        unset($_SESSION['total'][$id]);
+
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($userIsAdmin) {
+
+            unset($_SESSION['goods'][$id]);
+            unset($_SESSION['total'][$id]);
+
             $this->container->userRepository->delete($user);
             header('Location: /user/all');
             return '';
         } else {
-            return $this->render('fail');
+            return $this->render(
+                'fail',
+                [
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                ]);
         }
     }
 

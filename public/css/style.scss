@@ -1372,7 +1372,7 @@ button {
   transition: 0.4s;
 }
 
-.black_link_404:hover{
+.black_link_404:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -3503,12 +3503,103 @@ input[type=radio] {
 
 }
 
+#password::-webkit-input-placeholder {
+  color: indianred;
+}
+
 .logo1 {
   transition: .4s;
 }
 
 .logo1:hover {
   transform: scale(1.04);
+}
+
+.php-li {
+  margin-bottom: 11px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.php-li:hover {
+  transform: translate(5px, 0)
+}
+
+.php-li:active {
+  transform: translate(5px, -2px)
+}
+
+.php-other-link {
+  text-align: center;
+}
+
+.php-other-link:active {
+  transform: translate(0, -2px)
+}
+
+.good-php{
+  transition: .2s;
+  display: block;
+  height: 400px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-right: 2px solid white;
+  border-top: 2px solid white;
+  border-left: 2px solid #bab3b3;
+  border-bottom: 2px solid #bab3b3;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.good-php:hover{
+  background-color: #f6f6fd;
+}
+
+.php-red-link {
+  border-radius: 8px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 2px solid #d67c7c;
+  text-decoration: none;
+  color: white;
+  background-color: #e99d9d;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.php-green-link {
+  border-radius: 8px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 2px solid #89a25c;
+  text-decoration: none;
+  color: white;
+  background-color: #89ca49;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.php-link {
+  border-radius: 8px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 2px solid palegoldenrod;
+  text-decoration: none;
+  color: black;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: .2s;
 }
 
 .drop__view_link:hover {
