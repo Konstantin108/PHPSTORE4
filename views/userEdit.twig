@@ -4,6 +4,8 @@
         редактирование пользователя {{ user.login }}
     {% elseif user_is_admin == 1 %}
         добавление пользователя
+    {% elseif user.id == self_id %}
+        редактирование профиля
     {% else %}
         регистрация
     {% endif %}
@@ -11,9 +13,11 @@
 {% block header %}
     {% if user.id and user_is_admin == 1 %}
         редактирование пользователя {{ user.login }}
-    {% elseif user_is_admin == 1 %}
+    {% elseif user.id and user.id != self_id %}
         добавление пользователя
-    {% else %}
+    {% elseif user.id == self_id %}
+        редактирование профиля
+    {% elseif not user.id%}
         регистрация
     {% endif %}
 {% endblock %}
@@ -23,6 +27,8 @@
         <h2>редактирование пользователя {{ user.login }}</h2>
     {% elseif user_is_admin == 1 %}
         <h2>добавление пользователя</h2>
+    {% elseif user.id == self_id %}
+        <h2>редактирование профиля</h2>
     {% else %}
         <h2>Регистрация</h2>
     {% endif %}
@@ -52,13 +58,15 @@
         <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="введите имя">
         <p>должность</p>
         <input type="text" id="position" name="position" value="{{ user.position }}" placeholder="введите должность">
-        {% if user_is_admin == 1 %}
+        {% if is_auth and user.is_admin in [0, 2] and self_id != user.id %}
             <p>расширенные права</p>
             <select name="is_admin" id="is_admin">
                 <option value="nothing">Значение не выбрано</option>
                 <option value="yes">Да</option>
                 <option value="no">Нет</option>
             </select>
+        {% elseif is_auth and user.is_admin == 1 %}
+            <input type="hidden" name="is_admin" id="is_admin" value="admin">
         {% else %}
             <input type="hidden" name="is_admin" id="is_admin" value="no">
         {% endif %}

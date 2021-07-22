@@ -43,6 +43,12 @@
         {% elseif user_is_admin == 2 %}
             <h2>Пользователь имеет расширенные права</h2>
         {% endif %}
+        <a class="php-other-link php-link"
+           style="width: 123px;
+                  margin-right: 4px;"
+           href="/user/edit?id={{ user_id }}">
+            редактировать
+        </a>
         <br>
         <a class="php-red-link php-other-link" style="width: 57px" href="/user/out">выход</a>
     {% endif %}

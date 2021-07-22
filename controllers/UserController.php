@@ -75,9 +75,13 @@ class UserController extends Controller
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+
+        $selfId = $_SESSION['user_true']['self_id'];
+
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
+            var_dump($user);
             return $this->render(
                 'userEdit',
                 [
@@ -85,6 +89,7 @@ class UserController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
+                    'self_id' => $selfId
                 ]);
         }
     }
@@ -102,6 +107,8 @@ class UserController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $selfId = $_SESSION['user_true']['self_id'];
 
         $id = $_POST['id'];
         $login = $_POST['login'];
@@ -169,8 +176,11 @@ class UserController extends Controller
             case 'yes':
                 $is_admin = 2;
                 break;
-            case 'no';
+            case 'no':
                 $is_admin = 0;
+                break;
+            case 'admin':
+                $is_admin = 1;
                 break;
             default:
                 $is_admin = 0;
@@ -196,7 +206,13 @@ class UserController extends Controller
         ) {
             $this->container->userRepository->save($user);
             if ($is_auth == true) {
-                header('Location: /user/all');
+                if ($selfId == $id) {
+
+                    $this->request->clearSelfId();
+                    header('Location: /user/auth');
+                } else {
+                    header('Location: /user/all');
+                }
             } else {
                 header('Location: /user/auth');
             }
@@ -298,6 +314,10 @@ class UserController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $userPosition = $_SESSION['user_true']['position'];
         $userAvatar = $_SESSION['user_true']['avatar'];
+
+        $_SESSION['user_true']['self_id'] = $userId;
+        $selfId = $_SESSION['user_true']['self_id'];
+
         return $this->render(
             'auth',
             [
@@ -307,7 +327,8 @@ class UserController extends Controller
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
                 'user_position' => $userPosition,
-                'user_avatar' => $userAvatar
+                'user_avatar' => $userAvatar,
+                'selfId' => $selfId
             ]);
     }
 

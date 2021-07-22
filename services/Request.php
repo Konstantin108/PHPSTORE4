@@ -116,6 +116,11 @@ class Request
         unset($_SESSION['usersOrderId']);
     }
 
+    public function clearSelfId()
+    {
+        unset($_SESSION['user_true']['self_id']);
+    }
+
     public function showSession()
     {
         echo '<pre>';

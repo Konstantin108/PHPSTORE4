@@ -3503,6 +3503,22 @@ input[type=radio] {
   transform: translate(0, -2px);
 }
 
+.user-php {
+  display: block;
+  height: 450px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid palegoldenrod;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
 .good-php {
   transition: 0.2s;
   display: block;
