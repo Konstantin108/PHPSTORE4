@@ -1419,6 +1419,10 @@ button {
   width: 200px;
 }
 
+.img_in_comment {
+  width: 60px;
+}
+
 .man_submenu {
   position: absolute;
   left: -15px;
@@ -3631,6 +3635,20 @@ input[type=radio] {
   text-decoration: none;
   color: black;
   background-color: #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.php-link-comment {
+  border-radius: 8px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 2px solid palegoldenrod;
+  text-decoration: none;
+  color: black;
+  background-color: #a3c9ec;
   cursor: pointer;
   transition: 0.2s;
 }

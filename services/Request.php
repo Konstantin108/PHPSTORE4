@@ -85,6 +85,14 @@ class Request
         return (int)$this->params['get']['order'];
     }
 
+    public function getCommentId()
+    {
+        if (empty($this->params['get']['commentId'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['commentId'];
+    }
+
     public function getSession($key = null)
     {
         if (empty($key)) {

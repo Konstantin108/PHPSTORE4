@@ -85,6 +85,14 @@ abstract class Controller
         return $this->request->getOrderId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getCommentId()
+    {
+        return $this->request->getCommentId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {

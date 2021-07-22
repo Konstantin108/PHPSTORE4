@@ -4,8 +4,6 @@ namespace app\controllers;
 
 class BasketController extends Controller
 {
-    protected $actionDefault = 'index';
-
     /**
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError

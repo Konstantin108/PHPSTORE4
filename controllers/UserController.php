@@ -199,7 +199,7 @@ class UserController extends Controller
             !empty($position)
         ) {
             $this->container->userRepository->save($user);
-            if($userSelfId == $id){
+            if ($userSelfId == $id) {
                 $_SESSION['user_true']['user'] = $login;
                 $_SESSION['user_true']['name'] = $name;
                 $_SESSION['user_true']['is_admin'] = $is_admin;

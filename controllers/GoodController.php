@@ -55,6 +55,9 @@ class GoodController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         $col = $_SESSION['goods'][$userId][$id]['counter'];
         $price = $_SESSION['goods'][$userId][$id]['price'];
+
+        $comments = $this->container->commentRepository->getAll();
+
         return $this->render(
             'goodOne',
             [
@@ -65,7 +68,8 @@ class GoodController extends Controller
                 'user_is_admin' => $userIsAdmin,
                 'msg' => $msg,
                 'col' => $col,
-                'price' => $price
+                'price' => $price,
+                'comments' => $comments
             ]);
     }
 

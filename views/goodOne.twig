@@ -50,6 +50,65 @@
     {% endif %}
 
     <br>
+    <hr>
+    <h2>Комментарии к товару:</h2>
+    {% for comment in comments %}
+        {% if comment.good_id == good.id %}
+            <div style="display: flex; margin-bottom: 8px;">
+                <div style="margin-right: 6px;">
+                    {% if comment.user_avatar %}
+                        <img class="img_in_comment" src="/img/{{ comment.user_avatar }}" alt="avatar">
+                    {% else %}
+                        <img class="img_in_comment" src="/img/no_avatar.png" alt="avatar">
+                    {% endif %}
+                </div>
+                <div>
+                    <h4 style="color: dodgerblue">{{ comment.user_name }}</h4>
+                    <h2>{{ comment.title }}</h2>
+
+
+                    <h3>{{ comment.text }}</h3>
+                </div>
+            </div>
+            {% if user_is_admin == 1 or comment.user_id == user_id %}
+                <br>
+                <div style="display: flex">
+                    <a class="php-other-link php-link"
+                       style="margin-right: 4px;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              width: 30px;
+                              height: 30px;"
+                       href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}">
+                        <i class="fas fa-pen" style="color: white"></i>
+                    </a>
+                    <a class="php-other-link php-red-link"
+                       style="width: 30px;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              height: 30px;"
+                       href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}">
+                        <i class="fas fa-trash" style="color: white"></i>
+                    </a>
+                </div>
+            {% endif %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+
+    <br>
+    {% if is_auth == true %}
+        <a class="php-link-comment php-other-link"
+           style="width: 180px;"
+           href="/comment/add?id={{ good.id }}">
+            оставить комментарий
+        </a>
+    {% else %}
+        <p>Комментировать могут только авторизованные пользователи</p>
+    {% endif %}
+    <br>
     <a class="php-link php-other-link"
        style="width: 55px;"
        href="/good/all">
