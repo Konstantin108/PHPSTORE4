@@ -394,6 +394,49 @@ a {
   background-color: #f16d7f;
 }
 
+.button-php {
+  min-width: 130px;
+  height: 38px;
+  background-color: #f16d7f;
+  text-align: center;
+  text-decoration: none;
+  font-family: Lato;
+  font-size: 15px;
+  line-height: 32px;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  color: #ffffff;
+  padding-top: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 22px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.orders-php {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: #F8F3F4;
+  width: 430px;
+}
+
+.basket-php {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 7px;
+  align-items: center;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  min-height: 370px;
+  width: 260px;
+  border-radius: 12px;
+  border: 2px solid palegoldenrod;
+}
+
 .button {
   width: 130px;
   height: 38px;
@@ -409,6 +452,10 @@ a {
   padding-top: 2px;
   margin-left: 22px;
   transition: 0.4s;
+}
+
+.button-php:hover {
+  transform: scale(1.03);
 }
 
 .button:hover {
@@ -3503,10 +3550,26 @@ input[type=radio] {
   transform: translate(0, -2px);
 }
 
+.user-php {
+  display: block;
+  min-height: 470px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid palegoldenrod;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
 .good-php {
   transition: 0.2s;
   display: block;
-  height: 400px;
+  min-height: 400px;
   width: 260px;
   display: flex;
   flex-direction: column;
@@ -3518,6 +3581,8 @@ input[type=radio] {
   border-top: 2px solid white;
   border-left: 2px solid #bab3b3;
   border-bottom: 2px solid #bab3b3;
+  padding-left: 3px;
+  padding-right: 3px;
   margin-right: 20px;
   margin-bottom: 20px;
 }

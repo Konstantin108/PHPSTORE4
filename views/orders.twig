@@ -15,13 +15,7 @@
             <h2>заказ пользователя {{ user.login }}</h2>
             <h3 class="arrivals_title">{{ user.name }}</h3>
             <br>
-            <div style="display: flex;
-                        justify-content: space-around;
-                        padding: 10px;
-                        border-radius: 12px;
-                        background-color: #F8F3F4;
-                        width: 430px;
-                ">
+            <div class="orders-php">
                 <h3>
                     {% for key, count_of_user in counter_of_users %}
                         {% if key == user.id %}

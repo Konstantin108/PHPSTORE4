@@ -8,6 +8,10 @@
 {% block content %}
 
     <h3 style="color: red">Необходимо заполнить все поля</h3>
+    {% if user.id %}
+        <br>
+        <div class="orders-php">не забывайте установить новый пароль!</div>
+    {% endif %}
     <br>
 
     {% if user.id %}

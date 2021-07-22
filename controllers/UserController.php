@@ -102,6 +102,7 @@ class UserController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $userSelfId = $_SESSION['user_true']['id'];
 
         $id = $_POST['id'];
         $login = $_POST['login'];
@@ -169,8 +170,11 @@ class UserController extends Controller
             case 'yes':
                 $is_admin = 2;
                 break;
-            case 'no';
+            case 'no':
                 $is_admin = 0;
+                break;
+            case 'admin':
+                $is_admin = 1;
                 break;
             default:
                 $is_admin = 0;
@@ -195,6 +199,13 @@ class UserController extends Controller
             !empty($position)
         ) {
             $this->container->userRepository->save($user);
+            if($userSelfId == $id){
+                $_SESSION['user_true']['user'] = $login;
+                $_SESSION['user_true']['name'] = $name;
+                $_SESSION['user_true']['is_admin'] = $is_admin;
+                $_SESSION['user_true']['position'] = $position;
+                $_SESSION['user_true']['avatar'] = $newFileName;
+            }
             if ($is_auth == true) {
                 header('Location: /user/all');
             } else {

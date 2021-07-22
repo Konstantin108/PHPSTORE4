@@ -21,7 +21,9 @@
                                 flex-direction: column;
                                 justify-content: space-around;
                                 align-items: center">
-                    <h2 class="arrivals_title" style="text-align: center">{{ good.name }}</h2>
+                    <h2 class="arrivals_title" style="text-align: center">
+                        {{ good.name|length > 30 ? good.name|slice(0, 30) ~ '...' : good.name }}
+                    </h2>
                     <h3>цена: {{ good.price }}&#8381;</h3>
                     <br>
                     <a class="php-link php-other-link"
