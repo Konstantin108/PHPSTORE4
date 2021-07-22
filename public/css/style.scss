@@ -2455,6 +2455,8 @@ input[type=checkbox]:checked + .label8::before {
 .form_input_main_php {
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .shipping__left_block {

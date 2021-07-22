@@ -9,7 +9,7 @@
 
     <h1>Список товаров</h1>
     <br>
-    <div style="display: flex; flex-wrap: wrap; width: 900px;">
+    <div style="display: flex; flex-wrap: wrap; max-width: 1200px;">
         {% for good in goods %}
             <div class="good-php">
                 {% if good.img %}
@@ -42,11 +42,13 @@
 
     {% if user_is_admin == 1 %}
         <br>
-        <a class="php-green-link php-other-link"
-           style="width: 125px"
-           href="/good/edit">
-            добавить товар
-        </a>
+        <div style="display: flex; justify-content: center; max-width: 1100px">
+            <a class="php-green-link php-other-link"
+               style="width: 125px"
+               href="/good/edit">
+                добавить товар
+            </a>
+        </div>
     {% endif %}
 
 {% endblock %}
