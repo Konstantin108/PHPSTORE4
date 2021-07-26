@@ -26,8 +26,6 @@ class CommentController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
-        $selfId = $_SESSION['user_true']['id'];
-        $user_avatar = $_SESSION['user_true']['avatar'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->render(
                 'commentEdit',
@@ -37,8 +35,6 @@ class CommentController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
-                    'self_id' => $selfId,
-                    'user_avatar' => $user_avatar
                 ]);
         }
     }
@@ -52,9 +48,12 @@ class CommentController extends Controller
     {
         $id = $_POST['id'];
         $goodId = $_POST['good_id'];
-        $userId = $_POST['user_id'];
-        $userName = $_POST['user_name'];
-        $userAvatar = $_POST['user_avatar'];
+        $userId = $_SESSION['user_true']['id'];
+        $defaultUserId = $_POST['user_id'];
+        $userName = $_SESSION['user_true']['name'];
+        $defaultUserName = $_POST['user_name'];
+        $userAvatar = $_SESSION['user_true']['avatar'];
+        $defaultUserAvatar = $_POST['user_avatar'];
         $title = $_POST['title'];
         $text = $_POST['text'];
 
@@ -68,12 +67,19 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->id = $id;
         $comment->good_id = $goodId;
-        $comment->user_id = $userId;
-        $comment->user_name = $userName;
-        $comment->user_avatar = $userAvatar;
+        if (!empty($defaultUserId) &&
+            !empty($defaultUserAvatar) &&
+            !empty($defaultUserName)) {
+            $comment->user_id = $defaultUserId;
+            $comment->user_avatar = $defaultUserAvatar;
+            $comment->user_name = $defaultUserName;
+        } else {
+            $comment->user_id = $userId;
+            $comment->user_avatar = $userAvatar;
+            $comment->user_name = $userName;
+        }
         $comment->title = $title;
         $comment->text = $text;
-
         if ($is_auth) {
             if (!empty($title) && !empty($text)) {
                 $this->container->commentRepository->save($comment);
@@ -153,7 +159,6 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->id = $commentId;
         $this->request->clearUsersOrderId();
-
 
         if ($is_auth) {
             $this->container->commentRepository->delete($comment);

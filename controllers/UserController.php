@@ -193,12 +193,21 @@ class UserController extends Controller
                 ]);
         }
 
+        $commentUserId = $id;
+        $commentUserName = $name;
+        $commentUserAvatar = $newFileName;
+        $commentsSql = "UPDATE `comments`
+                            set user_name = '$commentUserName',
+                            user_avatar = '$commentUserAvatar'
+                            WHERE user_id = " . $commentUserId;
+
         if (!empty($login) &&
             !empty($name) &&
             !empty($password) &&
             !empty($position)
         ) {
             $this->container->userRepository->save($user);
+            mysqli_query($link, $commentsSql);
             if ($userSelfId == $id) {
                 $_SESSION['user_true']['user'] = $login;
                 $_SESSION['user_true']['name'] = $name;
