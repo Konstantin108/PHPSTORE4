@@ -46,8 +46,7 @@ class BasketController extends Controller
                 'total' => $total,
                 'user_id' => $userId,
                 'id_of_users_order' => $idOfUsersOrder
-            ]
-        );
+            ]);
     }
 
     /**
@@ -250,8 +249,7 @@ class BasketController extends Controller
                 'user_total' => $userTotal,
                 'counter_of_users' => $counterOfUsers,
                 'total' => $total
-            ]
-        );
+            ]);
     }
 
     /**
@@ -296,8 +294,7 @@ class BasketController extends Controller
                 'user' => $user,
                 'user_id' => $userId,
                 'id_of_users_order' => $idOfUsersOrder
-            ]
-        );
+            ]);
     }
 
     public function delOrderAction()

@@ -61,45 +61,45 @@
 
                 <ul>
                     <li class="cart_summary"><a href="#"><img class="header__cart"
-                                                                               src="../img/cart.svg"
-                                                                               alt="cart"></a>
+                                                              src="../img/cart.svg"
+                                                              alt="cart"></a>
                         <div class="drop__cart">
                             <div class="drop__flex">
-{#                                <ul class="drop__il">#}
-{#                                    <li class="drop__list drop__list_cart">#}
-{#                                        <div class="cart__content">#}
-{#                                            <a href="single_page.html" class="drop__link cart__product">#}
-{#                                                <div class="cart__image__content content__1"></div>#}
-{#                                                <div class="cart__text_content">#}
-{#                                                    <p class="cart__text_1">Rebox Zane</p> <img src="../img/stars.png"#}
-{#                                                                                                alt="stars"#}
-{#                                                                                                class="stars">#}
-{#                                                    <p class="cart__price_2">1 x $250</p>#}
-{#                                                </div>#}
-{#                                            </a> <a href="#" class="delete_cart_item"><i#}
-{#                                                        class="fas fa-times-circle"></i></a>#}
-{#                                        </div>#}
-{#                                    </li>#}
-{#                                    <li class="drop__list drop__list_cart">#}
-{#                                        <div class="cart__content">#}
-{#                                            <a href="single_page.html" class="drop__link cart__product">#}
-{#                                                <div class="cart__image__content content__2"></div>#}
-{#                                                <div class="cart__text_content">#}
-{#                                                    <p class="cart__text_1">Rebox Zane#}
-{#                                                    </p> <img src="../img/stars.png" alt="stars" class="stars">#}
-{#                                                    <p class="cart__price_2">1 x $250</p>#}
-{#                                                </div>#}
-{#                                            </a>#}
-{#                                            <a href="#" class="delete_cart_item">#}
-{#                                                <i class="fas fa-times-circle"></i>#}
-{#                                            </a>#}
-{#                                        </div>#}
-{#                                    </li>#}
-{#                                </ul>#}
-{#                                <div class="total">#}
-{#                                    <p class="text__total">total</p>#}
-{#                                    <p class="summ">$500.00</p>#}
-{#                                </div>#}
+                                {# <ul class="drop__il"> #}
+                                {# <li class="drop__list drop__list_cart"> #}
+                                {# <div class="cart__content"> #}
+                                {# <a href="single_page.html" class="drop__link cart__product"> #}
+                                {# <div class="cart__image__content content__1"></div> #}
+                                {# <div class="cart__text_content"> #}
+                                {# <p class="cart__text_1">Rebox Zane</p> <img src="../img/stars.png" #}
+                                {# alt="stars" #}
+                                {# class="stars"> #}
+                                {# <p class="cart__price_2">1 x $250</p> #}
+                                {# </div> #}
+                                {# </a> <a href="#" class="delete_cart_item"><i #}
+                                {# class="fas fa-times-circle"></i></a> #}
+                                {# </div> #}
+                                {# </li> #}
+                                {# <li class="drop__list drop__list_cart"> #}
+                                {# <div class="cart__content"> #}
+                                {# <a href="single_page.html" class="drop__link cart__product"> #}
+                                {# <div class="cart__image__content content__2"></div> #}
+                                {# <div class="cart__text_content"> #}
+                                {# <p class="cart__text_1">Rebox Zane #}
+                                {# </p> <img src="../img/stars.png" alt="stars" class="stars"> #}
+                                {# <p class="cart__price_2">1 x $250</p> #}
+                                {# </div> #}
+                                {# </a> #}
+                                {# <a href="#" class="delete_cart_item"> #}
+                                {# <i class="fas fa-times-circle"></i> #}
+                                {# </a> #}
+                                {# </div> #}
+                                {# </li> #}
+                                {# </ul> #}
+                                {# <div class="total"> #}
+                                {# <p class="text__total">total</p> #}
+                                {# <p class="summ">$500.00</p> #}
+                                {# </div> #}
                                 <a href="#" class="cart__button_sub">Checkout</a>
                                 <a href="#" class="cart__button_sub last__button">Go to cart</a>
                             </div>
@@ -307,22 +307,35 @@
                     {% endif %}
                 </div>
             {% endif %}
-            {% if is_auth == true %}
-                <li class="php-li"><a class="php-link" href="/user/auth">Мой профиль</a></li>
-            {% else %}
-                <li class="php-li"><a class="php-link" href="/user/auth">Вход</a></li>
-                <li class="php-li"><a class="php-link" href="/user/edit">Регистрация</a></li>
-            {% endif %}
-            {% if user_is_admin == 1 %}
-                <li class="php-li"><a class="php-link" href="/user/all">Пользователи</a></li>
-            {% endif %}
-            <li class="php-li"><a class="php-link" href="/good/all">Товары</a></li>
-            {% if is_auth == true %}
-                <li class="php-li"><a class="php-link" href="/basket/index">Корзина</a></li>
-            {% endif %}
-            {% if user_is_admin == 1 %}
-                <li class="php-li"><a class="php-link" href="/basket/orders">Заказы пользователей</a></li>
-            {% endif %}
+            <div style="display: flex">
+                <div style="margin-right: 20px;">
+                    <ul style="list-style-type: none; transition: .2s;">
+                        {% if is_auth == true %}
+                            <li class="php-li"><a class="php-link main-li" href="/user/auth">Мой профиль</a></li>
+                        {% else %}
+                            <li class="php-li"><a class="php-link main-li" href="/user/auth">Вход</a></li>
+                            <li class="php-li"><a class="php-link main-li" href="/user/edit">Регистрация</a></li>
+                        {% endif %}
+                        <li class="php-li"><a class="php-link main-li" href="/good/all">Товары</a></li>
+                        {% if is_auth == true %}
+                            <li class="php-li"><a class="php-link main-li" href="/basket/index">Корзина</a></li>
+                            <li class="php-li"><a class="php-link main-li" href="/order/index">Мои заказы</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <ul style="list-style-type: none; transition: .2s;">
+                        {% if user_is_admin == 1 %}
+                            <li class="php-li"><a class="php-link main-li" href="/user/all">Пользователи</a></li>
+                            <li class="php-li"><a class="php-link main-li" href="/basket/orders">Корзины
+                                    пользователей</a></li>
+                            <li class="php-li"><a class="php-link main-li" href="/order/purchaseAll">Заказы пользователей</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
             <br>
 
             {% block content %}{% endblock %}

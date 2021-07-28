@@ -1,0 +1,82 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if other_user %}
+        {{ user.name }} работа с заказами
+    {% else %}
+        мои заказы
+    {% endif %}
+{% endblock %}
+{% block header %}
+    {% if other_user %}
+        управление заказами пользователя {{ user.name }}
+    {% else %}
+        просмотр заказов
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if is_auth %}
+        {% if user_id == user.id or user_is_admin %}
+            {% if other_user %}
+                <h1>Заказы пользователя {{ user.name }}</h1>
+            {% else %}
+                <h1>Мои заказы</h1>
+            {% endif %}
+            <br>
+            <div style="display: flex; flex-wrap: wrap; width: 900px;">
+                {% for order in orders %}
+                    {% if order is iterable %}
+                        <div style="display: block;  width: 860px; margin-bottom: 40px;">
+                            <div style="display: flex; position: relative; flex-wrap: wrap">
+                                {% for key, item in order %}
+                                    {% if item  is iterable %}
+                                        {% for custom in item %}
+                                            <div class="basket-php">
+                                                {% if custom.img %}
+                                                    <img src="/img/{{ custom.img }}" alt="img"
+                                                         style="width: 200px; margin-bottom: 20px;">
+                                                {% else %}
+                                                    <img src="/img/no_img.jpg" alt="img"
+                                                         style="width: 200px; margin-bottom: 20px;">
+                                                {% endif %}
+                                                <p style="text-align: center">
+                                                    {{ custom.name|length > 60 ? custom.name|slice(0, 60) ~ '...' : custom.name }}
+                                                </p>
+                                                <div>
+                                                    <p>количество {{ custom.counter }}</p>
+                                                </div>
+                                                <div style="display: flex">
+                                                    <p style="margin-right: 6px;">стоимость:</p>
+                                                    <p>{{ custom.price }}&#8381;</p>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% else %}
+                                        <div style="position: absolute; left: 500px; top: 100%; display: flex">
+                                            {% if key == 'status' %}
+                                                <h1>{{ item }}</h1>
+                                            {% endif %}
+                                            {% if key == 'total' %}
+                                                <div class="purchase-php">
+                                                    <h1>{{ item }}&#8381;</h1>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <h3 style="color: red">Заказы отсутствуют</h3>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 style="color: red">Отказано в доступе</h3>
+        {% endif %}
+    {% else %}
+        <h3 style="color: red">Необходима авторизация</h3>
+    {% endif %}
+
+{% endblock %}

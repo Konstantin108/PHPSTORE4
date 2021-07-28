@@ -430,6 +430,13 @@ a {
   width: 430px;
 }
 
+.purchase-php {
+  margin-left: 180px;
+  display: flex;
+  justify-content: flex-end;
+  width: 120px;
+}
+
 .basket-php {
   display: flex;
   flex-direction: column;
@@ -3566,6 +3573,12 @@ input[type=radio] {
 
 .logo1:hover {
   transform: scale(1.04);
+}
+
+.main-li {
+  width: 210px;
+  display: flex;
+  justify-content: center;
 }
 
 .php-li {

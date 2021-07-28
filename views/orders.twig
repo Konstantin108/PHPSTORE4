@@ -1,18 +1,18 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
-    заказы пользователей
+    корзины пользователей
 {% endblock %}
 {% block header %}
-    управление заказами пользователей
+    управление корзинами пользователей
 {% endblock %}
 {% block content %}
 
-    <h1>Заказы пользователей</h1>
+    <h1>Корзины пользователей</h1>
     <br>
 
-    {% if user_is_admin %}
+    {% if user_is_admin == 1 %}
         {% for user in users %}
-            <h2>заказ пользователя {{ user.login }}</h2>
+            <h2>корзина пользователя {{ user.login }}</h2>
             <h3 class="arrivals_title">{{ user.name }}</h3>
             <br>
             <div class="orders-php">
@@ -42,12 +42,12 @@
                 <a class="php-other-link php-red-link"
                    style="width: 154px;"
                    href="/basket/delOrder?id={{ user.id }}">
-                    удалить весь заказ
+                    очистить корзину
                 </a>
             </div>
             <hr>
         {% else %}
-            <h3 style="color: red">Не создано ни одного заказа</h3>
+            <h3 style="color: red">В данный момент все корзины пусты</h3>
         {% endfor %}
     {% else %}
         <h3 style="color: red">Необходимо обладать правами администратора</h3>

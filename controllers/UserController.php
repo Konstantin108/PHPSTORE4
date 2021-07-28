@@ -283,6 +283,7 @@ class UserController extends Controller
 
             unset($_SESSION['goods'][$id]);
             unset($_SESSION['total'][$id]);
+            unset($_SESSION['order'][$id]);
 
             $this->container->userRepository->delete($user);
             header('Location: /user/all');

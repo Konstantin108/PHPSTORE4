@@ -1,7 +1,7 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
     {% if user %}
-        {{ user.name }} работа с заказом
+        {{ user.name }} работа с корзиной
     {% else %}
         корзина
     {% endif %}
@@ -56,7 +56,13 @@
                 {% endfor %}
             </div>
             {% if goods_in_basket %}
-                <h1 style="color: purple">Общая сумма заказа: {{ total }}&#8381;</h1>
+                <div style="width: 500px; display: flex; justify-content: space-between">
+                    <h1 style="color: purple">Общая сумма заказа: {{ total }}&#8381;</h1>
+                    <a class="php-green-link php-other-link"
+                       href="/order/createOrder?order={{ id_of_users_order }}">
+                        оформить заказ
+                    </a>
+                </div>
             {% endif %}
             {% if user %}
                 <br>
