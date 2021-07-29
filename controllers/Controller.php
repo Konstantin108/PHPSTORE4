@@ -93,6 +93,14 @@ abstract class Controller
         return $this->request->getCommentId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getUserId()
+    {
+        return $this->request->getUserId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {

@@ -24,7 +24,7 @@
             {% endif %}
             <br>
             <div style="display: flex; flex-wrap: wrap; width: 900px;">
-                {% for order in orders %}
+                {% for keyOfOrder, order in orders %}
                     {% if order is iterable %}
                         <div style="display: block;  width: 860px; margin-bottom: 40px;">
                             <div style="display: flex; position: relative; flex-wrap: wrap">
@@ -66,6 +66,12 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
+                            {% if user_is_admin and other_user %}
+                                <a href="/order/delOrder?userId={{ user.id }}&id={{ keyOfOrder }}"
+                                   class="php-other-link php-red-link">
+                                    удалить заказ
+                                </a>
+                            {% endif %}
                         </div>
                     {% endif %}
                 {% else %}

@@ -146,4 +146,95 @@ class OrderController extends Controller
                 'user_is_admin' => $userIsAdmin,
             ]);
     }
+
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
+    public function delOrderAction()
+    {
+        $this->request->clearMsg();
+        $this->request->clearUsersOrderId();
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $userId = $this->getUserId();
+        $id = $this->getId();
+        return $this->render(
+            'purchaseDel',
+            [
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'user_id' => $userId,
+                'id' => $id
+            ]);
+    }
+
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
+    public function getDelOrderAction()
+    {
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+
+        if ($userIsAdmin) {
+            $userIdForDel = $this->getUserId();
+            $idForDel = $this->getId();
+            unset($_SESSION['order'][$userIdForDel][$idForDel]);
+            $arr = $_SESSION['order'][$userIdForDel];
+            if (count($arr) < 1) {
+                unset($_SESSION['order'][$userIdForDel]);
+            }
+            $this->request->clearUsersOrderId();
+
+            $arr = $_SESSION['order'];
+            $usersData = [];
+            $userRepository = $this->container->userRepository;
+
+            if (is_array($arr)) {
+                foreach ($arr as $key => $item) {
+                    $usersData[] = $userRepository->getOne($key);
+                }
+            }
+            $users = [];
+
+            foreach ($usersData as $value) {
+                if ($_SESSION['order'][$value->id]) {
+                    $count = count($_SESSION['order'][$value->id]);
+                    $users[$value->id] = $count;
+                }
+            }
+
+            return $this->render(
+                'purchaseAll',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'users' => $users,
+                    'users_data' => $usersData
+                ]);
+        } else {
+            return $this->render(
+                'fail',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                ]);
+        }
+    }
 }

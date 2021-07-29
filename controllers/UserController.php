@@ -208,7 +208,7 @@ class UserController extends Controller
         ) {
             $this->container->userRepository->save($user);
             mysqli_query($link, $commentsSql);
-            if ($userSelfId == $id) {
+            if ($userSelfId == $id && $_SESSION['user_true']) {
                 $_SESSION['user_true']['user'] = $login;
                 $_SESSION['user_true']['name'] = $name;
                 $_SESSION['user_true']['is_admin'] = $is_admin;

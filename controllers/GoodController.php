@@ -250,6 +250,8 @@ class GoodController extends Controller
         $arr = [];
         $total = $this->container->basketServices->total();
 
+        $link = $this->container->db->getLink();
+
         if ($userIsAdmin) {
 
             if (is_array($goods)) {
@@ -260,6 +262,9 @@ class GoodController extends Controller
                     unset($_SESSION['goods'][$item][$id]);
                 }
             }
+
+            $sqlDelComments = "DELETE FROM `comments` WHERE good_id = " . $id;
+            $resSql = mysqli_query($link, $sqlDelComments);
 
             $this->container->goodRepository->delete($good);
             header('Location: /');
