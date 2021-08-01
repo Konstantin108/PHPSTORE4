@@ -26,7 +26,7 @@
             <div style="display: flex; flex-wrap: wrap; width: 900px;">
                 {% for keyOfOrder, order in orders %}
                     {% if order is iterable %}
-                        <div style="display: block;  width: 860px; margin-bottom: 40px;">
+                        <div style="display: block;  width: 860px; margin-bottom: 60px;">
                             <div style="display: flex; position: relative; flex-wrap: wrap">
                                 {% for key, item in order %}
                                     {% if item  is iterable %}
@@ -53,12 +53,44 @@
 
                                         {% endfor %}
                                     {% else %}
-                                        <div style="position: absolute; left: 500px; top: 100%; display: flex">
+                                        <div style="position: absolute; left: 400px; top: 100%; display: flex">
                                             {% if key == 'status' %}
-                                                <h1>{{ item }}</h1>
+                                                <div style="display: block">
+                                                    <span style="margin-right: 10px;"><b>статус заказа:</b></span>
+                                                    <form method="post"
+                                                          action="/order/update?userId={{ user.id }}&id={{ keyOfOrder }}"
+                                                          enctype="multipart/form-data">
+                                                        <select name="status" id="status" class="select-php">
+                                                            <option class="option-hover" value="{{ item }}" selected
+                                                                    disabled>{{ item }}</option>
+                                                            {% if user_is_admin and other_user %}
+                                                                <option value="ожидает подтверждения">ожидает
+                                                                    подтверждения
+                                                                </option>
+                                                                <option value="сборка заказа">сборка заказа
+                                                                </option>
+                                                                <option value="заказ в пути">заказ в пути
+                                                                </option>
+                                                                <option value="заказ ожидает выдачи">заказ ожидает
+                                                                    выдачи
+                                                                </option>
+                                                                <option value="заказ выполнен">заказ выполнен
+                                                                </option>
+                                                                <option value="заказ отменён">заказ отменён
+                                                                </option>
+                                                            {% else %}
+                                                                <option value="заказ отменён">отменить заказ
+                                                                </option>
+                                                            {% endif %}
+                                                        </select>
+                                                        <input type="submit" name="uploadBtn" value="обновить"
+                                                               class="pointer">
+                                                    </form>
+                                                </div>
                                             {% endif %}
                                             {% if key == 'total' %}
                                                 <div class="purchase-php">
+                                                    <h1 style="margin-right: 6px;"><b>сумма:</b></h1>
                                                     <h1>{{ item }}&#8381;</h1>
                                                 </div>
                                             {% endif %}

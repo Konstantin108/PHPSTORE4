@@ -424,7 +424,7 @@ a {
 }
 
 .purchase-php {
-  margin-left: 180px;
+  margin-left: 296px;
   display: flex;
   justify-content: flex-end;
   width: 120px;
@@ -3666,7 +3666,22 @@ input[type=radio] {
   transition: 0.2s;
 }
 
-.drop__view_link:hover {
+.select-php {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.option-hover {
+  background-color: #2e90fa;
+  color: #2e90fa;
+}
+
+.option-hover:active {
+  color: #2e90fa;
+}
+
+.drop__view_link:active {
   color: #f16d7f;
 }
 

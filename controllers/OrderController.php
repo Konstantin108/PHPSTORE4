@@ -133,7 +133,7 @@ class OrderController extends Controller
         }
 
         $_SESSION['order'][$userId][$orderId]['total'] = $total;
-        $_SESSION['order'][$userId][$orderId]['status'] = 'заказ в работе';
+        $_SESSION['order'][$userId][$orderId]['status'] = 'ожидает подтверждения';
 
         unset($_SESSION['goods'][$userId]);
         unset($_SESSION['total'][$userId]);
@@ -234,6 +234,43 @@ class OrderController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
+                ]);
+        }
+    }
+
+    /**
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\LoaderError
+     */
+    public function updateAction()
+    {
+        $userId = $_SESSION['user_true']['id'];
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $userIdForUpdate = $this->getUserId();
+        $idForUpdate = $this->getId();
+        if ($_POST['status']) {
+            $status = $_POST['status'];
+        } else {
+            $status = $_SESSION['order'][$userIdForUpdate][$idForUpdate]['status'];
+        }
+        if ($userId) {
+            $_SESSION['order'][$userIdForUpdate][$idForUpdate]['status'] = $status;
+            return $this->redirect('', '');
+        } else {
+            return $this->render(
+                'purchase',
+                [
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                    'user_id' => $userId,
                 ]);
         }
     }
