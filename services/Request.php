@@ -101,21 +101,21 @@ class Request
         return (int)$this->params['get']['userId'];
     }
 
-    public function getSession($key = null)
-    {
-        if (empty($key)) {
-            return $_SESSION;
-        }
-        if (empty($_SESSION[$key])) {
-            return [];
-        }
-        return $_SESSION[$key];
-    }
-
-    public function setSession($key, $value)
-    {
-        $_SESSION[$key] = $value;
-    }
+//    public function getSession($key = null)
+//    {
+//        if (empty($key)) {
+//            return $_SESSION;
+//        }
+//        if (empty($_SESSION[$key])) {
+//            return [];
+//        }
+//        return $_SESSION[$key];
+//    }
+//
+//    public function setSession($key, $value)
+//    {
+//        $_SESSION[$key] = $value;
+//    }
 
     public function outSession()
     {
