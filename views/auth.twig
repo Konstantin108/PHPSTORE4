@@ -44,7 +44,22 @@
             <h2>Пользователь имеет расширенные права</h2>
         {% endif %}
         <br>
-        <a class="php-red-link php-other-link" style="width: 57px" href="/user/out">выход</a>
+        <div style="display: flex">
+            <a class="php-other-link php-red-link"
+               style="display: flex;
+                      margin-right: 4px;
+                      justify-content: center;
+                      align-items: center;
+                      width: 57px;"
+               href="/user/out">выход
+            </a>
+            <a class="php-other-link php-link-comment"
+               style="display: flex;
+                      justify-content: center;
+                      align-items: center;"
+               href="/comment/allComments">мои отзывы
+            </a>
+        </div>
     {% endif %}
     <br>
     <a class="php-link php-other-link" style="width: 94px;" href="/">на главную</a>

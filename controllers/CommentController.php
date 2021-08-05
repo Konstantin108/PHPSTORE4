@@ -26,6 +26,9 @@ class CommentController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $thisUserId = $this->getThisUserId();
+
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->render(
                 'commentEdit',
@@ -35,6 +38,7 @@ class CommentController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
+                    'this_user_id' => $thisUserId
                 ]);
         }
     }
@@ -64,6 +68,8 @@ class CommentController extends Controller
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
 
+        $thisUserId = $this->getThisUserId();
+
         $comment = new Comment();
         $comment->id = $id;
         $comment->good_id = $goodId;
@@ -81,13 +87,27 @@ class CommentController extends Controller
         $comment->title = $title;
         $comment->text = $text;
         if ($is_auth) {
-            if (!empty($title) && !empty($text)) {
-                $this->container->commentRepository->save($comment);
-                header('Location: /good/one?id=' . $goodId);
-                return '';
+            if ($thisUserId == $userId || $userIsAdmin == 1) {
+                if (!empty($title) && !empty($text)) {
+                    $this->container->commentRepository->save($comment);
+                    if ($thisUserId) {
+                        header('Location: /comment/allComments');
+                    } else {
+                        header('Location: /good/one?id=' . $goodId);
+                    }
+                    return '';
+                } else {
+                    return $this->render(
+                        'emptyFields',
+                        [
+                            'is_auth' => $is_auth,
+                            'user_name' => $userName,
+                            'user_is_admin' => $userIsAdmin,
+                        ]);
+                }
             } else {
                 return $this->render(
-                    'emptyFields',
+                    'accessDenied',
                     [
                         'is_auth' => $is_auth,
                         'user_name' => $userName,
@@ -125,6 +145,9 @@ class CommentController extends Controller
         $userId = $_SESSION['user_true']['id'];
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $thisUserId = $this->getThisUserId();
+
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->render(
                 'commentDel',
@@ -134,7 +157,8 @@ class CommentController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
-                    'user_id' => $userId
+                    'user_id' => $userId,
+                    'this_user_id' => $thisUserId
                 ]);
         }
     }
@@ -146,6 +170,7 @@ class CommentController extends Controller
      */
     public function getDelAction()
     {
+        $userId = $_SESSION['user_true']['id'];
         $is_auth = false;
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
@@ -160,10 +185,26 @@ class CommentController extends Controller
         $comment->id = $commentId;
         $this->request->clearUsersOrderId();
 
+        $thisUserId = $this->getThisUserId();
+
         if ($is_auth) {
-            $this->container->commentRepository->delete($comment);
-            header('Location: /good/one?id=' . $id);
-            return '';
+            if ($thisUserId == $userId || $userIsAdmin == 1) {
+                $this->container->commentRepository->delete($comment);
+                if ($thisUserId) {
+                    header('Location: /comment/allComments');
+                } else {
+                    header('Location: /good/one?id=' . $id);
+                }
+                return '';
+            } else {
+                return $this->render(
+                    'accessDenied',
+                    [
+                        'is_auth' => $is_auth,
+                        'user_name' => $userName,
+                        'user_is_admin' => $userIsAdmin,
+                    ]);
+            }
         } else {
             return $this->render(
                 'fail',
@@ -173,5 +214,35 @@ class CommentController extends Controller
                     'user_is_admin' => $userIsAdmin,
                 ]);
         }
+    }
+
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
+    public
+    function allCommentsAction()
+    {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+        $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $thisUserId = $_SESSION['user_true']['id'];
+        $comments = $this->container->commentRepository->getAll();
+        $goods = $this->container->goodRepository->getAll();
+
+        return $this->render(
+            'commentAll',
+            [
+                'comments' => $comments,
+                'goods' => $goods,
+                'is_auth' => $is_auth,
+                'user_name' => $userName,
+                'user_is_admin' => $userIsAdmin,
+                'this_user_id' => $thisUserId
+            ]);
     }
 }

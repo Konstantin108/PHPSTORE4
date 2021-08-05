@@ -101,6 +101,14 @@ abstract class Controller
         return $this->request->getUserId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getThisUserId()
+    {
+        return $this->request->thisUserId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {

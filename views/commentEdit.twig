@@ -1,16 +1,16 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
     {% if comment.id %}
-        редактирование комментария
+        редактирование отзыва
     {% else %}
-        добавление комментария
+        добавление отзыва
     {% endif %}
 {% endblock %}
 {% block header %}
     {% if comment.id %}
-        редактирование комментария
+        редактирование отзыва
     {% else %}
-        добавление комментария
+        добавление отзыва
     {% endif %}
 {% endblock %}
 {% block content %}
@@ -18,7 +18,7 @@
     {% if is_auth == true %}
         <h1>Напишите, что вы думаете о товаре {{ good.name }}</h1>
         <br>
-        <form method="post" action="/comment/update">
+        <form method="post" action="/comment/update?thisUserId={{ this_user_id }}">
             <input type="hidden" id="id" name="id" value="{{ comment.id }}">
             <input type="hidden" id="user_id" name="user_id" value="{{ comment.user_id }}">
             <input type="hidden" id="user_avatar" name="user_avatar" value="{{ comment.user_avatar }}">
@@ -31,7 +31,7 @@
                       placeholder="введите заголовок"
                       cols="40"
                       style="resize: none">{{ comment.title }}</textarea>
-            <p>ваш комментарий</p>
+            <p>ваш отзыв</p>
             <textarea type="text"
                       id="text"
                       name="text"
@@ -47,11 +47,19 @@
         <h3 style="color: red">Выполните вход на сайт</h3>
     {% endif %}
     <br>
-    <a class="php-link php-other-link"
-       style="width: 55px;"
-       href="/good/one?id={{ good.id }}">
-        назад
-    </a>
+    {% if this_user_id %}
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/comment/allComments">
+            назад
+        </a>
+    {% else %}
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/good/one?id={{ good.id }}">
+            назад
+        </a>
+    {% endif %}
     <hr>
 
 {% endblock %}

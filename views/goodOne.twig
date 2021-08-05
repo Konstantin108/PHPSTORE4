@@ -51,7 +51,7 @@
 
     <br>
     <hr>
-    <h2>Комментарии к товару:</h2>
+    <h2>Отзывы о товаре:</h2>
     {% for comment in comments %}
         {% if comment.good_id == good.id %}
             <div style="display: flex; margin-bottom: 8px;">
@@ -65,8 +65,6 @@
                 <div>
                     <h4 style="color: dodgerblue">{{ comment.user_name }}</h4>
                     <h2>{{ comment.title }}</h2>
-
-
                     <h3>{{ comment.text }}</h3>
                 </div>
             </div>
@@ -103,17 +101,25 @@
         <a class="php-link-comment php-other-link"
            style="width: 180px;"
            href="/comment/add?id={{ good.id }}">
-            оставить комментарий
+            оставить отзыв
         </a>
     {% else %}
-        <p>Комментировать могут только авторизованные пользователи</p>
+        <p>Оставить отзыв могут только авторизованные пользователи</p>
     {% endif %}
     <br>
-    <a class="php-link php-other-link"
-       style="width: 55px;"
-       href="/good/all">
-        назад
-    </a>
+    {% if this_user_id %}
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/comment/allComments">
+            назад
+        </a>
+    {% else %}
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/good/all">
+            назад
+        </a>
+    {% endif %}
     <hr>
 
 {% endblock %}

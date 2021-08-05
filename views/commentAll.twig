@@ -1,0 +1,72 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    мои отзывы
+{% endblock %}
+{% block header %}
+    мои отзывы о товарах
+{% endblock %}
+{% block content %}
+
+    {% if is_auth %}
+        {% for comment in comments %}
+            {% if comment.user_id == this_user_id %}
+                <div>
+                    {% for good in goods %}
+                        {% if good.id == comment.good_id %}
+                            <h1 style="color: grey">Отзыв о товаре
+                                <a style="text-decoration: underline"
+                                   href="/good/one?id={{ good.id }}&thisUserId={{ this_user_id }}">
+                                    {{ good.name }}
+                                </a>
+                            </h1>
+                        {% endif %}
+                    {% endfor %}
+                    <div style="display: flex; margin-bottom: 8px;">
+                        <div style="margin-right: 6px;">
+                            {% if comment.user_avatar %}
+                                <img class="img_in_comment" src="/img/{{ comment.user_avatar }}" alt="avatar">
+                            {% else %}
+                                <img class="img_in_comment" src="/img/no_avatar.png" alt="avatar">
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h4 style="color: dodgerblue">{{ comment.user_name }}</h4>
+                            <h2>{{ comment.title }}</h2>
+                            <h3>{{ comment.text }}</h3>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="display: flex">
+                        {% for good in goods %}
+                            {% if good.id == comment.good_id %}
+                                <a class="php-other-link php-link"
+                                   style="margin-right: 4px;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              width: 30px;
+                              height: 30px;"
+                                   href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}">
+                                    <i class="fas fa-pen" style="color: white"></i>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        <a class="php-other-link php-red-link"
+                           style="width: 30px;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              height: 30px;"
+                           href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}">
+                            <i class="fas fa-trash" style="color: white"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <h3 style="color: red">Необходима авторизация</h3>
+    {% endif %}
+
+{% endblock %}

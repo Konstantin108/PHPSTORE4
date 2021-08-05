@@ -101,6 +101,14 @@ class Request
         return (int)$this->params['get']['userId'];
     }
 
+    public function thisUserId()
+    {
+        if (empty($this->params['get']['thisUserId'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['thisUserId'];
+    }
+
 //    public function getSession($key = null)
 //    {
 //        if (empty($key)) {

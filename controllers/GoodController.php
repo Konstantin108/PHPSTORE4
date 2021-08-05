@@ -57,6 +57,7 @@ class GoodController extends Controller
         $price = $_SESSION['goods'][$userId][$id]['price'];
 
         $comments = $this->container->commentRepository->getAll();
+        $thisUserId = $this->getThisUserId();
 
         return $this->render(
             'goodOne',
@@ -69,7 +70,8 @@ class GoodController extends Controller
                 'msg' => $msg,
                 'col' => $col,
                 'price' => $price,
-                'comments' => $comments
+                'comments' => $comments,
+                'this_user_id' => $thisUserId
             ]);
     }
 
