@@ -1,0 +1,57 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if comment.id %}
+        редактирование комментария
+    {% else %}
+        добавление комментария
+    {% endif %}
+{% endblock %}
+{% block header %}
+    {% if comment.id %}
+        редактирование комментария
+    {% else %}
+        добавление комментария
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if is_auth == true %}
+        <h1>Напишите, что вы думаете о товаре {{ good.name }}</h1>
+        <br>
+        <form method="post" action="/comment/update">
+            <input type="hidden" id="id" name="id" value="{{ comment.id }}">
+            <input type="hidden" id="user_id" name="user_id" value="{{ comment.user_id }}">
+            <input type="hidden" id="user_avatar" name="user_avatar" value="{{ comment.user_avatar }}">
+            <input type="hidden" id="user_name" name="user_name" value="{{ comment.user_name }}">
+            <input type="hidden" id="good_id" name="good_id" value="{{ good.id }}">
+            <p>заголовок</p>
+            <textarea type="text"
+                      id="title"
+                      name="title"
+                      placeholder="введите заголовок"
+                      cols="40"
+                      style="resize: none">{{ comment.title }}</textarea>
+            <p>ваш комментарий</p>
+            <textarea type="text"
+                      id="text"
+                      name="text"
+                      placeholder="введите текст"
+                      cols="60"
+                      rows="10"
+                      style="resize: none">{{ comment.text }}</textarea>
+            <br>
+            <br>
+            <input type="submit" name="uploadBtn" value="сохранить" class="pointer">
+        </form>
+    {% else %}
+        <h3 style="color: red">Выполните вход на сайт</h3>
+    {% endif %}
+    <br>
+    <a class="php-link php-other-link"
+       style="width: 55px;"
+       href="/good/one?id={{ good.id }}">
+        назад
+    </a>
+    <hr>
+
+{% endblock %}

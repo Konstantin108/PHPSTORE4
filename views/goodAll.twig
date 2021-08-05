@@ -9,25 +9,46 @@
 
     <h1>Список товаров</h1>
     <br>
+    <div style="display: flex; flex-wrap: wrap; max-width: 1200px;">
+        {% for good in goods %}
+            <div class="good-php">
+                {% if good.img %}
+                    <img class="new_img_all_style" src="/img/{{ good.img }}" alt="img">
+                {% else %}
+                    <img class="new_img_all_style" src="/img/no_img.jpg" alt="img">
+                {% endif %}
+                <div style="display: flex;
+                                flex-direction: column;
+                                justify-content: space-around;
+                                align-items: center">
+                    <h2 class="arrivals_title" style="text-align: center">
+                        {{ good.name|length > 30 ? good.name|slice(0, 30) ~ '...' : good.name }}
+                    </h2>
+                    <h3>цена: {{ good.price }}&#8381;</h3>
+                    <br>
+                    <a class="php-link php-other-link"
+                       style="width: 80px;"
+                       href="/good/one?id={{ good.id }}">
+                        подробно
+                    </a>
 
-    {% for good in goods %}
-        {% if good.img %}
-            <img class="new_img_all_style" src="/img/{{ good.img }}" alt="img">
+                </div>
+
+            </div>
         {% else %}
-            <img class="new_img_all_style" src="/img/no_img.jpg" alt="img">
-        {% endif %}
-        <h2 class="arrivals_title">{{ good.name }}</h2>
-        <h3>цена: {{ good.price }}&#8381;</h3>
-        <br>
-        <a href="/good/one?id={{ good.id }}">подробно</a>
-        <hr>
-    {% else %}
-        <h3 style="color: red">Товары отсутствуют</h3>
-    {% endfor %}
+            <h3 style="color: red">Товары отсутствуют</h3>
+        {% endfor %}
+    </div>
 
     {% if user_is_admin == 1 %}
         <br>
-        <a href="/good/edit">добавить товар</a>
+        <div style="display: flex; justify-content: center; max-width: 1100px">
+            <a class="php-green-link php-other-link"
+               style="width: 125px"
+               href="/good/edit">
+                добавить товар
+            </a>
+        </div>
     {% endif %}
 
 {% endblock %}

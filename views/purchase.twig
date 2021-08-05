@@ -1,0 +1,120 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if other_user %}
+        {{ user.name }} работа с заказами
+    {% else %}
+        мои заказы
+    {% endif %}
+{% endblock %}
+{% block header %}
+    {% if other_user %}
+        управление заказами пользователя {{ user.name }}
+    {% else %}
+        просмотр заказов
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if is_auth %}
+        {% if user_id == user.id or user_is_admin %}
+            {% if other_user %}
+                <h1>Заказы пользователя {{ user.name }}</h1>
+            {% else %}
+                <h1>Мои заказы</h1>
+            {% endif %}
+            <br>
+            <div style="display: flex; flex-wrap: wrap; width: 900px;">
+                {% for keyOfOrder, order in orders %}
+                    {% if order is iterable %}
+                        <div style="display: block;  width: 860px; margin-bottom: 60px;">
+                            <div style="display: flex; position: relative; flex-wrap: wrap">
+                                {% for key, item in order %}
+                                    {% if item  is iterable %}
+                                        {% for custom in item %}
+                                            <div class="basket-php" style="min-height: 323px">
+                                                {% if custom.img %}
+                                                    <img src="/img/{{ custom.img }}" alt="img"
+                                                         style="width: 200px; margin-bottom: 20px;">
+                                                {% else %}
+                                                    <img src="/img/no_img.jpg" alt="img"
+                                                         style="width: 200px; margin-bottom: 20px;">
+                                                {% endif %}
+                                                <p style="text-align: center">
+                                                    {{ custom.name|length > 60 ? custom.name|slice(0, 60) ~ '...' : custom.name }}
+                                                </p>
+                                                <div>
+                                                    <p>количество {{ custom.counter }}</p>
+                                                </div>
+                                                <div style="display: flex">
+                                                    <p style="margin-right: 6px;">стоимость:</p>
+                                                    <p>{{ custom.price }}&#8381;</p>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% else %}
+                                        <div style="position: absolute; left: 400px; top: 100%; display: flex">
+                                            {% if key == 'status' %}
+                                                <div style="display: block">
+                                                    <span style="margin-right: 10px;"><b>статус заказа:</b></span>
+                                                    <form method="post"
+                                                          action="/order/update?userId={{ user.id }}&id={{ keyOfOrder }}"
+                                                          enctype="multipart/form-data">
+                                                        <select name="status" id="status" class="select-php">
+                                                            <option class="option-hover" value="{{ item }}" selected
+                                                                    disabled>{{ item }}</option>
+                                                            {% if user_is_admin and other_user %}
+                                                                <option value="ожидает подтверждения">ожидает
+                                                                    подтверждения
+                                                                </option>
+                                                                <option value="сборка заказа">сборка заказа
+                                                                </option>
+                                                                <option value="заказ в пути">заказ в пути
+                                                                </option>
+                                                                <option value="заказ ожидает выдачи">заказ ожидает
+                                                                    выдачи
+                                                                </option>
+                                                                <option value="заказ выполнен">заказ выполнен
+                                                                </option>
+                                                                <option value="заказ отменён">заказ отменён
+                                                                </option>
+                                                            {% else %}
+                                                                <option value="заказ отменён">отменить заказ
+                                                                </option>
+                                                            {% endif %}
+                                                        </select>
+                                                        <input type="submit" name="uploadBtn" value="обновить"
+                                                               class="pointer">
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+                                            {% if key == 'total' %}
+                                                <div class="purchase-php">
+                                                    <h1 style="margin-right: 6px;"><b>сумма:</b></h1>
+                                                    <h1>{{ item }}&#8381;</h1>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% if user_is_admin and other_user %}
+                                <a href="/order/delOrder?userId={{ user.id }}&id={{ keyOfOrder }}"
+                                   class="php-other-link php-red-link">
+                                    удалить заказ
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <h3 style="color: red">Заказы отсутствуют</h3>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 style="color: red">Отказано в доступе</h3>
+        {% endif %}
+    {% else %}
+        <h3 style="color: red">Необходима авторизация</h3>
+    {% endif %}
+
+{% endblock %}

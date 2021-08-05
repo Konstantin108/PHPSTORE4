@@ -1,0 +1,31 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    удаление заказа
+{% endblock %}
+{% block header %}
+    удаление заказа
+{% endblock %}
+{% block content %}
+
+    {% if user_is_admin %}
+
+        <h2>удалить данные о заказе?</h2>
+        <br>
+        <div style="display: flex">
+            <a class="php-other-link php-red-link"
+               style="width: 37px;
+                      margin-right: 4px;"
+               href="/order/getDelOrder?userId={{ user_id }}&id={{ id }}">
+                да
+            </a>
+            <a class="php-other-link php-green-link"
+               style="width: 37px;"
+               href="javascript:history.back();">
+                нет
+            </a>
+        </div>
+    {% else %}
+        <h3 style="color: red">Необходимо обладать правами администратора</h3>
+    {% endif %}
+
+{% endblock %}

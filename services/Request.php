@@ -85,21 +85,37 @@ class Request
         return (int)$this->params['get']['order'];
     }
 
-    public function getSession($key = null)
+    public function getCommentId()
     {
-        if (empty($key)) {
-            return $_SESSION;
+        if (empty($this->params['get']['commentId'])) {
+            return 0;
         }
-        if (empty($_SESSION[$key])) {
-            return [];
-        }
-        return $_SESSION[$key];
+        return (int)$this->params['get']['commentId'];
     }
 
-    public function setSession($key, $value)
+    public function getUserId()
     {
-        $_SESSION[$key] = $value;
+        if (empty($this->params['get']['userId'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['userId'];
     }
+
+//    public function getSession($key = null)
+//    {
+//        if (empty($key)) {
+//            return $_SESSION;
+//        }
+//        if (empty($_SESSION[$key])) {
+//            return [];
+//        }
+//        return $_SESSION[$key];
+//    }
+//
+//    public function setSession($key, $value)
+//    {
+//        $_SESSION[$key] = $value;
+//    }
 
     public function outSession()
     {

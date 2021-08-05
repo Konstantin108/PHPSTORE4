@@ -1,6 +1,10 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
-    корзина
+    {% if user %}
+        {{ user.name }} работа с корзиной
+    {% else %}
+        корзина
+    {% endif %}
 {% endblock %}
 {% block header %}
     {% if user %}
@@ -18,24 +22,15 @@
 
             <div style="display: flex; flex-wrap: wrap; width: 900px;">
                 {% for item in goods_in_basket %}
-                    <div style="display: flex;
-                        flex-direction: column;
-                        justify-content: flex-end;
-                        padding: 7px;
-                        align-items: center;
-                        margin-right: 20px;
-                        margin-bottom: 20px;
-                        height: 340px;
-                        width: 260px;
-                        border-radius: 12px;
-                        border: 2px solid palegoldenrod;
-            ">
+                    <div class="basket-php">
                         {% if item.img %}
                             <img src="/img/{{ item.img }}" alt="img" style="width: 200px; margin-bottom: 20px;">
                         {% else %}
                             <img src="/img/no_img.jpg" alt="img" style="width: 200px; margin-bottom: 20px;">
                         {% endif %}
-                        {{ item.name }}
+                        <p style="text-align: center">
+                            {{ item.name|length > 60 ? item.name|slice(0, 60) ~ '...' : item.name }}
+                        </p>
                         <div>
                             <p>количество</p>
                             <div style="display: flex; width: 70px; justify-content: space-between">
@@ -61,11 +56,21 @@
                 {% endfor %}
             </div>
             {% if goods_in_basket %}
-                <h1 style="color: purple">Общая сумма заказа: {{ total }}&#8381;</h1>
+                <div style="width: 500px; display: flex; justify-content: space-between">
+                    <h1 style="color: purple">Общая сумма заказа: {{ total }}&#8381;</h1>
+                    <a class="php-green-link php-other-link"
+                       href="/order/createOrder?order={{ id_of_users_order }}">
+                        оформить заказ
+                    </a>
+                </div>
             {% endif %}
             {% if user %}
                 <br>
-                <a href="/basket/orders">назад к списку заказов</a>
+                <a class="php-other-link php-link"
+                   href="/basket/orders"
+                   style="width: 179px;">
+                    назад к списку заказов
+                </a>
             {% endif %}
         {% else %}
             <h3 style="color: red">Отказано в доступе</h3>

@@ -10,10 +10,21 @@
     {% if user_is_admin %}
         <h2>удалить пользователя {{ user.login }}?</h2>
         <br>
-        <h3 style="color: #F38191">Заказ пользователя так же будет удалён</h3>
+        <h3 style="color: #F38191">Корзина и заказы пользователя так же будут удалены</h3>
         <br>
-        <a href="/user/getDel?id={{ user.id }}">да</a>
-        <a href="/user/one?id={{ user.id }}">нет</a>
+        <div style="display: flex">
+            <a class="php-other-link php-red-link"
+               style="width: 37px;
+                      margin-right: 4px;"
+               href="/user/getDel?id={{ user.id }}">
+                да
+            </a>
+            <a class="php-other-link php-green-link"
+               style="width: 37px;"
+               href="/user/one?id={{ user.id }}">
+                нет
+            </a>
+        </div>
     {% else %}
         <h3 style="color: red">Необходимо обладать правами администратора</h3>
     {% endif %}

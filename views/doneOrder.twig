@@ -1,0 +1,38 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    {% if is_auth %}
+        заказ оформлен
+    {% else %}
+        отказано в доступе
+    {% endif %}
+{% endblock %}
+{% block header %}
+    {% if is_auth %}
+        заказ успешно оформлен
+    {% else %}
+        отказано в доступе
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if is_auth %}
+        <h3 style="color: green">Заказ отправлен в работу, в скором времени с вами свяжется менеджер</h3>
+        <br>
+        <div style="display: flex">
+            <a class="php-other-link php-link"
+               style="width: 170px;
+                  margin-right: 4px;"
+               href="/order/index">
+                перейти к заказам
+            </a>
+            <a class="php-other-link php-link"
+               style="width: 170px;"
+               href="/good/all">
+                продолжить покупки
+            </a>
+        </div>
+    {% else %}
+        <h3 style="color: red">Необходима авторизация</h3>
+    {% endif %}
+
+{% endblock %}

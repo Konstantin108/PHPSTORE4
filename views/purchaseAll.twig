@@ -1,0 +1,47 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}
+    заказы пользователей
+{% endblock %}
+{% block header %}
+    управление заказами пользователей
+{% endblock %}
+{% block content %}
+
+    <h1>Заказы пользователей</h1>
+    <br>
+
+    {% if user_is_admin == 1 %}
+        {% for user in users_data %}
+            <h2>заказы пользователя {{ user.login }}</h2>
+            {% if user.avatar %}
+                <img class="new_img_all_style" src="/img/{{ user.avatar }}" alt="avatar">
+            {% else %}
+                <img class="new_img_all_style" src="/img/no_avatar.png" alt="avatar">
+            {% endif %}
+            <h3 class="arrivals_title">{{ user.name }}</h3>
+            <br>
+            <div class="orders-php">
+                <h3>
+                    {% for key, item in users %}
+                        {% if key == user.id %}
+                            Количество заказов: {{ item }}
+                        {% endif %}
+                    {% endfor %}
+                </h3>
+                <a class="php-other-link php-link"
+                   style="width: 154px;
+                      margin-right: 10px;"
+                   href="/order/index?id={{ user.id }}">
+                    перейти
+                </a>
+            </div>
+            <br>
+            <hr>
+        {% else %}
+            <h3 style="color: red">Заказы отсутствуют</h3>
+        {% endfor %}
+    {% else %}
+        <h3 style="color: red">Необходимо обладать правами администратора</h3>
+    {% endif %}
+
+{% endblock %}

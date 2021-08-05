@@ -26,6 +26,9 @@ return [
         ],
         'basketServices' => [
             'class' => \app\services\BasketServices::class
+        ],
+        'commentRepository' => [
+            'class' => \app\repositories\CommentRepository::class
         ]
     ]
 ];

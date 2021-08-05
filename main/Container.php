@@ -4,6 +4,7 @@ namespace app\main;
 
 use app\repositories\GoodRepository;
 use app\repositories\UserRepository;
+use app\repositories\CommentRepository;
 use app\services\BasketServices;
 use app\services\DB;
 use app\services\TwigRenderServices;
@@ -16,6 +17,7 @@ use app\services\TwigRenderServices;
  * @property TwigRenderServices renderer
  * @property UserRepository userRepository
  * @property BasketServices basketServices
+ * @property CommentRepository commentRepository
  */
 class Container
 {

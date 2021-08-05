@@ -8,14 +8,30 @@
 {% block content %}
 
     <h3 style="color: red">Необходимо заполнить все поля</h3>
+    {% if user.id %}
+        <br>
+        <div class="orders-php">не забывайте установить новый пароль!</div>
+    {% endif %}
     <br>
 
     {% if user.id %}
-        <a href="/user/edit?id={{ user.id }}">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/user/edit?id={{ user.id }}">
+            назад
+        </a>
     {% elseif good.id %}
-        <a href="/good/edit?id={{ good.id }}">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="/good/edit?id={{ good.id }}">
+            назад
+        </a>
     {% else %}
-        <a href="javascript:history.back();">назад</a>
+        <a class="php-link php-other-link"
+           style="width: 55px;"
+           href="javascript:history.back();">
+            назад
+        </a>
     {% endif %}
 
 {% endblock %}

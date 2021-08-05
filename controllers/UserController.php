@@ -102,10 +102,15 @@ class UserController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+        $userSelfId = $_SESSION['user_true']['id'];
 
         $id = $_POST['id'];
         $login = $_POST['login'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if (!empty($_POST['password'])) {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        } else {
+            $password = '';
+        }
         $name = $_POST['name'];
         $is_admin = $_POST['is_admin'];
         $position = $_POST['position'];
@@ -165,8 +170,11 @@ class UserController extends Controller
             case 'yes':
                 $is_admin = 2;
                 break;
-            case 'no';
+            case 'no':
                 $is_admin = 0;
+                break;
+            case 'admin':
+                $is_admin = 1;
                 break;
             default:
                 $is_admin = 0;
@@ -185,12 +193,28 @@ class UserController extends Controller
                 ]);
         }
 
+        $commentUserId = $id;
+        $commentUserName = $name;
+        $commentUserAvatar = $newFileName;
+        $commentsSql = "UPDATE `comments`
+                            set user_name = '$commentUserName',
+                            user_avatar = '$commentUserAvatar'
+                            WHERE user_id = " . $commentUserId;
+
         if (!empty($login) &&
             !empty($name) &&
             !empty($password) &&
             !empty($position)
         ) {
             $this->container->userRepository->save($user);
+            mysqli_query($link, $commentsSql);
+            if ($userSelfId == $id && $_SESSION['user_true']) {
+                $_SESSION['user_true']['user'] = $login;
+                $_SESSION['user_true']['name'] = $name;
+                $_SESSION['user_true']['is_admin'] = $is_admin;
+                $_SESSION['user_true']['position'] = $position;
+                $_SESSION['user_true']['avatar'] = $newFileName;
+            }
             if ($is_auth == true) {
                 header('Location: /user/all');
             } else {
@@ -243,19 +267,36 @@ class UserController extends Controller
      */
     public function getDelAction()
     {
+        $is_auth = false;
+        if ($_SESSION['user_true']['user']) {
+            $is_auth = true;
+        }
+        $userName = $_SESSION['user_true']['name'];
+
         $this->request->clearUsersOrderId();
         $id = $this->getId();
         $user = new User();
         $user->id = $id;
-        unset($_SESSION['goods'][$id]);
-        unset($_SESSION['total'][$id]);
+
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($userIsAdmin) {
+
+            unset($_SESSION['goods'][$id]);
+            unset($_SESSION['total'][$id]);
+            unset($_SESSION['order'][$id]);
+
             $this->container->userRepository->delete($user);
             header('Location: /user/all');
             return '';
         } else {
-            return $this->render('fail');
+            return $this->render(
+                'fail',
+                [
+                    'user' => $user,
+                    'is_auth' => $is_auth,
+                    'user_name' => $userName,
+                    'user_is_admin' => $userIsAdmin,
+                ]);
         }
     }
 

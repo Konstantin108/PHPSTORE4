@@ -25,7 +25,7 @@
             <input type="text" name="password" id="password" placeholder="password">
             <br>
             <br>
-            <input type="submit" class="pointer">
+            <input type="submit" class="pointer" value="Войти">
         </form>
     {% else %}
         <h2>Данные пользователя</h2>
@@ -44,10 +44,10 @@
             <h2>Пользователь имеет расширенные права</h2>
         {% endif %}
         <br>
-        <a href="/user/out">выход</a>
+        <a class="php-red-link php-other-link" style="width: 57px" href="/user/out">выход</a>
     {% endif %}
     <br>
-    <a href="/">на главную</a>
+    <a class="php-link php-other-link" style="width: 94px;" href="/">на главную</a>
     <hr>
 
 {% endblock %}
