@@ -75,6 +75,10 @@ class UserController extends Controller
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+
+        $thisNewSelfId = $this->getNewSelfId();
+        $thisTrueUserId = $_SESSION['user_true']['id'];
+
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
@@ -85,6 +89,8 @@ class UserController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
+                    'this_new_self_id' => $thisNewSelfId,
+                    'this_true_user_id' => $thisTrueUserId
                 ]);
         }
     }
@@ -132,6 +138,8 @@ class UserController extends Controller
                 $arr[] = $data;
             }
         }
+
+        $thisNewSelfId = $this->getNewSelfId();
 
         if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == '/user/update') {
         }
@@ -215,9 +223,11 @@ class UserController extends Controller
                 $_SESSION['user_true']['position'] = $position;
                 $_SESSION['user_true']['avatar'] = $newFileName;
             }
-            if ($is_auth == true) {
+            if ($is_auth == true && $thisNewSelfId < 1) {
                 header('Location: /user/all');
-            } else {
+            } elseif ($is_auth == true && $thisNewSelfId > 0) {
+                header('Location: /user/auth');
+            } elseif ($is_auth == false && $thisNewSelfId < 1) {
                 header('Location: /user/auth');
             }
             return '';
@@ -313,6 +323,9 @@ class UserController extends Controller
         if ($_SESSION['user_true']['user']) {
             $is_auth = true;
         }
+
+        $auth = true;
+
         $userLogin = $_SESSION['user_true']['user'];
         $userId = $_SESSION['user_true']['id'];
         $userName = $_SESSION['user_true']['name'];
@@ -328,7 +341,8 @@ class UserController extends Controller
                 'user_name' => $userName,
                 'user_is_admin' => $userIsAdmin,
                 'user_position' => $userPosition,
-                'user_avatar' => $userAvatar
+                'user_avatar' => $userAvatar,
+                'auth' => $auth
             ]);
     }
 

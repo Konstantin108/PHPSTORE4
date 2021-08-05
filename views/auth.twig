@@ -55,9 +55,13 @@
             </a>
             <a class="php-other-link php-link-comment"
                style="display: flex;
+                      margin-right: 4px;
                       justify-content: center;
                       align-items: center;"
                href="/comment/allComments">мои отзывы
+            </a>
+            <a href="/user/edit?id={{ user_id }}&newSelfId={{ auth }}" class="php-other-link php-gears-link">
+                <i style="transition: .2s" class="fas fa-cog"></i>
             </a>
         </div>
     {% endif %}

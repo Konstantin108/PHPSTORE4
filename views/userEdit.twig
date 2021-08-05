@@ -1,34 +1,40 @@
 {% extends 'layouts/main.twig' %}
 {% block title %}
-    {% if user.id and user_is_admin == 1 %}
+    {% if user.id and user_is_admin == 1 and not this_new_self_id %}
         редактирование пользователя {{ user.login }}
-    {% elseif user_is_admin == 1 %}
+    {% elseif user_is_admin == 1 and not this_new_self_id %}
         добавление пользователя
+    {% elseif user.id  and this_new_self_id %}
+        редактирование профиля
     {% else %}
         регистрация
     {% endif %}
 {% endblock %}
 {% block header %}
-    {% if user.id and user_is_admin == 1 %}
+    {% if user.id and user_is_admin == 1 and not this_new_self_id %}
         редактирование пользователя {{ user.login }}
-    {% elseif user_is_admin == 1 %}
+    {% elseif user_is_admin == 1 and not this_new_self_id %}
         добавление пользователя
+    {% elseif user.id  and this_new_self_id %}
+        редактирование профиля
     {% else %}
         регистрация
     {% endif %}
 {% endblock %}
 {% block content %}
 
-    {% if user.id and user_is_admin == 1 %}
+    {% if user.id and user_is_admin == 1 and not this_new_self_id %}
         <h2>редактирование пользователя {{ user.login }}</h2>
-    {% elseif user_is_admin == 1 %}
+    {% elseif user_is_admin == 1 and not this_new_self_id %}
         <h2>добавление пользователя</h2>
+    {% elseif user.id  and this_new_self_id %}
+        <h2>вы можете редактировать свои данные</h2>
     {% else %}
         <h2>Регистрация</h2>
     {% endif %}
 
     <br>
-    <form method="post" action="/user/update" enctype="multipart/form-data">
+    <form method="post" action="/user/update?newSelfId={{ this_new_self_id }}" enctype="multipart/form-data">
         <input type="hidden" id="id" name="id" value="{{ user.id }}">
         {% if user.avatar %}
             <img class="new_img_style" src="/img/{{ user.avatar }}" alt="avatar">
@@ -61,8 +67,8 @@
             </select>
         {% elseif user.is_admin == 1 %}
             <input type="hidden" name="is_admin" id="is_admin" value="admin">
-            {% else %}
-                <input type="hidden" name="is_admin" id="is_admin" value="no">
+        {% else %}
+            <input type="hidden" name="is_admin" id="is_admin" value="no">
         {% endif %}
         <br>
         <br>
@@ -70,14 +76,22 @@
     </form>
     <br>
 
-    {% if user.id %}
+    {% if user.id and not this_new_self_id %}
         <a class="php-other-link php-link"
            style="width: 55px;"
            href="/user/one?id={{ user.id }}">назад</a>
-    {% else %}
+    {% elseif not user.id and this_true_user_id %}
         <a class="php-link php-other-link"
            style="width: 55px"
            href="/user/all">назад</a>
+    {% elseif not user.id and not this_true_user_id %}
+        <a class="php-link php-other-link"
+           style="width: 55px"
+           href="/user/auth">назад</a>
+    {% elseif this_new_self_id %}
+        <a class="php-link php-other-link"
+           style="width: 55px"
+           href="/user/auth">назад</a>
     {% endif %}
 
     <hr>

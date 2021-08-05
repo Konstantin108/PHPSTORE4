@@ -117,6 +117,14 @@ class Request
         return (int)$this->params['get']['thisFlagOfUserId'];
     }
 
+    public function newSelfId()
+    {
+        if (empty($this->params['get']['newSelfId'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['newSelfId'];
+    }
+
     public function outSession()
     {
         unset($_SESSION['user_true']);

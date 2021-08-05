@@ -117,6 +117,14 @@ abstract class Controller
         return $this->request->thisFlagOfUserId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getNewSelfId()
+    {
+        return $this->request->newSelfId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {
