@@ -18,7 +18,7 @@
     {% if is_auth == true %}
         <h1>Напишите, что вы думаете о товаре {{ good.name }}</h1>
         <br>
-        <form method="post" action="/comment/update?thisUserId={{ this_user_id }}">
+        <form method="post" action="/comment/update?thisUserId={{ this_user_id }}&thisFlagOfUserId={{ this_flag_of_user_id }}">
             <input type="hidden" id="id" name="id" value="{{ comment.id }}">
             <input type="hidden" id="user_id" name="user_id" value="{{ comment.user_id }}">
             <input type="hidden" id="user_avatar" name="user_avatar" value="{{ comment.user_avatar }}">
@@ -47,7 +47,7 @@
         <h3 style="color: red">Выполните вход на сайт</h3>
     {% endif %}
     <br>
-    {% if this_user_id %}
+    {% if this_flag_of_user_id %}
         <a class="php-link php-other-link"
            style="width: 55px;"
            href="/comment/allComments">

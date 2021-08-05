@@ -109,21 +109,13 @@ class Request
         return (int)$this->params['get']['thisUserId'];
     }
 
-//    public function getSession($key = null)
-//    {
-//        if (empty($key)) {
-//            return $_SESSION;
-//        }
-//        if (empty($_SESSION[$key])) {
-//            return [];
-//        }
-//        return $_SESSION[$key];
-//    }
-//
-//    public function setSession($key, $value)
-//    {
-//        $_SESSION[$key] = $value;
-//    }
+    public function thisFlagOfUserId()
+    {
+        if (empty($this->params['get']['thisFlagOfUserId'])) {
+            return 0;
+        }
+        return (int)$this->params['get']['thisFlagOfUserId'];
+    }
 
     public function outSession()
     {

@@ -58,6 +58,7 @@ class GoodController extends Controller
 
         $comments = $this->container->commentRepository->getAll();
         $thisUserId = $this->getThisUserId();
+        $thisFlagOfUserId = $this->getThisFlagOfUserId();
 
         return $this->render(
             'goodOne',
@@ -71,7 +72,8 @@ class GoodController extends Controller
                 'col' => $col,
                 'price' => $price,
                 'comments' => $comments,
-                'this_user_id' => $thisUserId
+                'this_user_id' => $thisUserId,
+                'this_flag_of_user_id' => $thisFlagOfUserId
             ]);
     }
 

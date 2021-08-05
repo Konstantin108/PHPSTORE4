@@ -28,6 +28,7 @@ class CommentController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
 
         $thisUserId = $this->getThisUserId();
+        $thisFlagOfUserId = $this->getThisFlagOfUserId();
 
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->render(
@@ -38,7 +39,8 @@ class CommentController extends Controller
                     'is_auth' => $is_auth,
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
-                    'this_user_id' => $thisUserId
+                    'this_user_id' => $thisUserId,
+                    'this_flag_of_user_id' => $thisFlagOfUserId
                 ]);
         }
     }
@@ -69,6 +71,7 @@ class CommentController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
 
         $thisUserId = $this->getThisUserId();
+        $thisFlagOfUserId = $this->getThisFlagOfUserId();
 
         $comment = new Comment();
         $comment->id = $id;
@@ -86,11 +89,12 @@ class CommentController extends Controller
         }
         $comment->title = $title;
         $comment->text = $text;
+
         if ($is_auth) {
             if ($thisUserId == $userId || $userIsAdmin == 1) {
                 if (!empty($title) && !empty($text)) {
                     $this->container->commentRepository->save($comment);
-                    if ($thisUserId) {
+                    if ($thisFlagOfUserId) {
                         header('Location: /comment/allComments');
                     } else {
                         header('Location: /good/one?id=' . $goodId);
@@ -147,6 +151,7 @@ class CommentController extends Controller
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
 
         $thisUserId = $this->getThisUserId();
+        $thisFlagOfUserId = $this->getThisFlagOfUserId();
 
         if ($_SERVER['REQUEST_METHOD'] = 'POST') {
             return $this->render(
@@ -158,7 +163,8 @@ class CommentController extends Controller
                     'user_name' => $userName,
                     'user_is_admin' => $userIsAdmin,
                     'user_id' => $userId,
-                    'this_user_id' => $thisUserId
+                    'this_user_id' => $thisUserId,
+                    'this_flag_of_user_id' => $thisFlagOfUserId
                 ]);
         }
     }
@@ -186,11 +192,11 @@ class CommentController extends Controller
         $this->request->clearUsersOrderId();
 
         $thisUserId = $this->getThisUserId();
-
+        $thisFlagOfUserId = $this->getThisFlagOfUserId();
         if ($is_auth) {
             if ($thisUserId == $userId || $userIsAdmin == 1) {
                 $this->container->commentRepository->delete($comment);
-                if ($thisUserId) {
+                if ($thisFlagOfUserId) {
                     header('Location: /comment/allComments');
                 } else {
                     header('Location: /good/one?id=' . $id);

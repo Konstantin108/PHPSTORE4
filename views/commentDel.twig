@@ -14,10 +14,10 @@
             <a class="php-other-link php-red-link"
                style="width: 37px;
                       margin-right: 4px;"
-               href="/comment/getDel?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}">
+               href="/comment/getDel?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}&thisFlagOfUserId={{ this_flag_of_user_id }}">
                 да
             </a>
-            {% if this_user_id %}
+            {% if this_flag_of_user_id %}
                 <a class="php-other-link php-green-link"
                    style="width: 37px;"
                    href="/comment/allComments">

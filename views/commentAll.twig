@@ -15,7 +15,7 @@
                         {% if good.id == comment.good_id %}
                             <h1 style="color: grey">Отзыв о товаре
                                 <a style="text-decoration: underline"
-                                   href="/good/one?id={{ good.id }}&thisUserId={{ this_user_id }}">
+                                   href="/good/one?id={{ good.id }}&thisUserId={{ this_user_id }}&thisFlagOfUserId={{ this_user_id }}">
                                     {{ good.name }}
                                 </a>
                             </h1>
@@ -46,7 +46,7 @@
                               align-items: center;
                               width: 30px;
                               height: 30px;"
-                                   href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}">
+                                   href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}&thisFlagOfUserId={{ this_user_id }}">
                                     <i class="fas fa-pen" style="color: white"></i>
                                 </a>
                             {% endif %}
@@ -57,7 +57,7 @@
                               justify-content: center;
                               align-items: center;
                               height: 30px;"
-                           href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}">
+                           href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ this_user_id }}&thisFlagOfUserId={{ this_user_id }}">
                             <i class="fas fa-trash" style="color: white"></i>
                         </a>
                     </div>

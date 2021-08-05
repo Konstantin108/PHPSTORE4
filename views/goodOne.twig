@@ -78,7 +78,7 @@
                               align-items: center;
                               width: 30px;
                               height: 30px;"
-                       href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}">
+                       href="/comment/add?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ user_id }}">
                         <i class="fas fa-pen" style="color: white"></i>
                     </a>
                     <a class="php-other-link php-red-link"
@@ -87,7 +87,7 @@
                               justify-content: center;
                               align-items: center;
                               height: 30px;"
-                       href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}">
+                       href="/comment/del?commentId={{ comment.id }}&id={{ good.id }}&thisUserId={{ user_id }}">
                         <i class="fas fa-trash" style="color: white"></i>
                     </a>
                 </div>
@@ -100,14 +100,14 @@
     {% if is_auth == true %}
         <a class="php-link-comment php-other-link"
            style="width: 180px;"
-           href="/comment/add?id={{ good.id }}">
+           href="/comment/add?id={{ good.id }}&thisUserId={{ user_id }}">
             оставить отзыв
         </a>
     {% else %}
         <p>Оставить отзыв могут только авторизованные пользователи</p>
     {% endif %}
     <br>
-    {% if this_user_id %}
+    {% if this_flag_of_user_id %}
         <a class="php-link php-other-link"
            style="width: 55px;"
            href="/comment/allComments">

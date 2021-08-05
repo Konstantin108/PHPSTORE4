@@ -109,6 +109,14 @@ abstract class Controller
         return $this->request->thisUserId();
     }
 
+    /**
+     * @return int
+     */
+    protected function getThisFlagOfUserId()
+    {
+        return $this->request->thisFlagOfUserId();
+    }
+
     protected function redirect($path = '', $msg = '')
     {
         if (!empty($msg)) {
