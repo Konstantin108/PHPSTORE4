@@ -3209,6 +3209,32 @@ input[type=radio] {
   background-size: cover;
 }
 
+.post-btn {
+  background-color: #ffeb3b;
+  color: #263238;
+  border-radius: 8px;
+  border: 2px solid #43a047;
+  text-decoration: none;
+  min-width: 150px;
+  padding: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 20px;
+}
+
+.post-btn:hover{
+  border: 2px solid #66bb6a;
+  background-color: #fff176;
+  color: #455a64;
+}
+
+.post-btn:active{
+  transform: translate(0, -2px);
+  border: 2px solid #a5d6a7;
+  background-color: #fff9c4;
+  color: #607d8b;
+}
+
 .shopping__image2 {
   width: 100px;
   height: 115px;
