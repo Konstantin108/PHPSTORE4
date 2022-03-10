@@ -76,15 +76,17 @@ class OrderController extends Controller
 
         $sessionCountArr = [];
         $sessionCount = $_SESSION['order'];
-        foreach ($sessionCount as $value) {
-            if (is_array($value)) {
-                foreach ($value as $elem) {
-                    if (is_array($elem)) {
-                        foreach ($elem as $subElem) {
-                            if (is_array($subElem)) {
-                                foreach ($subElem as $subElem2) {
-                                    if (is_array($subElem2)) {
-                                        $sessionCountArr[] = $subElem2['user_id'];
+        if (is_array($sessionCount)) {
+            foreach ($sessionCount as $value) {
+                if (is_array($value)) {
+                    foreach ($value as $elem) {
+                        if (is_array($elem)) {
+                            foreach ($elem as $subElem) {
+                                if (is_array($subElem)) {
+                                    foreach ($subElem as $subElem2) {
+                                        if (is_array($subElem2)) {
+                                            $sessionCountArr[] = $subElem2['user_id'];
+                                        }
                                     }
                                 }
                             }

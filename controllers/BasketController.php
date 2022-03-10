@@ -197,10 +197,12 @@ class BasketController extends Controller
 
         $sessionCountGoodsArr = [];
         $sessionCountGoods = $_SESSION['goods'];
-        foreach ($sessionCountGoods as $value) {
-            if (is_array($value)) {
-                foreach ($value as $elem) {
-                    $sessionCountGoodsArr[] = $elem['user_id'];
+        if (is_array($sessionCountGoods)) {
+            foreach ($sessionCountGoods as $value) {
+                if (is_array($value)) {
+                    foreach ($value as $elem) {
+                        $sessionCountGoodsArr[] = $elem['user_id'];
+                    }
                 }
             }
         }
