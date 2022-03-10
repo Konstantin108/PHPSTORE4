@@ -36,6 +36,7 @@ class BasketController extends Controller
             $idOfUsersOrder = $userId = $_SESSION['user_true']['id'];
         }
         $total = $this->container->basketServices->total();
+
         return $this->render(
             'basket',
             [
@@ -193,6 +194,34 @@ class BasketController extends Controller
         }
         $userName = $_SESSION['user_true']['name'];
         $userIsAdmin = $_SESSION['user_true']['is_admin'];
+
+        $sessionCountGoodsArr = [];
+        $sessionCountGoods = $_SESSION['goods'];
+        foreach ($sessionCountGoods as $value) {
+            if (is_array($value)) {
+                foreach ($value as $elem) {
+                    $sessionCountGoodsArr[] = $elem['user_id'];
+                }
+            }
+        }
+
+        $userIdActual = [];
+        $usersActual = $this->container->userRepository->getAll();
+        foreach ($usersActual as $value) {
+            if (is_object($value)) {
+                $userIdActual[$value->id] = $value->id;
+            }
+        }
+
+        foreach ($sessionCountGoodsArr as $elem) {
+            if (!in_array($elem, $userIdActual)) {
+                unset($_SESSION['goods'][$elem]);
+            }
+        }
+
+//        echo '<pre>';
+//        var_dump($sessionCountGoodsArr);
+//        var_dump($userIdActual);
 
         $usersData = [];
         $arr = $_SESSION['goods'];

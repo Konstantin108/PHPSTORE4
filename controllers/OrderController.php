@@ -74,6 +74,40 @@ class OrderController extends Controller
         $usersData = [];
         $userRepository = $this->container->userRepository;
 
+        $sessionCountArr = [];
+        $sessionCount = $_SESSION['order'];
+        foreach ($sessionCount as $value) {
+            if (is_array($value)) {
+                foreach ($value as $elem) {
+                    if (is_array($elem)) {
+                        foreach ($elem as $subElem) {
+                            if (is_array($subElem)) {
+                                foreach ($subElem as $subElem2) {
+                                    if (is_array($subElem2)) {
+                                        $sessionCountArr[] = $subElem2['user_id'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $userIdActual = [];
+        $usersActual = $this->container->userRepository->getAll();
+        foreach ($usersActual as $value) {
+            if (is_object($value)) {
+                $userIdActual[$value->id] = $value->id;
+            }
+        }
+
+        foreach ($sessionCountArr as $elem) {
+            if (!in_array($elem, $userIdActual)) {
+                unset($_SESSION['order'][$elem]);
+            }
+        }
+
         if (is_array($arr)) {
             foreach ($arr as $key => $item) {
                 $usersData[] = $userRepository->getOne($key);
